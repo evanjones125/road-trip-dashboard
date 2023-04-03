@@ -1,13 +1,12 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import axios from 'axios';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0);
-  // const [cameras, setCameras] = useState([]);
+  const [cameras, setCameras] = useState<any[]>([]);
+  const [locations, setLocations] = useState([]);
 
-  const cameras = [
+  const camerasArr = [
     {
       "id": 1,
       "name": "SR12 @ Milepost 97.28 GA",
@@ -50,7 +49,7 @@ function App() {
     }
   ]
 
-  const locations = [
+  const locationsArr = [
     {
       "id": 2,
       "title": "Elephant Butte",
@@ -67,33 +66,32 @@ function App() {
     }
   ]
 
-  const findNearestCamera = () => {
-    
-  }
+  useEffect(() => {
+    axios
+      .get('http://localhost:8000/api/cameras/')
+      .then((res: any) => setCameras(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log(cameras);
 
   const renderLocations = () => {
-    return locations.map(location => {
+    return locationsArr.map(location => {
+      const id = location.id;
+      
       return (
-        <div style={{borderBottom: '1px solid white'}}>
+        <div>
           <p>Location: {location.title}</p>
           <p>Trip date: {location.trip_date}</p>
-          <img src={'http://udottraffic.utah.gov/1_devices/SR-56-MP0-53.gif'}/>
+          <img src={camerasArr[id - 1].url}/>
+          <p>test</p>
         </div>
       )
     })
   }
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-
+    <div>
       <h1>Locations:</h1>
       <ul>
         {renderLocations()}
