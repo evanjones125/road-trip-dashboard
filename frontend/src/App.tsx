@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import Input from './components/Input';
 
-function App() {
+const App = () => {
   const [cameras, setCameras] = useState<any[]>([]);
   const [locations, setLocations] = useState([]);
 
@@ -91,11 +92,15 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Locations:</h1>
-      <ul>{renderLocations()}</ul>
-    </div>
+    <>
+      <Input />
+
+      <div>
+        <h1>Locations:</h1>
+        <ul>{renderLocations()}</ul>
+      </div>
+    </>
   );
-}
+};
 
 export default App;
