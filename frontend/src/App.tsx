@@ -72,6 +72,12 @@ const App = () => {
       .get('http://localhost:8000/api/cameras/')
       .then((res: any) => setCameras(res.data))
       .catch((err) => console.log(err));
+
+    console.log(
+      axios
+        .get('http://localhost:8000/api/weather/forecast/37.6058,-112.1838')
+        .catch((err) => console.log(err))
+    );
   }, []);
 
   console.log(cameras);

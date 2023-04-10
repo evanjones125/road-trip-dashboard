@@ -25,4 +25,5 @@ router.register(r'cameras', views.CameraView, 'camera')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/weather/', include('dashboard.urls')),
 ]
