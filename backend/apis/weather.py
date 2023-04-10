@@ -1,8 +1,8 @@
 import requests
 
-def fetch_weather_data(lat, long):
+def fetch_weather_data(lat, lon):
     # find the url of the closest NWS station
-    req = f'https://api.weather.gov/points/{lat},{long}'
+    req = f'https://api.weather.gov/points/{lat},{lon}'
     headers = {
         "User-Agent": "trip-dashboard (me@evanjones.space)",
         "Accept": "application/json",

@@ -73,14 +73,16 @@ const App = () => {
       .then((res: any) => setCameras(res.data))
       .catch((err) => console.log(err));
 
-    console.log(
-      axios
-        .get('http://localhost:8000/api/weather/forecast/37.6058,-112.1838')
-        .catch((err) => console.log(err))
-    );
+    getWeatherData('37.6058', '-112.1838');
   }, []);
 
-  console.log(cameras);
+  const getWeatherData = async (lat: string, lon: string) => {
+    const weather = await axios
+      .get(`http://localhost:8000/api/weather/forecast/${lat},${lon}/`)
+      .catch((err) => console.log(err));
+
+    console.log(weather.data);
+  };
 
   const renderLocations = () => {
     return locationsArr.map((location) => {
