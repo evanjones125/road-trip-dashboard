@@ -19,5 +19,12 @@
     "sourceType": "module"
   },
   "plugins": ["react", "import", "jsx-a11y", "@typescript-eslint"],
-  "rules": {}
+  "rules": {},
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".scss"]
+      }
+    }
+  }
 }
