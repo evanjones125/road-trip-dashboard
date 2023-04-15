@@ -7,6 +7,7 @@ import type { Camera, Location } from './types/types';
 const App = () => {
   const [cameras, setCameras] = useState<Camera[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
+  const [closestCameras, setClosestCameras] = useState<string[]>([]);
 
   useEffect(() => {
     // get all the camera urls from the database
@@ -22,6 +23,25 @@ const App = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  // put an array in state of the closest cameras that corresponds with the locations array
+  useEffect(() => {
+    const fetchClosestCameras = async () => {
+      const fetchedClosestCameras = await Promise.all(
+        locations.map(async (location: Location) => {
+          const cameraUrl = await axios
+            .get(
+              `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
+            )
+            .catch((err) => console.log(err));
+          return cameraUrl.data.url;
+        })
+      );
+      setClosestCameras(fetchedClosestCameras);
+    };
+
+    if (locations.length > 0) fetchClosestCameras();
+  }, [locations]);
+
   // gets the weather data from the nearest NWS location
   const getWeatherData = async (lat: string, lon: string) => {
     const weather = await axios
@@ -31,38 +51,17 @@ const App = () => {
     console.log(weather);
   };
 
-  const findCLosestCamera = (location: Location) => {
-    // const cameraURL = await axios
-    //   .get<string>(
-    //     `http://localhost:8000/api/getCamera/${location.latitude},${location.longitude}/`
-    //   )
-    //   .catch((err) => console.log(err));
-
-    const cameraURL =
-      'http://udottraffic.utah.gov/1_devices/SR-12-MP-109.gif?rand=0.7404116890134775';
-    return cameraURL;
-  };
-
   const renderTrips = () => {
     return locations.map((location, i) => {
-      // const id = location.id;
-
+      console.log(location);
       return (
         <>
           <Trip
             location={location.title}
             date={location.trip_date}
-            camera={findCLosestCamera(location)}
-            // camera={
-            //   'http://udottraffic.utah.gov/1_devices/SR-12-MP-109.gif?rand=0.7404116890134775'
-            // }
+            camera={closestCameras[i]}
             key={i}
           />
-
-          {/* <div>
-            <img src={camerasArr[id - 1].url} alt="gif of live camera" />
-            <p>test</p>
-          </div> */}
         </>
       );
     });
