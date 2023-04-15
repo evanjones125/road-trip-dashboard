@@ -1,3 +1,12 @@
+export type Camera = {
+  id: number;
+  name: string;
+  agency: string;
+  latitude: string;
+  longitude: string;
+  url: string;
+};
+
 export type Location = {
   id: number;
   title: string;
@@ -9,4 +18,5 @@ export type Location = {
 export type TripProps = {
   location: string;
   date: string;
+  camera: string;
 };
