@@ -1,9 +1,5 @@
 import React from 'react';
-
-type TripProps = {
-  location: string;
-  date: string;
-};
+import type { TripProps } from '../types/types';
 
 const Trip = (props: TripProps) => {
   const { location, date } = props;
