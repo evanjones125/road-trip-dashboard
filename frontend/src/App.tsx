@@ -53,7 +53,7 @@ const App = () => {
 
   const renderTrips = () => {
     return locations.map((location, i) => {
-      console.log(location);
+      // console.log(location);
       return (
         <>
           <Trip
@@ -67,9 +67,13 @@ const App = () => {
     });
   };
 
+  const addTrip = (val: any) => {
+    console.log('form submitted with value:', val);
+  };
+
   return (
     <>
-      <Input />
+      <Input onSubmit={addTrip} />
 
       <div id="test">
         <h1>Trips:</h1>

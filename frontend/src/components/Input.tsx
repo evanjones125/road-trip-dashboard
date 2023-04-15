@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
+import type { InputProps } from '../types/types';
 
-const Input: React.FC = (): JSX.Element => {
-  const [count, setCount] = useState(0);
+const Input = (props: InputProps): JSX.Element => {
+  const { onSubmit } = props;
+  const [formData, setFormData] = useState({ location: '', date: '' });
 
-  const handleSubmit = (): void => {
-    setCount(count + 1);
-    console.log(count);
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   return (
@@ -14,12 +21,22 @@ const Input: React.FC = (): JSX.Element => {
       <form className="form" onSubmit={handleSubmit}>
         <div className="form-row">
           <label htmlFor="location">Location</label>
-          <input type="text" id="location" name="location"></input>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            onChange={handleChange}
+          ></input>
         </div>
 
         <div>
           <label htmlFor="date">Date</label>
-          <input type="date" id="date" name="date"></input>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            onChange={handleChange}
+          ></input>
         </div>
 
         <div>

@@ -20,3 +20,7 @@ export type TripProps = {
   date: string;
   camera: string;
 };
+
+export type InputProps = {
+  onSubmit: (formData: { location: string; date: string }) => void;
+};
