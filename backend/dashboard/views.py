@@ -24,9 +24,10 @@ def weather_forecast(req, lat, lon):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
     
-def get_camera(req, location):
+def get_camera(req, lat, lon):
     try:
-        data = find_closest_camera(location)
-        return JsonResponse(data)
+        closest_camera = find_closest_camera(lat, lon)
+        response_data = {'url': closest_camera}
+        return JsonResponse(response_data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
