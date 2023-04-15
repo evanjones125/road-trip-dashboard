@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../Input.css';
 
 const Input: React.FC = (): JSX.Element => {
   const [count, setCount] = useState(0);

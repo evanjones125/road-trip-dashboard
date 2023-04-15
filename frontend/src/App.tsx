@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Input from './components/Input';
+import Trip from './components/Trip';
 
 const App = () => {
   const [cameras, setCameras] = useState([]);
@@ -72,6 +73,11 @@ const App = () => {
       .then((res: any) => setCameras(res.data))
       .catch((err) => console.log(err));
 
+    axios
+      .get('http://localhost:8000/api/locations/')
+      .then((res: any) => setLocations(res.data))
+      .catch((err) => console.log(err));
+
     getWeatherData('37.6058', '-112.1838');
   }, []);
 
@@ -83,17 +89,19 @@ const App = () => {
     console.log(weather);
   };
 
-  const renderLocations = () => {
+  const renderTrips = () => {
     return locationsArr.map((location, i) => {
       const id = location.id;
 
       return (
-        <div key={i}>
-          <p>Location: {location.title}</p>
-          <p>Trip date: {location.trip_date}</p>
-          <img src={camerasArr[id - 1].url} alt="gif of live camera" />
-          <p>test</p>
-        </div>
+        <>
+          <Trip location={location.title} date={location.trip_date} key={i} />
+
+          <div>
+            <img src={camerasArr[id - 1].url} alt="gif of live camera" />
+            <p>test</p>
+          </div>
+        </>
       );
     });
   };
@@ -103,8 +111,8 @@ const App = () => {
       <Input />
 
       <div id="test">
-        <h1>Locations:</h1>
-        <ul>{renderLocations()}</ul>
+        <h1>Trips:</h1>
+        <ul>{renderTrips()}</ul>
       </div>
     </>
   );
