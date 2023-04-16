@@ -70,15 +70,15 @@ const App = () => {
 
   const addTrip = (formData: FormData) => {
     console.log('form submitted with value:', formData);
-    // const { location, date, lat, lon } = formData;
+    const { location, date, lat, lon } = formData;
 
     // add a new location to the database
     axios
       .post('http://localhost:8000/api/locations/', {
-        title: 'asdfjksadn4',
-        latitude: 1,
-        longitude: 2,
-        trip_date: '2023-04-21',
+        title: location,
+        trip_date: date,
+        latitude: lat,
+        longitude: lon,
       })
       .then((response) => {
         // Update the locations state with the newly added trip

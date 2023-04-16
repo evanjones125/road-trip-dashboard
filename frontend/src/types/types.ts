@@ -26,5 +26,8 @@ export type InputProps = {
 };
 
 export type FormData = {
-  formData: { location: string; date: string; lat: string; lon: string };
+  location: string;
+  lat: string;
+  lon: string;
+  date: string;
 };

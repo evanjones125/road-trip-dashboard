@@ -3,7 +3,12 @@ import type { InputProps } from '../types/types';
 
 const Input = (props: InputProps): JSX.Element => {
   const { onSubmit } = props;
-  const [formData, setFormData] = useState({ location: '', date: '' });
+  const [formData, setFormData] = useState({
+    location: '',
+    lat: '',
+    lon: '',
+    date: '',
+  });
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
