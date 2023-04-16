@@ -21,24 +21,6 @@ const App = () => {
       .get('http://localhost:8000/api/locations/')
       .then((res: any) => setLocations(res.data))
       .catch((err) => console.log(err));
-
-    // axios
-    //   .post(
-    //     'http://localhost:8000/api/locations/',
-    //     {
-    //       title: 'test4',
-    //       latitude: 'test',
-    //       longitude: 'test',
-    //       trip_date: 'test',
-    //     },
-    //     {
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //     }
-    //   )
-    //   .then((res: any) => console.log(res))
-    //   .catch((err) => console.log(err));
   }, []);
 
   // put an array in state of the closest cameras that corresponds with the locations array
@@ -88,15 +70,19 @@ const App = () => {
 
   const addTrip = (formData: FormData) => {
     console.log('form submitted with value:', formData);
-    // add a new location to the database
     // const { location, date, lat, lon } = formData;
 
+    // add a new location to the database
     axios
       .post('http://localhost:8000/api/locations/', {
-        title: 'asdfjksadn',
+        title: 'asdfjksadn4',
         latitude: 1,
         longitude: 2,
         trip_date: '2023-04-21',
+      })
+      .then((response) => {
+        // Update the locations state with the newly added trip
+        setLocations((prevLocations) => [...prevLocations, response.data]);
       })
       .catch(function (error) {
         if (error.response) {
