@@ -21,6 +21,24 @@ const App = () => {
       .get('http://localhost:8000/api/locations/')
       .then((res: any) => setLocations(res.data))
       .catch((err) => console.log(err));
+
+    // axios
+    //   .post(
+    //     'http://localhost:8000/api/locations/',
+    //     {
+    //       title: 'test4',
+    //       latitude: 'test',
+    //       longitude: 'test',
+    //       trip_date: 'test',
+    //     },
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //     }
+    //   )
+    //   .then((res: any) => console.log(res))
+    //   .catch((err) => console.log(err));
   }, []);
 
   // put an array in state of the closest cameras that corresponds with the locations array
@@ -51,6 +69,7 @@ const App = () => {
     console.log(weather);
   };
 
+  // create a <li> for each Trip in the locations array
   const renderTrips = () => {
     return locations.map((location, i) => {
       // console.log(location);
@@ -67,8 +86,35 @@ const App = () => {
     });
   };
 
-  const addTrip = (val: any) => {
-    console.log('form submitted with value:', val);
+  const addTrip = (formData: FormData) => {
+    console.log('form submitted with value:', formData);
+    // add a new location to the database
+    // const { location, date, lat, lon } = formData;
+
+    axios
+      .post('http://localhost:8000/api/locations/', {
+        title: 'asdfjksadn',
+        latitude: 1,
+        longitude: 2,
+        trip_date: '2023-04-21',
+      })
+      .catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+      });
   };
 
   return (

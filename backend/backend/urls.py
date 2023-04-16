@@ -15,3 +15,5 @@ urlpatterns = [
     path('api/weather/', include('dashboard.urls')),
     path('api/getCamera/', include('dashboard.urls')),
 ]
+
+urlpatterns += router.urls

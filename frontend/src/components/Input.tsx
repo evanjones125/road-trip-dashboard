@@ -5,12 +5,12 @@ const Input = (props: InputProps): JSX.Element => {
   const { onSubmit } = props;
   const [formData, setFormData] = useState({ location: '', date: '' });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     onSubmit(formData);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -35,6 +35,26 @@ const Input = (props: InputProps): JSX.Element => {
             type="date"
             id="date"
             name="date"
+            onChange={handleChange}
+          ></input>
+        </div>
+
+        <div>
+          <label htmlFor="lat">Latitude</label>
+          <input
+            type="text"
+            id="lat"
+            name="lat"
+            onChange={handleChange}
+          ></input>
+        </div>
+
+        <div>
+          <label htmlFor="lon">Longitude</label>
+          <input
+            type="text"
+            id="lon"
+            name="lon"
             onChange={handleChange}
           ></input>
         </div>

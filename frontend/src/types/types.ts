@@ -24,3 +24,7 @@ export type TripProps = {
 export type InputProps = {
   onSubmit: (formData: { location: string; date: string }) => void;
 };
+
+export type FormData = {
+  formData: { location: string; date: string; lat: string; lon: string };
+};

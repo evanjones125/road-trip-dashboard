@@ -1,13 +1,11 @@
-from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
 from .serializers import LocationSerializer, CameraSerializer
 from .models import Location, Camera
 from apis.weather import fetch_weather_data
 from apis.closestCamera import find_closest_camera
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
 
-# create views
 class LocationView(viewsets.ModelViewSet):
     serializer_class = LocationSerializer
     queryset = Location.objects.all()
@@ -16,7 +14,7 @@ class CameraView(viewsets.ModelViewSet):
     serializer_class = CameraSerializer
     queryset = Camera.objects.all()
 
-@api_view(["GET"])
+@api_view(['GET'])
 def weather_forecast(req, lat, lon):
     try:
         data = fetch_weather_data(lat, lon)
