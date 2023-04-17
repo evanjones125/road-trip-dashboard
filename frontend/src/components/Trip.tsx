@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 const Trip = (props: TripProps) => {
-  const { location, date, camera } = props;
+  const { location, date, camera, deleteButton } = props;
 
   return (
     camera && (
@@ -20,7 +20,7 @@ const Trip = (props: TripProps) => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {location} on {date}
+            {location.title} on {date}
           </Typography>
           <Typography variant="body2">
             The nearest camera is the {camera.name}
@@ -28,7 +28,11 @@ const Trip = (props: TripProps) => {
         </CardContent>
         <CardActions style={{ justifyContent: 'space-between' }}>
           <Button size="small">Weather</Button>
-          <Button size="small" style={{ color: '#fc2b2b' }}>
+          <Button
+            size="small"
+            style={{ color: '#fc2b2b' }}
+            onClick={() => deleteButton(location.id)}
+          >
             Delete
           </Button>
         </CardActions>

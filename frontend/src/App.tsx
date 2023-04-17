@@ -51,9 +51,10 @@ const App = () => {
       return (
         <div className="trip-card" key={i}>
           <Trip
-            location={location.title}
+            location={location}
             date={location.trip_date}
             camera={closestCameras[i]}
+            deleteButton={deleteTrip}
           />
         </div>
       );
@@ -79,6 +80,38 @@ const App = () => {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+      });
+  };
+
+  const deleteTrip = (tripId: number) => {
+    axios
+      .delete(`http://localhost:8000/api/locations/${tripId}/`)
+      .then(() => {
+        // Update the locations and closestCameras state after deletion
+        setLocations((prevLocations) =>
+          prevLocations.filter((location) => location.id !== tripId)
+        );
+        setClosestCameras((prevCameras) =>
+          prevCameras.filter((_, index) => index !== tripId)
+        );
+      })
+      .catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error);
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);

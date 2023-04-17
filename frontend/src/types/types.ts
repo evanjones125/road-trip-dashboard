@@ -16,9 +16,10 @@ export type Location = {
 };
 
 export type TripProps = {
-  location: string;
+  location: any;
   date: string;
   camera: any;
+  deleteButton: any;
 };
 
 export type InputProps = {
