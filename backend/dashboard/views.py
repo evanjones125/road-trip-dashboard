@@ -25,7 +25,7 @@ def weather_forecast(req, lat, lon):
 def get_camera(req, lat, lon):
     try:
         closest_camera = find_closest_camera(lat, lon)
-        response_data = {'url': closest_camera}
+        response_data = {'camera_obj': closest_camera}
         return JsonResponse(response_data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

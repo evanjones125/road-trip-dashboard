@@ -29,4 +29,4 @@ def find_closest_camera(lat, lon):
           closest_distance = distance
           closest_camera = camera
 
-  return closest_camera["url"]
+  return closest_camera
