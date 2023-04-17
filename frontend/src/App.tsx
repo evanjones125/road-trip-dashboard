@@ -50,21 +50,17 @@ const App = () => {
     return locations.map((location, i) => {
       return (
         <div className="trip-card" key={i}>
-          {/* render the Trip components only after we've put data in the closestCameras array */}
-          {closestCameras.length && (
-            <Trip
-              location={location.title}
-              date={location.trip_date}
-              camera={closestCameras[i]}
-            />
-          )}
+          <Trip
+            location={location.title}
+            date={location.trip_date}
+            camera={closestCameras[i]}
+          />
         </div>
       );
     });
   };
 
   const addTrip = (formData: FormData) => {
-    console.log('form submitted with value:', formData);
     const { location, date, lat, lon } = formData;
 
     // add a new location to the database

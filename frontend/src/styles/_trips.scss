@@ -1,12 +1,19 @@
 .trips-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 40px;
   text-align: left;
 }
 
-// .mui-trip-card {
-//   max-width: 400px;
-//   height: 400px;
-//   color: red;
-// }
+.trip-card .MuiCard-root {
+  background-color: #222222;
+  height: 391.2px;
+}
+
+.MuiTypography-h5 {
+  color: #ffffff;
+}
+
+.MuiTypography-body2 {
+  color: #ffffffbd;
+}

@@ -11,25 +11,29 @@ const Trip = (props: TripProps) => {
   const { location, date, camera } = props;
 
   return (
-    <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
-      <CardMedia
-        sx={{ height: 200 }}
-        image={camera.url}
-        title={`live feed of the nearest camera to ${location}`}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {location} on {date}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          The nearest camera is the {camera.name}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+    camera && (
+      <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
+        <CardMedia
+          sx={{ height: 200 }}
+          image={camera.url}
+          title={`live feed of the nearest camera to ${location}`}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {location} on {date}
+          </Typography>
+          <Typography variant="body2">
+            The nearest camera is the {camera.name}
+          </Typography>
+        </CardContent>
+        <CardActions style={{ justifyContent: 'space-between' }}>
+          <Button size="small">Weather</Button>
+          <Button size="small" style={{ color: '#fc2b2b' }}>
+            Delete
+          </Button>
+        </CardActions>
+      </Card>
+    )
   );
 };
 
