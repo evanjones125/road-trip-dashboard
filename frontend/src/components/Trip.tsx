@@ -11,10 +11,10 @@ const Trip = (props: TripProps) => {
   const { location, date, camera } = props;
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
       <CardMedia
         sx={{ height: 200 }}
-        image={camera}
+        image={camera.url}
         title={`live feed of the nearest camera to ${location}`}
       />
       <CardContent>
@@ -22,7 +22,7 @@ const Trip = (props: TripProps) => {
           {location} on {date}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          The nearest camera is the {location}
+          The nearest camera is the {camera.name}
         </Typography>
       </CardContent>
       <CardActions>

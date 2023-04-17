@@ -18,7 +18,7 @@ export type Location = {
 export type TripProps = {
   location: string;
   date: string;
-  camera: string;
+  camera: any;
 };
 
 export type InputProps = {

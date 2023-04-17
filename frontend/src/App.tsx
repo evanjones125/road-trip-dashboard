@@ -2,21 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Input from './components/Input';
 import Trip from './components/Trip';
-import type { Camera, Location } from './types/types';
+import type { Location } from './types/types';
 
 const App = () => {
-  const [cameras, setCameras] = useState<Camera[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
   const [closestCameras, setClosestCameras] = useState<string[]>([]);
 
+  // get all the locations from the database
   useEffect(() => {
-    // get all the camera urls from the database
-    axios
-      .get('http://localhost:8000/api/cameras/')
-      .then((res: any) => setCameras(res.data))
-      .catch((err) => console.log(err));
-
-    // get all the locations from the database
     axios
       .get('http://localhost:8000/api/locations/')
       .then((res: any) => setLocations(res.data))
@@ -28,14 +21,15 @@ const App = () => {
     const fetchClosestCameras = async () => {
       const fetchedClosestCameras = await Promise.all(
         locations.map(async (location: Location) => {
-          const cameraUrl = await axios
+          const camera = await axios
             .get(
               `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
             )
             .catch((err) => console.log(err));
-          return cameraUrl.data.url;
+          return camera.data.camera_obj;
         })
       );
+
       setClosestCameras(fetchedClosestCameras);
     };
 
@@ -54,16 +48,17 @@ const App = () => {
   // create a <li> for each Trip in the locations array
   const renderTrips = () => {
     return locations.map((location, i) => {
-      // console.log(location);
       return (
-        <>
-          <Trip
-            location={location.title}
-            date={location.trip_date}
-            camera={closestCameras[i]}
-            key={i}
-          />
-        </>
+        <div className="trip-card" key={i}>
+          {/* render the Trip components only after we've put data in the closestCameras array */}
+          {closestCameras.length && (
+            <Trip
+              location={location.title}
+              date={location.trip_date}
+              camera={closestCameras[i]}
+            />
+          )}
+        </div>
       );
     });
   };
@@ -109,7 +104,7 @@ const App = () => {
 
       <div id="test">
         <h1>Trips:</h1>
-        <ul>{renderTrips()}</ul>
+        <div className="trips-container">{renderTrips()}</div>
       </div>
     </>
   );
