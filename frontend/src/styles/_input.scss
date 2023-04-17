@@ -1,5 +1,17 @@
 .form {
+  margin: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-width: 350px;
+}
+
+.form {
+  .MuiInputBase-root {
+    color: #ffffffdb;
+  }
+
+  .MuiInputLabel-root {
+    color: #ffffff84;
+  }
 }

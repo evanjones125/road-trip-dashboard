@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { InputProps } from '../types/types';
+import { TextField, Button, Box, Typography } from '@mui/material';
 
 const Input = (props: InputProps): JSX.Element => {
   const { onSubmit } = props;
@@ -21,54 +22,73 @@ const Input = (props: InputProps): JSX.Element => {
   };
 
   return (
-    <>
-      <h2>Add a trip to your dashboard</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="form-row">
-          <label htmlFor="location">Location</label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            onChange={handleChange}
-          ></input>
-        </div>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+      className="form"
+    >
+      <Typography variant="h4" gutterBottom>
+        Add a trip to your dashboard
+      </Typography>
 
-        <div>
-          <label htmlFor="date">Date</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            onChange={handleChange}
-          ></input>
-        </div>
+      <Box mb={2}>
+        <TextField
+          fullWidth
+          label="Location"
+          type="text"
+          id="location"
+          name="location"
+          onChange={handleChange}
+          variant="outlined"
+        />
+      </Box>
 
-        <div>
-          <label htmlFor="lat">Latitude</label>
-          <input
-            type="text"
-            id="lat"
-            name="lat"
-            onChange={handleChange}
-          ></input>
-        </div>
+      <Box mb={2}>
+        <TextField
+          fullWidth
+          label="Date"
+          type="date"
+          id="date"
+          name="date"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={handleChange}
+          variant="outlined"
+        />
+      </Box>
 
-        <div>
-          <label htmlFor="lon">Longitude</label>
-          <input
-            type="text"
-            id="lon"
-            name="lon"
-            onChange={handleChange}
-          ></input>
-        </div>
+      <Box mb={2}>
+        <TextField
+          fullWidth
+          label="Latitude"
+          type="text"
+          id="lat"
+          name="lat"
+          onChange={handleChange}
+          variant="outlined"
+        />
+      </Box>
 
-        <div>
-          <input type="submit" value="Add"></input>
-        </div>
-      </form>
-    </>
+      <Box mb={2}>
+        <TextField
+          fullWidth
+          label="Longitude"
+          type="text"
+          id="lon"
+          name="lon"
+          onChange={handleChange}
+          variant="outlined"
+        />
+      </Box>
+
+      <Box>
+        <Button type="submit" variant="contained" color="primary">
+          Add
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
