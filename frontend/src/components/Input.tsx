@@ -14,8 +14,15 @@ const Input = (props: InputProps): JSX.Element => {
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     onSubmit(formData);
+    setFormData({
+      location: '',
+      lat: '',
+      lon: '',
+      date: '',
+    });
   };
 
+  // update state as the user types into the input boxes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -32,55 +39,61 @@ const Input = (props: InputProps): JSX.Element => {
         Add a trip to your dashboard
       </Typography>
 
-      <Box mb={2}>
-        <TextField
-          fullWidth
-          label="Location"
-          type="text"
-          id="location"
-          name="location"
-          onChange={handleChange}
-          variant="outlined"
-        />
-      </Box>
+      <Box>
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            label="Location"
+            type="text"
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            variant="outlined"
+          />
+        </Box>
 
-      <Box mb={2}>
-        <TextField
-          fullWidth
-          label="Date"
-          type="date"
-          id="date"
-          name="date"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={handleChange}
-          variant="outlined"
-        />
-      </Box>
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            label="Date"
+            type="date"
+            id="date"
+            name="date"
+            value={formData.date}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleChange}
+            variant="outlined"
+          />
+        </Box>
 
-      <Box mb={2}>
-        <TextField
-          fullWidth
-          label="Latitude"
-          type="text"
-          id="lat"
-          name="lat"
-          onChange={handleChange}
-          variant="outlined"
-        />
-      </Box>
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            label="Latitude"
+            type="text"
+            id="lat"
+            name="lat"
+            value={formData.lat}
+            onChange={handleChange}
+            variant="outlined"
+          />
+        </Box>
 
-      <Box mb={2}>
-        <TextField
-          fullWidth
-          label="Longitude"
-          type="text"
-          id="lon"
-          name="lon"
-          onChange={handleChange}
-          variant="outlined"
-        />
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            label="Longitude"
+            type="text"
+            id="lon"
+            name="lon"
+            value={formData.lon}
+            onChange={handleChange}
+            variant="outlined"
+          />
+        </Box>
       </Box>
 
       <Box>
