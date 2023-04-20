@@ -2,31 +2,31 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Input from './components/Input';
 import Trip from './components/Trip';
-import type { Location } from './types/types';
+import type { Location, FormData, Camera } from './types/types';
 
 const App = () => {
   const [locations, setLocations] = useState<Location[]>([]);
-  const [closestCameras, setClosestCameras] = useState<string[]>([]);
+  const [closestCameras, setClosestCameras] = useState<Camera[]>([]);
 
   // get all the locations from the database
   useEffect(() => {
     axios
       .get('http://localhost:8000/api/locations/')
-      .then((res: any) => setLocations(res.data))
+      .then((res) => setLocations(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   // put an array in state of the closest cameras that corresponds with the locations array
   useEffect(() => {
     const fetchClosestCameras = async () => {
-      const fetchedClosestCameras = await Promise.all(
+      const fetchedClosestCameras: Camera[] = await Promise.all(
         locations.map(async (location: Location) => {
           const camera = await axios
             .get(
               `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
             )
             .catch((err) => console.log(err));
-          return camera.data.camera_obj;
+          return camera?.data.camera_obj;
         })
       );
 

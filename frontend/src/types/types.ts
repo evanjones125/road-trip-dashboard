@@ -15,16 +15,20 @@ export type Location = {
   trip_date: string;
 };
 
+export type DeleteButton = (tripId: number) => void;
+
+export type GetWeather = (lat: string, lon: string) => void;
+
 export type TripProps = {
-  location: any;
+  location: Location;
   date: string;
-  camera: any;
-  deleteButton: any;
-  getWeather: any;
+  camera: Camera;
+  deleteButton: DeleteButton;
+  getWeather: GetWeather;
 };
 
 export type InputProps = {
-  onSubmit: (formData: { location: string; date: string }) => void;
+  onSubmit: (arg0: FormData) => void;
 };
 
 export type FormData = {
