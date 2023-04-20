@@ -20,6 +20,7 @@ export type TripProps = {
   date: string;
   camera: any;
   deleteButton: any;
+  getWeather: any;
 };
 
 export type InputProps = {

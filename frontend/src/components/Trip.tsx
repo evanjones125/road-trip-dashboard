@@ -8,7 +8,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 const Trip = (props: TripProps) => {
-  const { location, date, camera, deleteButton } = props;
+  const { location, date, camera, deleteButton, getWeather } = props;
+
+  console.log(getWeather);
 
   return (
     camera && (
