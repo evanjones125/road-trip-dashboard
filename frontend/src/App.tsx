@@ -55,6 +55,7 @@ const App = () => {
             date={location.trip_date}
             camera={closestCameras[i]}
             deleteButton={deleteTrip}
+            getWeather={getWeatherData}
           />
         </div>
       );
