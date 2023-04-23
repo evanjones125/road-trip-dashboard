@@ -24,5 +24,8 @@ RUN apt-get update && \
 # copy the application code into the container
 COPY backend/ .
 
+# expose the desired port
+EXPOSE 8000
+
 # run the application
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]

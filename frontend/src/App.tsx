@@ -11,9 +11,27 @@ const App = () => {
   // get all the locations from the database
   useEffect(() => {
     axios
-      .get('http://localhost:8000/api/locations/')
+      .get(
+        'http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/'
+      )
       .then((res) => setLocations(res.data))
-      .catch((err) => console.log(err));
+      .catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+      });
   }, []);
 
   // put an array in state of the closest cameras that corresponds with the locations array
@@ -23,9 +41,25 @@ const App = () => {
         locations.map(async (location: Location) => {
           const camera = await axios
             .get(
-              `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
+              `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
             )
-            .catch((err) => console.log(err));
+            .catch(function (error) {
+              if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser
+                // and an instance of http.ClientRequest in node.js
+                console.log(error.request);
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+            });
           return camera?.data.camera_obj;
         })
       );
@@ -39,10 +73,12 @@ const App = () => {
   // gets the weather data from the nearest NWS location
   const getWeatherData = async (lat: string, lon: string) => {
     const weather = await axios
-      .get(`http://localhost:8000/api/weather/forecast/${lat},${lon}/`)
+      .get(
+        `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/weather/forecast/${lat},${lon}/`
+      )
       .catch((err) => console.log(err));
 
-    console.log(weather);
+    // console.log(weather);
   };
 
   // create a <li> for each Trip in the locations array
@@ -67,12 +103,15 @@ const App = () => {
 
     // add a new location to the database
     axios
-      .post('http://localhost:8000/api/locations/', {
-        title: location,
-        trip_date: date,
-        latitude: lat,
-        longitude: lon,
-      })
+      .post(
+        'http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/',
+        {
+          title: location,
+          trip_date: date,
+          latitude: lat,
+          longitude: lon,
+        }
+      )
       .then((response) => {
         // Update the locations state with the newly added trip
         setLocations((prevLocations) => [...prevLocations, response.data]);
@@ -98,7 +137,9 @@ const App = () => {
 
   const deleteTrip = (tripId: number) => {
     axios
-      .delete(`http://localhost:8000/api/locations/${tripId}/`)
+      .delete(
+        `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/${tripId}/`
+      )
       .then(() => {
         // Update the locations and closestCameras state after deletion
         setLocations((prevLocations) =>

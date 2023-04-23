@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2r4j)ekw5x6rao9wewd2+$($#6q1g#$2jb)-b*tawe@r#%j+00
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com']
 
 CORS_ORIGIN_ALLOW_ALL=True
 

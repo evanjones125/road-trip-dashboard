@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 const Trip = (props: TripProps) => {
   const { location, date, camera, deleteButton, getWeather } = props;
 
-  console.log(getWeather);
+  // console.log(getWeather);
 
   return (
     camera && (
