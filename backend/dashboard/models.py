@@ -18,3 +18,9 @@ class Camera(models.Model):
 
     def _str_(self):
         return self.title
+    
+class User(models.Model):
+    
+    
+    def _str_(self):
+        return self.title
