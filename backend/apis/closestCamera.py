@@ -22,6 +22,7 @@ def find_closest_camera(lat, lon):
   lat = float(lat)
   lon = float(lon)
 
+  # loop through the database items and find the one with coordinates closest to input
   for camera in cameras_list:
       camera_lat, camera_lon = float(camera["latitude"]), float(camera["longitude"])
       distance = haversine(lat, lon, camera_lat, camera_lon)

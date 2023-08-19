@@ -12,7 +12,8 @@ const App = () => {
   useEffect(() => {
     axios
       .get(
-        'http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/'
+        // 'http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/'
+        'http://localhost:8000/locations/'
       )
       .then((res) => setLocations(res.data))
       .catch(function (error) {
@@ -41,8 +42,10 @@ const App = () => {
         locations.map(async (location: Location) => {
           const camera = await axios
             .get(
-              `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
+              // `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
+              `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
             )
+            // .then((res) => console.log(res.data))
             .catch(function (error) {
               if (error.response) {
                 // The request was made and the server responded with a status code
@@ -74,7 +77,8 @@ const App = () => {
   const getWeatherData = async (lat: string, lon: string) => {
     const weather = await axios
       .get(
-        `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/weather/forecast/${lat},${lon}/`
+        // `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/weather/forecast/${lat},${lon}/`
+        `http://localhost:8000/weather/forecast/${lat},${lon}/`
       )
       .catch((err) => console.log(err));
 
@@ -103,15 +107,12 @@ const App = () => {
 
     // add a new location to the database
     axios
-      .post(
-        'http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/',
-        {
-          title: location,
-          trip_date: date,
-          latitude: lat,
-          longitude: lon,
-        }
-      )
+      .post('http://localhost:8080/locations/', {
+        title: location,
+        trip_date: date,
+        latitude: lat,
+        longitude: lon,
+      })
       .then((response) => {
         // Update the locations state with the newly added trip
         setLocations((prevLocations) => [...prevLocations, response.data]);
