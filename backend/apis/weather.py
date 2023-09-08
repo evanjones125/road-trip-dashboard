@@ -1,15 +1,50 @@
 import requests
+from typing import List
 
-def fetch_weather_data(lat, lon):
+# check if our date is within the weather forecast range
+def is_date_in_range(date: str, forecast: List[str]) -> bool:
+    return any(date in period['startTime'] for period in forecast)
+
+# find instances of forecasted rain or snow prior to the trip date
+def check_for_precip(date: str, forecast: List[str]) -> list | None:
+    if not is_date_in_range(date, forecast):
+        return None
+    
+    precip_events: List[str] = []
+
+    for period in forecast:
+        if date in period['startTime']:
+            break
+        else:
+            if period['probabilityOfPrecipitation']['value'] != None:
+                precip_events.append([period['name'], period['startTime'][:10], period['detailedForecast']])
+
+    # for period in forecast:
+    return precip_events
+
+
+# gets weather data from the NWS and parses it to get a more useful object of only data we need
+def fetch_weather_data(lat: str, lon: str, date: str) -> str:   
     # find the url of the closest NWS station
     req = f'https://api.weather.gov/points/{lat},{lon}'
     headers = {
         "User-Agent": "trip-dashboard (me@evanjones.space)",
         "Accept": "application/json",
     }
-    url = requests.get(req, headers=headers).json()['properties']['forecast']
+    
+    # get the forecast using the url we generated
+    try:
+        url = requests.get(req, headers=headers).json()['properties']['forecast']
+        response = requests.get(url)
+        response.raise_for_status()  # Ensure this is called
+    except requests.RequestException:
+        return {"error": "Failed to fetch weather data"}
 
-    # get the data from the nearest NWS station
-    response = requests.get(url)
-    response.raise_for_status
-    return response.json()
+    # specifically grab the weather forecast portion of the NWS response
+    forecast: List[str] = response.json()['properties']['periods']
+
+    return {
+        'date-in-range': is_date_in_range(date, forecast),
+        'precip-before-trip': check_for_precip(date, forecast),
+        'forecast': forecast
+    }

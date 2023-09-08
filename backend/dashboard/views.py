@@ -15,9 +15,9 @@ class CameraView(viewsets.ModelViewSet):
     queryset = Camera.objects.all()
 
 @api_view(['GET'])
-def weather_forecast(req, lat, lon):
+def weather_forecast(req, lat, lon, date):
     try:
-        data = fetch_weather_data(lat, lon)
+        data = fetch_weather_data(lat, lon, date)
         return JsonResponse(data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

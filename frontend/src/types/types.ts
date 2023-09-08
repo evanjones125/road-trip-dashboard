@@ -17,7 +17,7 @@ export type Location = {
 
 export type DeleteButton = (tripId: number) => void;
 
-export type GetWeather = (lat: string, lon: string) => void;
+export type GetWeather = (lat: string, lon: string, date: string) => void;
 
 export type TripProps = {
   location: Location;

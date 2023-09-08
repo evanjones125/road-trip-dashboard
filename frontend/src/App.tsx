@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Input from './components/Input';
 import Trip from './components/Trip';
-import type { Location, FormData, Camera } from './types/types';
+import type { Location, FormData, Camera, GetWeather } from './types/types';
 
 const App = () => {
   const [locations, setLocations] = useState<Location[]>([]);
@@ -74,15 +74,19 @@ const App = () => {
   }, [locations]);
 
   // gets the weather data from the nearest NWS location
-  const getWeatherData = async (lat: string, lon: string) => {
+  const getWeatherData: GetWeather = async (
+    lat: string,
+    lon: string,
+    date: string
+  ) => {
     const weather = await axios
       .get(
         // `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/weather/forecast/${lat},${lon}/`
-        `http://localhost:8000/weather/forecast/${lat},${lon}/`
+        `http://localhost:8000/api/weather/forecast/${lat},${lon},${date}/`
       )
       .catch((err) => console.log(err));
 
-    // console.log(weather);
+    console.log(weather);
   };
 
   // create a <li> for each Trip in the locations array
@@ -107,7 +111,7 @@ const App = () => {
 
     // add a new location to the database
     axios
-      .post('http://localhost:8080/locations/', {
+      .post('http://localhost:8000/locations/', {
         title: location,
         trip_date: date,
         latitude: lat,
@@ -139,7 +143,8 @@ const App = () => {
   const deleteTrip = (tripId: number) => {
     axios
       .delete(
-        `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/${tripId}/`
+        // `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/${tripId}/`
+        `http://localhost:8000/locations/${tripId}/`
       )
       .then(() => {
         // Update the locations and closestCameras state after deletion

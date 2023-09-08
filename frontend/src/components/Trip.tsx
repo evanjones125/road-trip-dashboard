@@ -10,8 +10,6 @@ import Typography from '@mui/material/Typography';
 const Trip = (props: TripProps) => {
   const { location, date, camera, deleteButton, getWeather } = props;
 
-  // console.log(getWeather);
-
   return (
     camera && (
       <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
@@ -29,7 +27,14 @@ const Trip = (props: TripProps) => {
           </Typography>
         </CardContent>
         <CardActions style={{ justifyContent: 'space-between' }}>
-          <Button size="small">Weather</Button>
+          <Button
+            size="small"
+            onClick={() =>
+              getWeather(location.latitude, location.longitude, date)
+            }
+          >
+            Weather
+          </Button>
           <Button
             size="small"
             style={{ color: '#fc2b2b' }}
