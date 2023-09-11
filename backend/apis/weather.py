@@ -24,7 +24,7 @@ def check_for_precip(date: str, forecast: List[str]) -> list | None:
 
 
 # gets weather data from the NWS and parses it to get a more useful object of only data we need
-def fetch_weather_data(lat: str, lon: str, date: str) -> str:   
+def fetch_weather_data(lat: str, lon: str, date: str):   
     # find the url of the closest NWS station
     req = f'https://api.weather.gov/points/{lat},{lon}'
     headers = {
@@ -44,7 +44,7 @@ def fetch_weather_data(lat: str, lon: str, date: str) -> str:
     forecast: List[str] = response.json()['properties']['periods']
 
     return {
-        'date-in-range': is_date_in_range(date, forecast),
-        'precip-before-trip': check_for_precip(date, forecast),
+        'dateInRange': is_date_in_range(date, forecast),
+        'precipBeforeTrip': check_for_precip(date, forecast),
         'forecast': forecast
     }

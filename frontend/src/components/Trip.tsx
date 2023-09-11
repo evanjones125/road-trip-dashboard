@@ -1,14 +1,38 @@
-import * as React from 'react';
-import type { TripProps } from '../types/types';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, { useState, useEffect } from 'react';
+import type { TripProps, WeatherForecast } from '../types/types';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+} from '@mui/material';
 
 const Trip = (props: TripProps) => {
   const { location, date, camera, deleteButton, getWeather } = props;
+
+  const [weather, setWeather] = useState<WeatherForecast | null>(null); // To store weather info
+  const [loading, setLoading] = useState(true); // To know if data is still being fetched
+
+  useEffect(() => {
+    async function fetchWeather() {
+      try {
+        const result: WeatherForecast = await getWeather(
+          location.latitude,
+          location.longitude,
+          date
+        );
+        setWeather(result); // Assuming the getWeather returns some string or data for weather.
+      } catch (error) {
+        console.error('Failed to fetch weather', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchWeather();
+  }, [location, date, getWeather]);
 
   return (
     camera && (
@@ -33,7 +57,7 @@ const Trip = (props: TripProps) => {
               getWeather(location.latitude, location.longitude, date)
             }
           >
-            Weather
+            {weather?.precipBeforeTrip ? 'Weather (Alerts!!!)' : 'Weather'}
           </Button>
           <Button
             size="small"

@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Input from './components/Input';
 import Trip from './components/Trip';
-import type { Location, FormData, Camera, GetWeather } from './types/types';
+import type {
+  Location,
+  FormData,
+  Camera,
+  GetWeather,
+  WeatherForecast,
+} from './types/types';
 
 const App = () => {
   const [locations, setLocations] = useState<Location[]>([]);
@@ -11,10 +17,7 @@ const App = () => {
   // get all the locations from the database
   useEffect(() => {
     axios
-      .get(
-        // 'http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/'
-        'http://localhost:8000/locations/'
-      )
+      .get('http://localhost:8000/locations/')
       .then((res) => setLocations(res.data))
       .catch(function (error) {
         if (error.response) {
@@ -42,10 +45,8 @@ const App = () => {
         locations.map(async (location: Location) => {
           const camera = await axios
             .get(
-              // `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
               `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
             )
-            // .then((res) => console.log(res.data))
             .catch(function (error) {
               if (error.response) {
                 // The request was made and the server responded with a status code
@@ -78,15 +79,17 @@ const App = () => {
     lat: string,
     lon: string,
     date: string
-  ) => {
-    const weather = await axios
-      .get(
-        // `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/weather/forecast/${lat},${lon}/`
+  ): Promise<WeatherForecast> => {
+    try {
+      const response = await axios.get(
         `http://localhost:8000/api/weather/forecast/${lat},${lon},${date}/`
-      )
-      .catch((err) => console.log(err));
-
-    console.log(weather);
+      );
+      // console.log(response.data);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   };
 
   // create a <li> for each Trip in the locations array
@@ -142,10 +145,7 @@ const App = () => {
 
   const deleteTrip = (tripId: number) => {
     axios
-      .delete(
-        // `http://tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com/locations/${tripId}/`
-        `http://localhost:8000/locations/${tripId}/`
-      )
+      .delete(`http://localhost:8000/locations/${tripId}/`)
       .then(() => {
         // Update the locations and closestCameras state after deletion
         setLocations((prevLocations) =>

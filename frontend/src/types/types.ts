@@ -17,7 +17,11 @@ export type Location = {
 
 export type DeleteButton = (tripId: number) => void;
 
-export type GetWeather = (lat: string, lon: string, date: string) => void;
+export type GetWeather = (
+  lat: string,
+  lon: string,
+  date: string
+) => Promise<WeatherForecast>;
 
 export type TripProps = {
   location: Location;
@@ -36,4 +40,10 @@ export type FormData = {
   lat: string;
   lon: string;
   date: string;
+};
+
+export type WeatherForecast = {
+  dateInRange: boolean;
+  precipBeforeTrip: boolean | null;
+  forecast: [];
 };
