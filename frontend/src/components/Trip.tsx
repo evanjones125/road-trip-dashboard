@@ -10,9 +10,37 @@ import {
   Tooltip,
 } from '@mui/material';
 
-const Trip = (props: TripProps) => {
-  const { location, date, camera, deleteButton, getWeather } = props;
-  const [weather, setWeather] = useState<WeatherForecast | null>(null); // To store weather info
+const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
+  weather,
+}) => {
+  // check if date is in range for weather forecast and, if so, if there's precipitation in the forecast
+  if (!weather?.dateInRange)
+    return <span className="tooltip">No forecast for this date yet.</span>;
+  if (!weather?.precipBeforeTrip)
+    return <span className="tooltip">Weather forecast looks clear!</span>;
+
+  // put the upcoming adverse weather forecast items in the tooltip
+  return (
+    <span className="tooltip">
+      {weather.precipBeforeTrip.map((period, key) => (
+        <p key={key}>{`${period[0]} there is a ${period[2].slice(
+          -4,
+          -1
+        )} chance of precipitation; 
+          ${period[2].slice(0, period[2].indexOf('.'))}`}</p>
+      ))}
+    </span>
+  );
+};
+
+const Trip: React.FC<TripProps> = ({
+  location,
+  date,
+  camera,
+  deleteButton,
+  getWeather,
+}) => {
+  const [weather, setWeather] = useState<WeatherForecast | null>(null);
 
   useEffect(() => {
     async function fetchWeather() {
@@ -49,21 +77,7 @@ const Trip = (props: TripProps) => {
         </CardContent>
         <CardActions style={{ justifyContent: 'space-between' }}>
           <Tooltip
-            title={
-              <span className="tooltip">
-                {weather?.dateInRange
-                  ? weather.precipBeforeTrip?.map((period, i) => (
-                      <p key={i}>{`${period[0]} there is a ${period[2].slice(
-                        -4,
-                        -1
-                      )} chance of precipitation; ${period[2].slice(
-                        0,
-                        period[2].indexOf('.')
-                      )}`}</p>
-                    )) || 'Weather forecast looks clear!'
-                  : 'No forecast yet for this date'}
-              </span>
-            }
+            title={<TooltipContent weather={weather} />}
             arrow
             placement="top"
           >
