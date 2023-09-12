@@ -44,6 +44,6 @@ export type FormData = {
 
 export type WeatherForecast = {
   dateInRange: boolean;
-  precipBeforeTrip: boolean | null;
+  precipBeforeTrip: [] | null;
   forecast: [];
 };

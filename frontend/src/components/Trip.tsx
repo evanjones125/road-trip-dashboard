@@ -7,13 +7,12 @@ import {
   CardMedia,
   Button,
   Typography,
+  Tooltip,
 } from '@mui/material';
 
 const Trip = (props: TripProps) => {
   const { location, date, camera, deleteButton, getWeather } = props;
-
   const [weather, setWeather] = useState<WeatherForecast | null>(null); // To store weather info
-  const [loading, setLoading] = useState(true); // To know if data is still being fetched
 
   useEffect(() => {
     async function fetchWeather() {
@@ -26,8 +25,6 @@ const Trip = (props: TripProps) => {
         setWeather(result); // Assuming the getWeather returns some string or data for weather.
       } catch (error) {
         console.error('Failed to fetch weather', error);
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -51,14 +48,29 @@ const Trip = (props: TripProps) => {
           </Typography>
         </CardContent>
         <CardActions style={{ justifyContent: 'space-between' }}>
-          <Button
-            size="small"
-            onClick={() =>
-              getWeather(location.latitude, location.longitude, date)
+          <Tooltip
+            title={
+              <span className="tooltip">
+                {weather?.dateInRange
+                  ? weather.precipBeforeTrip?.map((period, i) => (
+                      <p key={i}>{`${period[0]} there is a ${period[2].slice(
+                        -4,
+                        -1
+                      )} chance of precipitation; ${period[2].slice(
+                        0,
+                        period[2].indexOf('.')
+                      )}`}</p>
+                    )) || 'Weather forecast looks clear!'
+                  : 'No forecast yet for this date'}
+              </span>
             }
+            arrow
+            placement="top"
           >
-            {weather?.precipBeforeTrip ? 'Weather (Alerts!!!)' : 'Weather'}
-          </Button>
+            <Button size="small">
+              {weather?.precipBeforeTrip ? 'Weather (Alerts!!!)' : 'Weather'}
+            </Button>
+          </Tooltip>
           <Button
             size="small"
             style={{ color: '#fc2b2b' }}
