@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import Input from './components/Input';
-import Trip from './components/Trip';
+import TripGridItem from './components/TripGridItem';
 import type {
   Location,
   FormData,
@@ -97,7 +98,7 @@ const App = () => {
     return locations.map((location, i) => {
       return (
         <div className="trip-card" key={i}>
-          <Trip
+          <TripGridItem
             location={location}
             date={location.trip_date}
             camera={closestCameras[i]}
@@ -185,6 +186,26 @@ const App = () => {
       </div>
     </>
   );
+
+  // return (
+  //   <Router>
+  //     <Routes>
+  //       <Route path="/">
+  //         <>
+  //           <Input onSubmit={addTrip} />
+
+  //           <div id="test">
+  //             <h1>Trips:</h1>
+  //             <div className="trips-container">{renderTrips()}</div>
+  //           </div>
+  //         </>
+  //       </Route>
+
+  //       {/* Add a new route for the trip details */}
+  //       <Route path="/trip/:tripId" component={TripDetail} />
+  //     </Routes>
+  //   </Router>
+  // );
 };
 
 export default App;

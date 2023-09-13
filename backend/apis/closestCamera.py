@@ -1,5 +1,6 @@
 from dashboard.models import Camera
 import math
+import requests
 
 # use the haversine formula to calculate the distance between two points
 def haversine(lat1, lon1, lat2, lon2):
@@ -14,7 +15,22 @@ def haversine(lat1, lon1, lat2, lon2):
 # API endpoint that receives a location and finds the url of the camera closest to it in the database
 def find_closest_camera(lat, lon):
   # get a list of all the camera dictionaries in the database
-  cameras_list = list(Camera.objects.all().values())
+  # cameras_list = list(Camera.objects.all().values())
+  # find the url of the closest NWS station
+  req = f'https://www.udottraffic.utah.gov/api/v2/get/cameras'
+  headers = {
+      "User-Agent": "trip-dashboard (me@evanjones.space)",
+      "Accept": "application/json",
+  }
+
+  # get the forecast using the url we generated
+  try:
+      response = requests.get(req, headers=headers).json()
+      response.raise_for_status()  # Ensure this is called
+  except requests.RequestException:
+      return {"error": "Failed to fetch cameras list"}
+
+  print(response)
 
   closest_camera = None
   closest_distance = float('inf')

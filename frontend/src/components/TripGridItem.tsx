@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import type { TripProps, WeatherForecast } from '../types/types';
+import { useNavigation } from 'react-router-dom';
+import type { TripGridItemProps, WeatherForecast } from '../types/types';
 import {
   Card,
   CardActions,
@@ -16,7 +17,7 @@ const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
   // check if date is in range for weather forecast and, if so, if there's precipitation in the forecast
   if (!weather?.dateInRange)
     return <span className="tooltip">No forecast for this date yet.</span>;
-  if (!weather?.precipBeforeTrip)
+  if (!weather?.precipBeforeTrip[0])
     return <span className="tooltip">Weather forecast looks clear!</span>;
 
   // put the upcoming adverse weather forecast items in the tooltip
@@ -33,7 +34,7 @@ const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
   );
 };
 
-const Trip: React.FC<TripProps> = ({
+const TripGridItem: React.FC<TripGridItemProps> = ({
   location,
   date,
   camera,
@@ -41,6 +42,12 @@ const Trip: React.FC<TripProps> = ({
   getWeather,
 }) => {
   const [weather, setWeather] = useState<WeatherForecast | null>(null);
+
+  // const navigation = useNavigation();
+
+  // const redirectToTripDetail = () => {
+  //   navigation.navigate(`/trip/${location.id}`);
+  // };
 
   useEffect(() => {
     async function fetchWeather() {
@@ -58,6 +65,8 @@ const Trip: React.FC<TripProps> = ({
 
     fetchWeather();
   }, [location, date, getWeather]);
+
+  console.log(weather);
 
   return (
     camera && (
@@ -87,6 +96,13 @@ const Trip: React.FC<TripProps> = ({
           </Tooltip>
           <Button
             size="small"
+            style={{ color: '#69c983' }}
+            // onClick={redirectToTripDetail}
+          >
+            More info
+          </Button>
+          <Button
+            size="small"
             style={{ color: '#fc2b2b' }}
             onClick={() => deleteButton(location.id)}
           >
@@ -98,4 +114,4 @@ const Trip: React.FC<TripProps> = ({
   );
 };
 
-export default Trip;
+export default TripGridItem;

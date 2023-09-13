@@ -23,7 +23,7 @@ export type GetWeather = (
   date: string
 ) => Promise<WeatherForecast>;
 
-export type TripProps = {
+export type TripGridItemProps = {
   location: Location;
   date: string;
   camera: Camera;
@@ -44,6 +44,6 @@ export type FormData = {
 
 export type WeatherForecast = {
   dateInRange: boolean;
-  precipBeforeTrip: [] | null;
+  precipBeforeTrip: Array<[string, string, string]> | null;
   forecast: [];
 };
