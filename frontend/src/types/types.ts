@@ -1,10 +1,14 @@
 export type Camera = {
-  id: number;
-  name: string;
-  agency: string;
-  latitude: string;
-  longitude: string;
-  url: string;
+  Id: number;
+  Organization: string;
+  RoadwayName: string;
+  DirectionOfTravel: string;
+  Latitude: number;
+  Longitude: number;
+  Name: string;
+  Url: string;
+  Status: string;
+  Description: string;
 };
 
 export type Location = {

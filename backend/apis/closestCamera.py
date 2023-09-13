@@ -14,24 +14,17 @@ def haversine(lat1, lon1, lat2, lon2):
 
 # API endpoint that receives a location and finds the url of the camera closest to it in the database
 def find_closest_camera(lat, lon):
-  # get a list of all the camera dictionaries in the database
-  # cameras_list = list(Camera.objects.all().values())
-  # find the url of the closest NWS station
-  req = f'https://www.udottraffic.utah.gov/api/v2/get/cameras'
-  headers = {
-      "User-Agent": "trip-dashboard (me@evanjones.space)",
-      "Accept": "application/json",
-  }
+#   # find the url of the closest NWS station
+  req = f'https://www.udottraffic.utah.gov/api/v2/get/cameras?key=af24aea2412542d491419cf31a647c1d'
 
   # get the forecast using the url we generated
   try:
-      response = requests.get(req, headers=headers).json()
-      response.raise_for_status()  # Ensure this is called
+      cameras_list = requests.get(req).json()
   except requests.RequestException:
       return {"error": "Failed to fetch cameras list"}
 
-  print(response)
-
+  # get a list of all the camera dictionaries in the database
+#   cameras_list = list(Camera.objects.all().values())
   closest_camera = None
   closest_distance = float('inf')
 
@@ -40,10 +33,11 @@ def find_closest_camera(lat, lon):
 
   # loop through the database items and find the one with coordinates closest to input
   for camera in cameras_list:
-      camera_lat, camera_lon = float(camera["latitude"]), float(camera["longitude"])
+      camera_lat, camera_lon = float(camera["Latitude"]), float(camera["Longitude"])
       distance = haversine(lat, lon, camera_lat, camera_lon)
       if distance < closest_distance:
           closest_distance = distance
           closest_camera = camera
 
+  print(closest_camera)
   return closest_camera

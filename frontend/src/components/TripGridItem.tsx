@@ -66,14 +66,12 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
     fetchWeather();
   }, [location, date, getWeather]);
 
-  console.log(weather);
-
   return (
     camera && (
       <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
         <CardMedia
           sx={{ height: 200 }}
-          image={camera.url}
+          image={camera.Url}
           title={`live feed of the nearest camera to ${location}`}
         />
         <CardContent>
@@ -81,7 +79,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
             {location.title} on {date}
           </Typography>
           <Typography variant="body2">
-            The nearest camera is the {camera.name}
+            The nearest camera is the {camera.Name}
           </Typography>
         </CardContent>
         <CardActions style={{ justifyContent: 'space-between' }}>
