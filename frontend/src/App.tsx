@@ -83,7 +83,7 @@ const App = () => {
   ): Promise<WeatherForecast> => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/weather/forecast/${lat},${lon},${date}/`
+        `http://localhost:8000/api/weather/weatherForecast/${lat},${lon},${date}/`
       );
       // console.log(response.data);
       return response.data;

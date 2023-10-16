@@ -24,7 +24,7 @@ def check_for_precip(date: str, forecast: List[str]) -> list | None:
 
 
 # gets weather data from the NWS and parses it to get a more useful object of only data we need
-def fetch_weather_data(lat: str, lon: str, date: str):   
+def fetch_weather_data(lat: str, lon: str, date: str) -> dict:   
     # find the url of the closest NWS station
     req = f'https://api.weather.gov/points/{lat},{lon}'
     headers = {

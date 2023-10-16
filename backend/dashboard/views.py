@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from .serializers import LocationSerializer, CameraSerializer
 from .models import Location, Camera
 from apis.weather import fetch_weather_data
+from apis.astronomy import fetch_astronomy_data
 from apis.closestCamera import find_closest_camera
 from django.http import JsonResponse
 
@@ -18,6 +19,13 @@ class CameraView(viewsets.ModelViewSet):
 def weather_forecast(req, lat, lon, date):
     try:
         data = fetch_weather_data(lat, lon, date)
+        return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+def astronomy(req, date):
+    try:
+        data = fetch_astronomy_data(date)
         return JsonResponse(data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
