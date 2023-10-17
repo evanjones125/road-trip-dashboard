@@ -163,7 +163,7 @@ def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
     'dark_windows': find_dark_windows(sun_and_moon_data['sunset'], sun_and_moon_data['moonrise'], sun_and_moon_data['moonset'], next_day_data['sunrise'], next_day_data['moonrise'])
   }
 
-def find_dark_windows(sunset1, moonrise1, moonset1, sunrise2, moonrise2):
+def find_dark_windows(sunset1: str, moonrise1: str, moonset1: str, sunrise2: str, moonrise2: str) -> List[tuple]:
   # convert time strings to datetime.time objects
   sunset1_time = datetime.strptime(sunset1, '%H:%M').time()
   moonrise1_time = datetime.strptime(moonrise1, '%H:%M').time() if moonrise1 else None
@@ -171,25 +171,21 @@ def find_dark_windows(sunset1, moonrise1, moonset1, sunrise2, moonrise2):
   sunrise2_time = datetime.strptime(sunrise2, '%H:%M').time()
   moonrise2_time = datetime.strptime(moonrise2, '%H:%M').time() if moonrise2 else None
 
-  print([sunset1, moonrise1, moonset1, sunrise2, moonrise2])
-  windows = []
+  windows: List[tuple] = []
 
   # if the moon rises after sunset on day 1 but before midnight
-  if moonrise1_time and (moonrise1_time > sunset1_time) and (moonrise1_time.hour < 24):
+  if moonrise1_time and moonrise1_time > sunset1_time:
     windows.append((sunset1_time.strftime('%H:%M'), moonrise1_time.strftime('%H:%M')))
-    
+
   # if the moon is already in the sky at sunset on day 1 and then sets before sunrise on day 2
-  elif moonset1_time and (moonset1_time > sunset1_time) and (moonset1_time < sunrise2_time):
+  elif moonrise1_time and moonset1_time and moonrise1_time < sunset1_time and moonset1_time > sunset1_time:
     windows.append((moonset1_time.strftime('%H:%M'), sunrise2_time.strftime('%H:%M')))
 
-  # if the next moonrise is after sunrise on day 2
-  elif moonrise2_time and (moonrise2_time > sunrise2_time):
+  # if there's no moonrise on day 1 between sunset and midnight
+  elif not moonrise1_time and (not moonset1_time or (moonset1_time and moonset1_time < sunset1_time)):
     windows.append((sunset1_time.strftime('%H:%M'), sunrise2_time.strftime('%H:%M')))
 
   return windows
-
-# print(find_dark_windows('18:00', '23:00', '08:00', '06:05', '23:50'))
-# print(find_dark_windows('17:19', '10:35', '20:15', '07:42', '11:17'))
 
 # for a single date, return the milky way, sun, and moon forecasts
 def fetch_astronomy_data(lat: str, lon: str, date: str) -> dict:
