@@ -1,5 +1,6 @@
 import requests
 from typing import List
+import time
 from datetime import datetime, timedelta
 
 # data from Capture the Atlas and manually inputted because I couldn't find a milky way API
@@ -135,21 +136,64 @@ def get_milky_way_data(date: str) -> str:
 
   return milky_way_dates[closest_date]
 
-def get_moon_data(date: str) -> dict:
-  return {
+# grab sun and moon data from the ipgeolocation API
+def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
+  req = f'https://api.ipgeolocation.io/astronomy?apiKey=483c6d15f0924e219b334c84ea6269c5&lat={lat}&long={lon}&date={date}'
 
+  date_obj = datetime.strptime(date, '%Y-%m-%d').date()
+  next_day_obj = date_obj + timedelta(days=1)
+  next_day_str = next_day_obj.strftime('%Y-%m-%d')
+  next_day_req = f'https://api.ipgeolocation.io/astronomy?apiKey=483c6d15f0924e219b334c84ea6269c5&lat={lat}&long={lon}&date={next_day_str}'
+
+  # get the forecast using the url we generated
+  try:
+      sun_and_moon_data = requests.get(req).json()
+      next_day_data = requests.get(next_day_req).json()
+  except requests.RequestException:
+      return {"error": "Failed to fetch cameras list"}
+
+#   print(sun_and_moon_data)
+#   print(next_day_data)
+
+  return {
+    'sunrise': f"{sun_and_moon_data['sunrise']}am",
+    'sunset': f"{time.strftime('%I:%M %p', time.strptime(sun_and_moon_data['sunset'], '%H:%M'))[0:5]}pm",
+    'moonrise': sun_and_moon_data['moonrise'],
+    'moonset': sun_and_moon_data['moonset'],
+    'dark_windows': find_dark_windows(sun_and_moon_data['sunset'], sun_and_moon_data['moonrise'], sun_and_moon_data['moonset'], next_day_data['sunrise'], next_day_data['moonrise'])
   }
 
+def find_dark_windows(sunset1, moonrise1, moonset1, sunrise2, moonrise2):
+  # convert time strings to datetime.time objects
+  sunset1_time = datetime.strptime(sunset1, '%H:%M').time()
+  moonrise1_time = datetime.strptime(moonrise1, '%H:%M').time() if moonrise1 else None
+  moonset1_time = datetime.strptime(moonset1, '%H:%M').time() if moonset1 else None
+  sunrise2_time = datetime.strptime(sunrise2, '%H:%M').time()
+  moonrise2_time = datetime.strptime(moonrise2, '%H:%M').time() if moonrise2 else None
+
+  print([sunset1, moonrise1, moonset1, sunrise2, moonrise2])
+  windows = []
+
+  # if the moon rises after sunset on day 1 but before midnight
+  if moonrise1_time and (moonrise1_time > sunset1_time) and (moonrise1_time.hour < 24):
+    windows.append((sunset1_time.strftime('%H:%M'), moonrise1_time.strftime('%H:%M')))
+    
+  # if the moon is already in the sky at sunset on day 1 and then sets before sunrise on day 2
+  elif moonset1_time and (moonset1_time > sunset1_time) and (moonset1_time < sunrise2_time):
+    windows.append((moonset1_time.strftime('%H:%M'), sunrise2_time.strftime('%H:%M')))
+
+  # if the next moonrise is after sunrise on day 2
+  elif moonrise2_time and (moonrise2_time > sunrise2_time):
+    windows.append((sunset1_time.strftime('%H:%M'), sunrise2_time.strftime('%H:%M')))
+
+  return windows
+
+# print(find_dark_windows('18:00', '23:00', '08:00', '06:05', '23:50'))
+# print(find_dark_windows('17:19', '10:35', '20:15', '07:42', '11:17'))
+
 # for a single date, return the milky way, sun, and moon forecasts
-def fetch_astronomy_data(date: str) -> dict:
+def fetch_astronomy_data(lat: str, lon: str, date: str) -> dict:
   return {
     'milky-way': get_milky_way_data(date),
-    'sun': {
-      'sunrise': '',
-      'sunset': '',
-    },
-    'moon': {
-      'moonrise': '',
-      'moonset': '',
-    },
+    'sun-and-moon': get_sun_and_moon_data(lat, lon, date),
   }

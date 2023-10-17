@@ -23,9 +23,9 @@ def weather_forecast(req, lat, lon, date):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
-def astronomy(req, date):
+def astronomy(req, lat, lon, date):
     try:
-        data = fetch_astronomy_data(date)
+        data = fetch_astronomy_data(lat, lon, date)
         return JsonResponse(data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

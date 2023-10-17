@@ -14,7 +14,7 @@ def haversine(lat1, lon1, lat2, lon2):
 
 # API endpoint that receives a location and finds the url of the camera closest to it in the database
 def find_closest_camera(lat, lon):
-#   # find the url of the closest NWS station
+  # find the url of the closest NWS station
   req = f'https://www.udottraffic.utah.gov/api/v2/get/cameras?key=af24aea2412542d491419cf31a647c1d'
 
   # get the forecast using the url we generated
