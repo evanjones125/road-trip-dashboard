@@ -18,8 +18,8 @@ This app is containerized using docker and deployed using AWS Elastic Beansprout
 
 ## Future Features:
 - [x] show weather data from the NWS API
-- [ ] show sunrise/sunset times
-- [ ] show moonrise/moonset times
-  - [ ] tell the user what time window they'll have to view the sky after sunset when there's no moon in the sky
-- [ ] show milky way information
+- [x] show sunrise/sunset times
+- [x] show moonrise/moonset times
+  - [x] tell the user what time window they'll have to view the sky after sunset when there's no moon in the sky
+- [x] show milky way information
 - [ ] let user choose a location on a map when submitting the new trip form (as an alternative to entering an exact latitude and longitude)

@@ -138,8 +138,10 @@ def get_milky_way_data(date: str) -> str:
 
 # grab sun and moon data from the ipgeolocation API
 def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
+  # request for the sun and moon data for the input date
   req = f'https://api.ipgeolocation.io/astronomy?apiKey=483c6d15f0924e219b334c84ea6269c5&lat={lat}&long={lon}&date={date}'
 
+  # request for the sun and moon data for the day after the input date (so we can find dark sky windows throughout the entire night)
   date_obj = datetime.strptime(date, '%Y-%m-%d').date()
   next_day_obj = date_obj + timedelta(days=1)
   next_day_str = next_day_obj.strftime('%Y-%m-%d')
@@ -152,40 +154,58 @@ def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
   except requests.RequestException:
       return {"error": "Failed to fetch cameras list"}
 
-#   print(sun_and_moon_data)
-#   print(next_day_data)
-
   return {
     'sunrise': f"{sun_and_moon_data['sunrise']}am",
     'sunset': f"{time.strftime('%I:%M %p', time.strptime(sun_and_moon_data['sunset'], '%H:%M'))[0:5]}pm",
     'moonrise': sun_and_moon_data['moonrise'],
     'moonset': sun_and_moon_data['moonset'],
-    'dark_windows': find_dark_windows(sun_and_moon_data['sunset'], sun_and_moon_data['moonrise'], sun_and_moon_data['moonset'], next_day_data['sunrise'], next_day_data['moonrise'])
+    'next-day-sunrise': next_day_data['sunrise'],
+    'next-day-moonrise': next_day_data['moonrise'],
+    'next-day-moonset': next_day_data['moonset'],
+    'dark_windows': find_dark_windows(sun_and_moon_data['sunset'], sun_and_moon_data['moonrise'], sun_and_moon_data['moonset'], next_day_data['sunrise'], next_day_data['moonrise'], next_day_data['moonset'])
   }
 
-def find_dark_windows(sunset1: str, moonrise1: str, moonset1: str, sunrise2: str, moonrise2: str) -> List[tuple]:
-  # convert time strings to datetime.time objects
-  sunset1_time = datetime.strptime(sunset1, '%H:%M').time()
-  moonrise1_time = datetime.strptime(moonrise1, '%H:%M').time() if moonrise1 else None
-  moonset1_time = datetime.strptime(moonset1, '%H:%M').time() if moonset1 else None
-  sunrise2_time = datetime.strptime(sunrise2, '%H:%M').time()
-  moonrise2_time = datetime.strptime(moonrise2, '%H:%M').time() if moonrise2 else None
+def find_dark_windows(sunset: str, moonrise_day1: str, moonset_day1: str, sunrise: str, moonrise_day2: str, moonset_day2: str) -> List[tuple]:
+  # convert all time strings into datetime objects
+  sunset_time = datetime.strptime(sunset, '%H:%M')
+  moonrise_day1_time = datetime.strptime(moonrise_day1, '%H:%M')
+  moonset_day1_time = datetime.strptime(moonset_day1, '%H:%M')
+  sunrise_time = datetime.strptime(sunrise, '%H:%M')
+  moonrise_day2_time = datetime.strptime(moonrise_day2, '%H:%M')
+  moonset_day2_time = datetime.strptime(moonset_day2, '%H:%M')
 
-  windows: List[tuple] = []
+  dark_windows = []
 
-  # if the moon rises after sunset on day 1 but before midnight
-  if moonrise1_time and moonrise1_time > sunset1_time:
-    windows.append((sunset1_time.strftime('%H:%M'), moonrise1_time.strftime('%H:%M')))
+  # if there's a dark window between sunset and moonrise on day 1
+  if sunset_time < moonrise_day1_time:
+    dark_windows.append((sunset, moonrise_day1))
 
-  # if the moon is already in the sky at sunset on day 1 and then sets before sunrise on day 2
-  elif moonrise1_time and moonset1_time and moonrise1_time < sunset1_time and moonset1_time > sunset1_time:
-    windows.append((moonset1_time.strftime('%H:%M'), sunrise2_time.strftime('%H:%M')))
+  # if there's a dark window between moonset on day 2 and sunrise on day 2
+  if moonset_day2_time < sunrise_time:
+    if not (moonset_day1_time < sunrise_time and moonrise_day2_time < sunrise_time):
+      dark_windows.append((moonset_day2, sunrise))
 
-  # if there's no moonrise on day 1 between sunset and midnight
-  elif not moonrise1_time and (not moonset1_time or (moonset1_time and moonset1_time < sunset1_time)):
-    windows.append((sunset1_time.strftime('%H:%M'), sunrise2_time.strftime('%H:%M')))
+  # if moonrise and moonset are sequential on day 1
+  if moonset_day1_time > moonrise_day1_time:
+    # if the sunset happens after the moonset, there's a dark window from sunset until either:
+    if sunset_time > moonset_day1_time:
+      # sunrise if the next moonrise happens after sunrise
+      if moonrise_day2_time > sunrise_time:
+        dark_windows.append((sunset, sunrise))
+      # or the time of the next moonrise if not
+      else:
+        dark_windows.append((sunset, moonrise_day2))
 
-  return windows
+    # if the sunset happens before the moonset, there's a dark window from moonset until either:
+    else:
+      # sunrise if the next moonrise happens after sunrise
+      if moonrise_day2_time > sunrise_time:
+        dark_windows.append((moonset_day1, sunrise))
+      # or the time of the next moonrise if not
+      else:
+        dark_windows.append((moonset_day1, moonrise_day2))
+
+  return dark_windows
 
 # for a single date, return the milky way, sun, and moon forecasts
 def fetch_astronomy_data(lat: str, lon: str, date: str) -> dict:
