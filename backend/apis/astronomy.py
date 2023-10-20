@@ -1,24 +1,27 @@
+import os
 import requests
-from typing import List
-import time
 from datetime import datetime, timedelta
+from typing import List, Tuple
 
-# data from Capture the Atlas and manually inputted because I couldn't find a milky way API
+API_BASE_URL = 'https://api.ipgeolocation.io/astronomy'
+API_KEY = os.environ.get('IPGEOLOCATION_API_KEY')
+
+# milky way viewing data for the American Southwest from Capture the Atlas (I couldn't find a milky way API)
 milky_way_dates = {
   '2023-10-07': {
     'visibility': {
-      'start': '20:32',
-      'end': '22:30',
+      'start': '8:32pm',
+      'end': '10:30pm',
     },
-    'position': 'Vertical (85°) to vertical (-75°)',
+    'position': 'Vertical (85deg) to vertical (-75deg)',
     'report': 'The milky way will be visible for a 1 hour, 58 minute window between 8:32pm and 10:30pm.',
   },
   '2023-10-14': {
     'visibility': {
-      'start': '20:22',
-      'end': '22:03',
+      'start': '8:22pm',
+      'end': '10:03pm',
     },
-    'position': 'Vertical (-90°) to vertical (-75°)',
+    'position': 'Vertical (-90deg) to vertical (-75deg)',
     'report': 'The milky way will be visible for a 1 hour, 40 minute window between 8:22pm and 10:03pm.',
   },
   '2023-10-21': {
@@ -39,18 +42,18 @@ milky_way_dates = {
   },
   '2023-11-04': {
     'visibility': {
-      'start': '19:59',
-      'end': '20:40',
+      'start': '7:59pm',
+      'end': '8:40pm',
     },
-    'position': 'Vertical (-80°)',
+    'position': 'Vertical (-80deg)',
     'report': 'The milky way will be visible for a 41 minute window between 7:59pm and 8:40pm.',
   },
   '2023-11-11': {
     'visibility': {
-      'start': '18:53',
-      'end': '19:12',
+      'start': '6:53pm',
+      'end': '7:12pm',
     },
-    'position': 'Vertical (-75°)',
+    'position': 'Vertical (-75deg)',
     'report': 'The milky way will be visible for a 19 minute window between 6:53pm and 7:12pm.',
   },
   '2023-11-18': {
@@ -120,64 +123,42 @@ def get_milky_way_data(date: str) -> str:
   # convert the input string to a datetime.date object
   input_date_obj = datetime.strptime(date, '%Y-%m-%d').date()
 
-  # check if input date is out of range
-  last_date_str = max(milky_way_dates.keys())
-  last_date_obj = datetime.strptime(last_date_str, '%Y-%m-%d').date()
-  if input_date_obj > last_date_obj + timedelta(days=7):
-    return "No milky way forecast yet for this date."
-
-  # iterate through the milky_way_dates dict to find the closest date to the input
-  min_diff = None
-  closest_date = None
-
-  for date_str, data in milky_way_dates.items():
-    date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
-    diff = abs((input_date_obj - date_obj).days)
-
-    if min_diff is None or diff < min_diff:
-      min_diff = diff
-      closest_date = date_str
+  # find date in milky_way_dates dict that's closest to the input date
+  sorted_dates = sorted(milky_way_dates.keys(), key=lambda x: datetime.strptime(x, '%Y-%m-%d').date())
+  closest_date = min(sorted_dates, key=lambda d: abs(datetime.strptime(d, '%Y-%m-%d').date() - input_date_obj))
 
   return milky_way_dates[closest_date]
 
 # grab sun and moon data from the ipgeolocation API
 def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
-  # request for the sun and moon data for the input date
-  req = f'https://api.ipgeolocation.io/astronomy?apiKey=483c6d15f0924e219b334c84ea6269c5&lat={lat}&long={lon}&date={date}'
+  params = {
+    'apiKey': API_KEY,
+    'lat': lat,
+    'long': lon,
+    'date': date,
+  }
 
-  # request for the sun and moon data for the day after the input date (so we can find dark sky windows throughout the entire night)
-  date_obj = datetime.strptime(date, '%Y-%m-%d').date()
-  next_day_obj = date_obj + timedelta(days=1)
-  next_day_str = next_day_obj.strftime('%Y-%m-%d')
-  next_day_req = f'https://api.ipgeolocation.io/astronomy?apiKey=483c6d15f0924e219b334c84ea6269c5&lat={lat}&long={lon}&date={next_day_str}'
-
-  # get the forecast using the url we generated
+  # make our requests to the geolocation API
   try:
-      sun_and_moon_data = requests.get(req).json()
-      next_day_data = requests.get(next_day_req).json()
-  except requests.RequestException:
-      return {"error": "Failed to fetch cameras list"}
-  
-  # convert the sunrise and sunset times of the target date into datetime objects
-  sunrise_time = datetime.strptime(sun_and_moon_data['sunrise'], '%H:%M')
-  sunset_time = datetime.strptime(sun_and_moon_data['sunset'], '%H:%M')
+      sun_and_moon_data = requests.get(API_BASE_URL, params=params).json()
+      params['date'] = (datetime.strptime(date, '%Y-%m-%d') + timedelta(days=1)).strftime('%Y-%m-%d')
+      next_day_data = requests.get(API_BASE_URL, params=params).json()
+  except requests.RequestException as e:
+      return {"error": f"Failed to fetch data: {e}"}
 
   return {
-    'sunrise': format_time(sunrise_time),
-    'sunset': format_time(sunset_time),
+    'sunrise': format_time(datetime.strptime(sun_and_moon_data['sunrise'], '%H:%M')),
+    'sunset': format_time(datetime.strptime(sun_and_moon_data['sunset'], '%H:%M')),
     'dark_windows': find_dark_windows(sun_and_moon_data['sunset'], sun_and_moon_data['moonrise'], sun_and_moon_data['moonset'], next_day_data['sunrise'], next_day_data['moonrise'], next_day_data['moonset'])
   }
 
-def find_dark_windows(sunset: str, moonrise_day1: str, moonset_day1: str, sunrise: str, moonrise_day2: str, moonset_day2: str) -> List[tuple]:  
+# finds all the windows of time during which the sun and moon are not visibly in the sky (these are the best times to view the stars)
+def find_dark_windows(*time_strings: str) -> List[Tuple[str, str]]:  
   # convert all time strings into datetime objects
-  sunset_time = datetime.strptime(sunset, '%H:%M')
-  moonrise_day1_time = datetime.strptime(moonrise_day1, '%H:%M')
-  moonset_day1_time = datetime.strptime(moonset_day1, '%H:%M')
-  sunrise_time = datetime.strptime(sunrise, '%H:%M')
-  moonrise_day2_time = datetime.strptime(moonrise_day2, '%H:%M')
-  moonset_day2_time = datetime.strptime(moonset_day2, '%H:%M')
+  times = [datetime.strptime(time, '%H:%M') for time in time_strings]
+  sunset_time, moonrise_day1_time, moonset_day1_time, sunrise_time, moonrise_day2_time, moonset_day2_time = times
 
-  dark_windows = []
+  dark_windows: List[Tuple[str, str]] = []
 
   # if there's a dark window between sunset and moonrise on day 1
   if sunset_time < moonrise_day1_time:
