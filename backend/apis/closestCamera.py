@@ -1,6 +1,9 @@
-from dashboard.models import Camera
-import math
+import os
 import requests
+import math
+from dashboard.models import Camera
+
+API_KEY = os.environ.get('UDOT_API_KEY')
 
 # use the haversine formula to calculate the distance between two points
 def haversine(lat1, lon1, lat2, lon2):
@@ -15,7 +18,7 @@ def haversine(lat1, lon1, lat2, lon2):
 # API endpoint that receives a location and finds the url of the camera closest to it in the database
 def find_closest_camera(lat, lon):
   # find the url of the closest NWS station
-  req = f'https://www.udottraffic.utah.gov/api/v2/get/cameras?key=af24aea2412542d491419cf31a647c1d'
+  req = f'https://www.udottraffic.utah.gov/api/v2/get/cameras?key={API_KEY}'
 
   # get the forecast using the url we generated
   try:
