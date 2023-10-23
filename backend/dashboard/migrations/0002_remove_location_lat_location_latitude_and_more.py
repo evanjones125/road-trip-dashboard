@@ -4,29 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('dashboard', '0001_initial'),
+        ("dashboard", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='location',
-            name='lat',
+            model_name="location",
+            name="lat",
         ),
         migrations.AddField(
-            model_name='location',
-            name='latitude',
+            model_name="location",
+            name="latitude",
             field=models.DecimalField(decimal_places=6, default=0.0, max_digits=8),
         ),
         migrations.AddField(
-            model_name='location',
-            name='longitude',
+            model_name="location",
+            name="longitude",
             field=models.DecimalField(decimal_places=6, default=0.0, max_digits=8),
         ),
         migrations.AddField(
-            model_name='location',
-            name='title',
-            field=models.CharField(default='title', max_length=120),
+            model_name="location",
+            name="title",
+            field=models.CharField(default="title", max_length=120),
         ),
     ]
