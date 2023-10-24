@@ -6,7 +6,7 @@ API_KEY = os.environ.get("UDOT_API_KEY")
 
 
 # use the haversine formula to calculate the distance between two points
-def haversine(lat1, lon1, lat2, lon2):
+def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     R = 6371  # Earth's radius in km
     lat1_rad, lon1_rad = math.radians(lat1), math.radians(lon1)
     lat2_rad, lon2_rad = math.radians(lat2), math.radians(lon2)
@@ -20,7 +20,7 @@ def haversine(lat1, lon1, lat2, lon2):
 
 
 # API endpoint that receives a location and finds the url of the camera closest to it in the database
-def find_closest_camera(lat, lon):
+def find_closest_camera(lat: str, lon: str) -> dict:
     # find the url of the closest NWS station
     req = f"https://www.udottraffic.utah.gov/api/v2/get/cameras?key={API_KEY}"
 
@@ -30,7 +30,7 @@ def find_closest_camera(lat, lon):
     except requests.RequestException:
         return {"error": "Failed to fetch cameras list"}
 
-    closest_camera = None
+    closest_camera: dict = {}
     closest_distance = float("inf")
 
     lat = float(lat)

@@ -161,7 +161,7 @@ def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
             datetime.strptime(sun_and_moon_data["sunrise"], "%H:%M")
         ),
         "sunset": format_time(datetime.strptime(sun_and_moon_data["sunset"], "%H:%M")),
-        "dark_windows": find_dark_windows(
+        "darkWindows": find_dark_windows(
             sun_and_moon_data["sunset"],
             sun_and_moon_data["moonrise"],
             sun_and_moon_data["moonset"],
@@ -232,6 +232,6 @@ def find_dark_windows(*time_strings: str) -> List[Tuple[str, str]]:
 # for a single date, return the milky way, sun, and moon forecasts
 def fetch_astronomy_data(lat: str, lon: str, date: str) -> dict:
     return {
-        "milky-way": get_milky_way_data(date),
-        "sun-and-moon": get_sun_and_moon_data(lat, lon, date),
+        "milkyWay": get_milky_way_data(date),
+        "sunAndMoon": get_sun_and_moon_data(lat, lon, date),
     }
