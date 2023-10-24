@@ -50,7 +50,6 @@ def fetch_weather_data(lat: str, lon: str, date: str) -> dict:
 
     # specifically grab the weather forecast portion of the NWS response
     forecast: List[str] = response.json()["properties"]["periods"]
-    print(forecast)
 
     return {
         "dateInRange": is_date_in_range(date, forecast),
