@@ -7,7 +7,6 @@ from dashboard import views
 
 router = routers.DefaultRouter()
 router.register(r"locations", views.LocationView, "location")
-router.register(r"cameras", views.CameraView, "camera")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

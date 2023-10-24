@@ -30,8 +30,6 @@ def find_closest_camera(lat, lon):
     except requests.RequestException:
         return {"error": "Failed to fetch cameras list"}
 
-    # get a list of all the camera dictionaries in the database
-    # cameras_list = list(Camera.objects.all().values())
     closest_camera = None
     closest_distance = float("inf")
 
