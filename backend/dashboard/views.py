@@ -1,11 +1,21 @@
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
-from .serializers import LocationSerializer
-from .models import Location
+from .serializers import UserSerializer, TripSerializer, LocationSerializer
+from .models import User, Trip, Location
 from apis.weather import fetch_weather_data
 from apis.astronomy import fetch_astronomy_data
 from apis.closestCamera import find_closest_camera
 from django.http import JsonResponse
+
+
+class UserView(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+
+class TripView(viewsets.ModelViewSet):
+    serializer_class = TripSerializer
+    queryset = Trip.objects.all()
 
 
 class LocationView(viewsets.ModelViewSet):

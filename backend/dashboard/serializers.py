@@ -1,8 +1,30 @@
 from rest_framework import serializers
-from .models import Location
+from .models import User, Trip, Location
 
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ("id", "title", "latitude", "longitude", "trip_date")
+        fields = ("id", "latitude", "longitude", "date_range", "location_name", "trip")
+
+
+class TripSerializer(serializers.ModelSerializer):
+    locations = LocationSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Trip
+        fields = ("id", "start_date", "end_date", "trip_name", "user", "locations")
+
+
+class UserSerializer(serializers.ModelSerializer):
+    trips = TripSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ("id", "name", "email", "trips")
+
+
+# class LocationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Location
+#         fields = ("id", "title", "latitude", "longitude", "trip_date")

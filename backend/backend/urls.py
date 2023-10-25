@@ -6,6 +6,8 @@ from rest_framework import routers
 from dashboard import views
 
 router = routers.DefaultRouter()
+router.register(r"users", views.UserView, "user")
+router.register(r"trips", views.TripView, "trip")
 router.register(r"locations", views.LocationView, "location")
 
 urlpatterns = [
