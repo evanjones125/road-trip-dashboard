@@ -22,11 +22,3 @@ class LocationAdmin(admin.ModelAdmin):
         "location_name",
         "trip",
     ]
-
-
-# class LocationAdmin(admin.ModelAdmin):
-#     list_display = ("title", "latitude", "longitude", "trip_date")
-
-
-# # register models
-# admin.site.register(Location, LocationAdmin)

@@ -30,9 +30,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "name", "email", "trips")
-
-
-# class LocationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Location
-#         fields = ("id", "title", "latitude", "longitude", "trip_date")
