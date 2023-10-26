@@ -18,6 +18,7 @@ const App = () => {
   // get all the locations from the database
   useEffect(() => {
     axios
+      // use authentication token that corresponds with a user ID in the database to fetch the trips associated with that ID
       .get('http://localhost:8000/locations/')
       .then((res) => setLocations(res.data))
       .catch(function (error) {

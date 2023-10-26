@@ -10,8 +10,8 @@ class User(models.Model):
 
 
 class Trip(models.Model):
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
     trip_name = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="trips")
 
@@ -22,7 +22,8 @@ class Trip(models.Model):
 class Location(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
-    date_range = models.DateField()
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
     location_name = models.CharField(max_length=255)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name="locations")
 

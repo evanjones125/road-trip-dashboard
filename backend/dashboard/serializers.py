@@ -5,7 +5,15 @@ from .models import User, Trip, Location
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ("id", "latitude", "longitude", "date_range", "location_name", "trip")
+        fields = (
+            "id",
+            "latitude",
+            "longitude",
+            "start_date",
+            "end_date",
+            "location_name",
+            "trip",
+        )
 
 
 class TripSerializer(serializers.ModelSerializer):

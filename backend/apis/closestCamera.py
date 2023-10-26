@@ -30,6 +30,46 @@ def find_closest_camera(lat: str, lon: str) -> dict:
     except requests.RequestException:
         return {"error": "Failed to fetch cameras list"}
 
+    # zion duck creek village
+    # https://www.earthcam.com/usa/utah/duckcreekvillage/?cam=zionsummit
+    # 37.452265, -112.717332
+
+    # canyonlands island in the sky
+    # http://eldesierto.org/Isky.jpg
+    # 38.459967, -109.820584
+
+    # zion canyon
+    # https://www.nps.gov/webcams-zion/camera2000.jpg?1698330593466
+    # 37.211684, -112.985415
+
+    # arches entrance gate
+    # https://home.nps.gov/webcams-arch/arch_traffic.jpg?1698332469836
+    # 38.616517, -109.616172
+
+    # moab castleton tower
+    # http://www.perpetual-images.com/weather/netcam.jpg
+    # 38.623187, -109.340467
+
+    # monticello six shooter peak
+    # http://eldesierto.org/RpeakUT.jpg
+    # 38.623187, -109.340467
+
+    # monticello abajo peak
+    # http://eldesierto.org/AbajoPeak.jpg
+    # 37.839561, -109.4623723
+
+    # page, az paria plateau
+    # https://www.nps.gov/webcams-glca/po1.jpg?1698334459793
+    # 36.879009, -111.584474
+
+    # ut/az border glen canyon boat ramp
+    # https://www.nps.gov/webcams-glca/ww3.jpg?1698334629325
+    # 37.003365, -111.499352
+
+    # hite glen canyon ranger station
+    # https://www.nps.gov/webcams-glca/hi1.jpg?1698334727991
+    # 37.872822, -110.395231
+
     closest_camera: dict = {}
     closest_distance = float("inf")
 
@@ -43,5 +83,4 @@ def find_closest_camera(lat: str, lon: str) -> dict:
         if distance < closest_distance:
             closest_distance = distance
             closest_camera = camera
-
     return closest_camera

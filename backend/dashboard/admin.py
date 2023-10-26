@@ -17,7 +17,8 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = [
         "latitude",
         "longitude",
-        "date_range",
+        "start_date",
+        "end_date",
         "location_name",
         "trip",
     ]
