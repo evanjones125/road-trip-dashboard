@@ -24,6 +24,47 @@ class LocationView(viewsets.ModelViewSet):
 
 
 @api_view(["GET"])
+def get_user_trips(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)
+
+    # Get trips for the user
+    trips = Trip.objects.filter(user=user)
+
+    # Serialize the data (This is a simplified version; Django REST Framework can make this easier)
+    trips_data = []
+    for trip in trips:
+        # Get locations for the trip
+        locations = Location.objects.filter(trip=trip)
+        locations_data = [
+            {
+                "id": location.id,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
+                "start_date": location.start_date,
+                "end_date": location.end_date,
+                "location_name": location.location_name,
+                "trip": location.trip.id,
+            }
+            for location in locations
+        ]
+
+        trip_data = {
+            "id": trip.id,
+            "start_date": trip.start_date,
+            "end_date": trip.end_date,
+            "trip_name": trip.trip_name,
+            "user": trip.user.id,
+            "locations": locations_data,
+        }
+
+        trips_data.append(trip_data)
+
+    return JsonResponse(trips_data, safe=False)
+
+
 def weather_forecast(req, lat, lon, date):
     try:
         data = fetch_weather_data(lat, lon, date)

@@ -11,12 +11,23 @@ export type Camera = {
   Description: string;
 };
 
+export type Trip = {
+  id: number;
+  user: number;
+  trip_name: string;
+  start_date: string;
+  end_date: string;
+  locations: [];
+};
+
 export type Location = {
   id: number;
-  title: string;
-  latitude: string;
-  longitude: string;
-  trip_date: string;
+  trip: number;
+  latitude: number;
+  longitude: number;
+  start_date: string;
+  end_date: string;
+  location_name: string;
 };
 
 export type DeleteButton = (tripId: number) => void;
