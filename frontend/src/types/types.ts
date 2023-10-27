@@ -46,15 +46,15 @@ export type TripGridItemProps = {
   getWeather: GetWeather;
 };
 
-export type InputProps = {
-  onSubmit: (arg0: FormData) => void;
+export type TripFormProps = {
+  onSubmit: (arg0: TripFormData) => void;
 };
 
-export type FormData = {
-  location: string;
-  lat: string;
-  lon: string;
-  date: string;
+export type TripFormData = {
+  tripName: string;
+  startDate: string;
+  endDate: string;
+  user: string;
 };
 
 export type WeatherForecast = {

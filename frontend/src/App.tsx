@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Input from './components/Input';
+import TripForm from './components/TripForm';
 import TripGridItem from './components/TripGridItem';
 import type {
   Trip,
   Location,
-  FormData,
+  TripFormData,
   Camera,
   GetWeather,
   WeatherForecast,
@@ -122,39 +122,39 @@ const App = () => {
   //   });
   // };
 
-  // const addTrip = (formData: FormData) => {
-  //   const { location, date, lat, lon } = formData;
+  const addTrip = (formData: TripFormData) => {
+    const { tripName, startDate, endDate } = formData;
 
-  //   // add a new location to the database
-  //   axios
-  //     .post('http://localhost:8000/locations/', {
-  //       title: location,
-  //       trip_date: date,
-  //       latitude: lat,
-  //       longitude: lon,
-  //     })
-  //     .then((response) => {
-  //       // Update the locations state with the newly added trip
-  //       setLocations((prevLocations) => [...prevLocations, response.data]);
-  //     })
-  //     .catch(function (error) {
-  //       if (error.response) {
-  //         // The request was made and the server responded with a status code
-  //         // that falls out of the range of 2xx
-  //         console.log(error.response.data);
-  //         console.log(error.response.status);
-  //         console.log(error.response.headers);
-  //       } else if (error.request) {
-  //         // The request was made but no response was received
-  //         // `error.request` is an instance of XMLHttpRequest in the browser
-  //         // and an instance of http.ClientRequest in node.js
-  //         console.log(error.request);
-  //       } else {
-  //         // Something happened in setting up the request that triggered an Error
-  //         console.log('Error', error.message);
-  //       }
-  //     });
-  // };
+    // add a new location to the database
+    axios
+      .post('http://localhost:8000/locations/', {
+        tripName: tripName,
+        startDate: startDate,
+        endDate: endDate,
+        user: '1',
+      })
+      .then((response) => {
+        // Update the locations state with the newly added trip
+        setTrips((prevTrips) => [...prevTrips, response.data]);
+      })
+      .catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+      });
+  };
 
   // const deleteTrip = (tripId: number) => {
   //   axios
@@ -190,8 +190,6 @@ const App = () => {
 
   return (
     <>
-      {/* <Input onSubmit={addTrip} /> */}
-
       <div id="test">
         <h1>
           {trips.length > 0
@@ -200,6 +198,7 @@ const App = () => {
         </h1>
         {/* <div className="trips-container">{renderTrips()}</div> */}
       </div>
+      <TripForm onSubmit={addTrip} />
     </>
   );
 };

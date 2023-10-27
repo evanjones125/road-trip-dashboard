@@ -1,31 +1,31 @@
 import React, { useState } from 'react';
-import type { InputProps } from '../types/types';
+import type { TripFormProps } from '../types/types';
 import { TextField, Button, Box, Typography } from '@mui/material';
 
-const Input = (props: InputProps): JSX.Element => {
+const TripForm = (props: TripFormProps): JSX.Element => {
   const { onSubmit } = props;
-  const [formData, setFormData] = useState({
-    location: '',
-    lat: '',
-    lon: '',
-    date: '',
+  const [tripFormData, setTripFormData] = useState({
+    tripName: '',
+    startDate: '',
+    endDate: '',
+    user: '',
   });
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    onSubmit(formData);
-    setFormData({
-      location: '',
-      lat: '',
-      lon: '',
-      date: '',
+    onSubmit(tripFormData);
+    setTripFormData({
+      tripName: '',
+      startDate: '',
+      endDate: '',
+      user: '',
     });
   };
 
   // update state as the user types into the input boxes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setTripFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   return (
@@ -43,11 +43,11 @@ const Input = (props: InputProps): JSX.Element => {
         <Box mb={2}>
           <TextField
             fullWidth
-            label="Location"
+            label="Trip name"
             type="text"
-            id="location"
-            name="location"
-            value={formData.location}
+            id="tripName"
+            name="tripName"
+            value={tripFormData.tripName}
             onChange={handleChange}
             variant="outlined"
           />
@@ -56,11 +56,11 @@ const Input = (props: InputProps): JSX.Element => {
         <Box mb={2}>
           <TextField
             fullWidth
-            label="Date"
+            label="Start date"
             type="date"
-            id="date"
-            name="date"
-            value={formData.date}
+            id="startDate"
+            name="startDate"
+            value={tripFormData.startDate}
             InputLabelProps={{
               shrink: true,
             }}
@@ -72,24 +72,14 @@ const Input = (props: InputProps): JSX.Element => {
         <Box mb={2}>
           <TextField
             fullWidth
-            label="Latitude"
-            type="text"
-            id="lat"
-            name="lat"
-            value={formData.lat}
-            onChange={handleChange}
-            variant="outlined"
-          />
-        </Box>
-
-        <Box mb={2}>
-          <TextField
-            fullWidth
-            label="Longitude"
-            type="text"
-            id="lon"
-            name="lon"
-            value={formData.lon}
+            label="End date"
+            type="date"
+            id="endDate"
+            name="endDate"
+            value={tripFormData.endDate}
+            InputLabelProps={{
+              shrink: true,
+            }}
             onChange={handleChange}
             variant="outlined"
           />
@@ -105,4 +95,4 @@ const Input = (props: InputProps): JSX.Element => {
   );
 };
 
-export default Input;
+export default TripForm;
