@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Header from './components/Header';
 import TripForm from './components/TripForm';
 import TripGridItem from './components/TripGridItem';
 import type {
@@ -127,10 +128,10 @@ const App = () => {
 
     // add a new location to the database
     axios
-      .post('http://localhost:8000/locations/', {
-        tripName: tripName,
-        startDate: startDate,
-        endDate: endDate,
+      .post('http://localhost:8000/trips/', {
+        trip_name: tripName,
+        start_date: startDate,
+        end_date: endDate,
         user: '1',
       })
       .then((response) => {
@@ -156,40 +157,41 @@ const App = () => {
       });
   };
 
-  // const deleteTrip = (tripId: number) => {
-  //   axios
-  //     .delete(`http://localhost:8000/locations/${tripId}/`)
-  //     .then(() => {
-  //       // Update the locations and closestCameras state after deletion
-  //       setLocations((prevLocations) =>
-  //         prevLocations.filter((location) => location.id !== tripId)
-  //       );
-  //       setClosestCameras((prevCameras) =>
-  //         prevCameras.filter((_, index) => index !== tripId)
-  //       );
-  //     })
-  //     .catch(function (error) {
-  //       if (error.response) {
-  //         // The request was made and the server responded with a status code
-  //         // that falls out of the range of 2xx
-  //         console.log(error);
-  //         console.log(error.response.data);
-  //         console.log(error.response.status);
-  //         console.log(error.response.headers);
-  //       } else if (error.request) {
-  //         // The request was made but no response was received
-  //         // `error.request` is an instance of XMLHttpRequest in the browser
-  //         // and an instance of http.ClientRequest in node.js
-  //         console.log(error.request);
-  //       } else {
-  //         // Something happened in setting up the request that triggered an Error
-  //         console.log('Error', error.message);
-  //       }
-  //     });
-  // };
+  const deleteTrip = (tripId: number) => {
+    axios
+      .delete(`http://localhost:8000/trips/${tripId}/`)
+      .then(() => {
+        // Update the locations and closestCameras state after deletion
+        setLocations((prevTrips) =>
+          prevTrips.filter((trip) => trip.id !== tripId)
+        );
+        // setClosestCameras((prevCameras) =>
+        //   prevCameras.filter((_, index) => index !== tripId)
+        // );
+      })
+      .catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error);
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+      });
+  };
 
   return (
     <>
+      <Header />
       <div id="test">
         <h1>
           {trips.length > 0
