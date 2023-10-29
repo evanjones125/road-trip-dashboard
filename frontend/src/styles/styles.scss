@@ -19,11 +19,22 @@
   -webkit-text-size-adjust: 100%;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 #main {
-  max-width: 1280px;
+  flex: 1;
   margin: 0 auto;
+  max-width: 1280px;
   text-align: center;
-  padding: 30px 100px;
+  padding: 3.5rem 5rem;
+}
+
+.header .css-hip9hq-MuiPaper-root-MuiAppBar-root {
+  background-color: #424954;
 }
 
 h1 {
@@ -60,6 +71,12 @@ button {
   &:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
   }
+}
+
+.welcomeText {
+  margin: auto;
+  max-width: 860px;
+  padding-bottom: 3rem;
 }
 
 @media (prefers-color-scheme: light) {

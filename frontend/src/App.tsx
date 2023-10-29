@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import TripForm from './components/TripForm';
 import TripGridItem from './components/TripGridItem';
 import type {
@@ -193,7 +194,7 @@ const App = () => {
     <>
       <Header />
       <div id="main">
-        <h1>
+        <h1 className="welcomeText">
           {trips.length > 0
             ? "Welcome to your trip dashboard! Here's a list of your upcoming trips:"
             : "You don't have any trips planned. Create one below!"}
@@ -201,6 +202,7 @@ const App = () => {
         {/* <div className="trips-container">{renderTrips()}</div> */}
         <TripForm onSubmit={addTrip} />
       </div>
+      <Footer />
     </>
   );
 };

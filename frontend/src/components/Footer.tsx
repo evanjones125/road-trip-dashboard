@@ -1,0 +1,30 @@
+import * as React from 'react';
+import { Box, Container, Grid, Typography } from '@mui/material';
+
+export default function Footer() {
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        height: 'auto',
+        backgroundColor: '#424954',
+        paddingTop: '1rem',
+        paddingBottom: '1rem',
+      }}
+      className="footer"
+    >
+      <Container maxWidth="lg">
+        <Grid container direction="column" alignItems="center">
+          <Grid item xs={12}>
+            <Typography variant="h5">Evan Jones</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1">
+              {`${new Date().getFullYear()} | React | Material UI | Sass | Django`}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
+}
