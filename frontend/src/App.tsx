@@ -192,15 +192,15 @@ const App = () => {
   return (
     <>
       <Header />
-      <div id="test">
+      <div id="main">
         <h1>
           {trips.length > 0
             ? "Welcome to your trip dashboard! Here's a list of your upcoming trips:"
             : "You don't have any trips planned. Create one below!"}
         </h1>
         {/* <div className="trips-container">{renderTrips()}</div> */}
+        <TripForm onSubmit={addTrip} />
       </div>
-      <TripForm onSubmit={addTrip} />
     </>
   );
 };

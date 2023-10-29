@@ -15,7 +15,9 @@
 .form .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
   border-color: rgba(255, 255, 255, 0.262745098);
 }
-.form .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+.form
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
   border-color: rgba(255, 255, 255, 0.499);
 }
 
@@ -70,7 +72,7 @@ a:hover {
 }
 
 body {
-  /* margin: 0; */
+  margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
@@ -156,4 +158,5 @@ button:focus-visible {
 
 .read-the-docs {
   color: #888;
-}/*# sourceMappingURL=styles.css.map */
+}
+/*# sourceMappingURL=styles.css.map */

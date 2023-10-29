@@ -1,4 +1,5 @@
 // import scss files
+@import 'meyerReset';
 @import 'input';
 @import 'trips';
 
@@ -18,26 +19,26 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  // place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+#main {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 30px 100px;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
 }
 
 button {
@@ -50,13 +51,15 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+  &:hover {
+    border-color: #646cff;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -72,23 +75,19 @@ button:focus-visible {
   }
 }
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  text-align: center;
-}
-
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+  &:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+
+  &.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+  }
 }
 
 @keyframes logo-spin {
@@ -108,8 +107,4 @@ button:focus-visible {
 
 .card {
   padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
