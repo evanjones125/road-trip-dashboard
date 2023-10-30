@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import TripForm from './components/TripForm';
 import TripGridItem from './components/TripGridItem';
+import { handleAxiosError } from './utils/errorHandling';
 import { BASE_URL } from './constants/constants';
 import type {
   Trip,
@@ -34,23 +35,7 @@ const App = () => {
         });
         setLocations(allLocations);
       })
-      .catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser
-          // and an instance of http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-      });
+      .catch(handleAxiosError);
   }, []);
 
   // put an array in state of the closest cameras that corresponds with the locations array
@@ -62,23 +47,7 @@ const App = () => {
             .get(
               `${BASE_URL}/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
             )
-            .catch(function (error) {
-              if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-              } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser
-                // and an instance of http.ClientRequest in node.js
-                console.log(error.request);
-              } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-              }
-            });
+            .catch(handleAxiosError);
           return camera?.data.camera_obj;
         })
       );
@@ -104,8 +73,7 @@ const App = () => {
       // console.log(response.data);
       return response.data;
     } catch (err) {
-      console.log(err);
-      throw err;
+      handleAxiosError(err);
     }
   };
 
@@ -144,23 +112,7 @@ const App = () => {
         // update the trips state array with the newly added trip
         setTrips((prevTrips) => [...prevTrips, response.data]);
       })
-      .catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser
-          // and an instance of http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-      });
+      .catch(handleAxiosError);
   };
 
   const deleteTrip = (tripId: number) => {
@@ -173,24 +125,7 @@ const App = () => {
         //   prevCameras.filter((_, index) => index !== tripId)
         // );
       })
-      .catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error);
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser
-          // and an instance of http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-      });
+      .catch(handleAxiosError);
   };
 
   return (

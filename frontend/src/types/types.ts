@@ -62,4 +62,4 @@ export type WeatherForecast = {
   dateInRange: boolean;
   precipBeforeTrip: Array<[string, string, string]> | null;
   forecast: [];
-};
+} | void;
