@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigation } from 'react-router-dom';
 import type { TripGridItemProps, WeatherForecast } from '../types/types';
 import {
   Card,
@@ -11,28 +10,28 @@ import {
   Tooltip,
 } from '@mui/material';
 
-const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
-  weather,
-}) => {
-  // check if date is in range for weather forecast and, if so, if there's precipitation in the forecast
-  if (!weather?.dateInRange)
-    return <span className="tooltip">No forecast for this date yet.</span>;
-  if (!weather?.precipBeforeTrip[0])
-    return <span className="tooltip">Weather forecast looks clear!</span>;
+// const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
+//   weather,
+// }) => {
+//   // check if date is in range for weather forecast and, if so, if there's precipitation in the forecast
+//   if (!weather?.dateInRange)
+//     return <span className="tooltip">No forecast for this date yet.</span>;
+//   if (!weather?.precipBeforeTrip[0])
+//     return <span className="tooltip">Weather forecast looks clear!</span>;
 
-  // put the upcoming adverse weather forecast items in the tooltip
-  return (
-    <span className="tooltip">
-      {weather.precipBeforeTrip.map((period, key) => (
-        <p key={key}>{`${period[0]} there is a ${period[2].slice(
-          -4,
-          -1
-        )} chance of precipitation; 
-          ${period[2].slice(0, period[2].indexOf('.'))}`}</p>
-      ))}
-    </span>
-  );
-};
+//   // put the upcoming adverse weather forecast items in the tooltip
+//   return (
+//     <span className="tooltip">
+//       {weather.precipBeforeTrip.map((period, key) => (
+//         <p key={key}>{`${period[0]} there is a ${period[2].slice(
+//           -4,
+//           -1
+//         )} chance of precipitation;
+//           ${period[2].slice(0, period[2].indexOf('.'))}`}</p>
+//       ))}
+//     </span>
+//   );
+// };
 
 const TripGridItem: React.FC<TripGridItemProps> = ({
   id,

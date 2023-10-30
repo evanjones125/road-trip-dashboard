@@ -38,6 +38,11 @@ export type GetWeather = (
   date: string
 ) => Promise<WeatherForecast>;
 
+export type TripGridProps = {
+  trips: Trip[];
+  deleteTrip: DeleteTrip;
+};
+
 export type TripGridItemProps = {
   id: number;
   tripName: string;
