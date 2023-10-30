@@ -35,13 +35,13 @@ const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
 };
 
 const TripGridItem: React.FC<TripGridItemProps> = ({
-  location,
-  date,
-  camera,
+  tripName,
+  startDate,
+  endDate,
   deleteButton,
   getWeather,
 }) => {
-  const [weather, setWeather] = useState<WeatherForecast | null>(null);
+  // const [weather, setWeather] = useState<WeatherForecast | null>(null);
 
   // const navigation = useNavigation();
 
@@ -49,66 +49,56 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
   //   navigation.navigate(`/trip/${location.id}`);
   // };
 
-  useEffect(() => {
-    async function fetchWeather() {
-      try {
-        const result: WeatherForecast = await getWeather(
-          location.latitude,
-          location.longitude,
-          date
-        );
-        setWeather(result); // Assuming the getWeather returns some string or data for weather.
-      } catch (error) {
-        console.error('Failed to fetch weather', error);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchWeather() {
+  //     try {
+  //       const result: WeatherForecast = await getWeather(
+  //         location.latitude,
+  //         location.longitude,
+  //         date
+  //       );
+  //       setWeather(result); // Assuming the getWeather returns some string or data for weather.
+  //     } catch (error) {
+  //       console.error('Failed to fetch weather', error);
+  //     }
+  //   }
 
-    fetchWeather();
-  }, [location, date, getWeather]);
+  //   fetchWeather();
+  // }, [location, date, getWeather]);
 
   return (
-    camera && (
-      <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
-        <CardMedia
-          sx={{ height: 200 }}
-          image={camera.Url}
-          title={`live feed of the nearest camera to ${location}`}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {location.title} on {date}
-          </Typography>
-          <Typography variant="body2">
-            The nearest camera is the {camera.Name}
-          </Typography>
-        </CardContent>
-        <CardActions style={{ justifyContent: 'space-between' }}>
-          <Tooltip
-            title={<TooltipContent weather={weather} />}
-            arrow
-            placement="top"
-          >
-            <Button size="small">
-              {weather?.precipBeforeTrip ? 'Weather (Alerts!!!)' : 'Weather'}
-            </Button>
-          </Tooltip>
-          <Button
-            size="small"
-            style={{ color: '#69c983' }}
-            // onClick={redirectToTripDetail}
-          >
-            More info
-          </Button>
-          <Button
-            size="small"
-            style={{ color: '#fc2b2b' }}
-            onClick={() => deleteButton(location.id)}
-          >
-            Delete
-          </Button>
-        </CardActions>
-      </Card>
-    )
+    <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
+      <CardMedia
+        sx={{ height: 200 }}
+        image={'http://eldesierto.org/RpeakUT.jpg'}
+        title={`live feed of the nearest camera to ${location}`}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {tripName} from {startDate} to {endDate}
+        </Typography>
+        <Typography variant="body2">The nearest camera is the</Typography>
+      </CardContent>
+      <CardActions style={{ justifyContent: 'space-between' }}>
+        <Tooltip title="weather" arrow placement="top">
+          <Button size="small">weather</Button>
+        </Tooltip>
+        <Button
+          size="small"
+          style={{ color: '#69c983' }}
+          // onClick={redirectToTripDetail}
+        >
+          More info
+        </Button>
+        <Button
+          size="small"
+          style={{ color: '#fc2b2b' }}
+          onClick={() => console.log('clicked')}
+        >
+          Delete
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 

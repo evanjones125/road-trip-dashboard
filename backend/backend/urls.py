@@ -17,6 +17,7 @@ urlpatterns = [
         views.get_user_trips,
         name="get_user_trips",
     ),
+    # get trip locations
     path("api/", include(router.urls)),
     path("api/weather/", include("dashboard.urls")),
     path("api/astronomy/", include("dashboard.urls")),

@@ -18,14 +18,15 @@ const App = () => {
   const [locations, setLocations] = useState<Location[]>([]);
   const [closestCameras, setClosestCameras] = useState<Camera[]>([]);
 
-  // x get all the locations from the database
-  // -> get all the trips from the database associated with the user that's currently logged in
+  // get all the trips from the database associated with the user that's currently logged in and put them in a state array
   useEffect(() => {
     axios
-      // use authentication token that corresponds with a user ID in the database to fetch the trips associated with that ID
+      // to-do: use authentication token that corresponds with a user ID in the database to fetch the trips associated with that ID
       .get('http://localhost:8000/user/1/trips/')
       .then((res) => {
         setTrips(res.data);
+
+        // put all the locations in their own state array
         let allLocations: Location[] = [];
         res.data.forEach((trip: Trip) => {
           allLocations = [...allLocations, ...trip.locations];
@@ -51,43 +52,43 @@ const App = () => {
       });
   }, []);
 
-  console.log(locations);
-
   // put an array in state of the closest cameras that corresponds with the locations array
-  // useEffect(() => {
-  //   const fetchClosestCameras = async () => {
-  //     const fetchedClosestCameras: Camera[] = await Promise.all(
-  //       trips.map(async (trip: Trip) => {
-  //         const camera = await axios
-  //           .get(
-  //             `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
-  //           )
-  //           .catch(function (error) {
-  //             if (error.response) {
-  //               // The request was made and the server responded with a status code
-  //               // that falls out of the range of 2xx
-  //               console.log(error.response.data);
-  //               console.log(error.response.status);
-  //               console.log(error.response.headers);
-  //             } else if (error.request) {
-  //               // The request was made but no response was received
-  //               // `error.request` is an instance of XMLHttpRequest in the browser
-  //               // and an instance of http.ClientRequest in node.js
-  //               console.log(error.request);
-  //             } else {
-  //               // Something happened in setting up the request that triggered an Error
-  //               console.log('Error', error.message);
-  //             }
-  //           });
-  //         return camera?.data.camera_obj;
-  //       })
-  //     );
+  useEffect(() => {
+    const fetchClosestCameras = async () => {
+      const fetchedClosestCameras: Camera[] = await Promise.all(
+        locations.map(async (location: Location) => {
+          const camera = await axios
+            .get(
+              `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
+            )
+            .catch(function (error) {
+              if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser
+                // and an instance of http.ClientRequest in node.js
+                console.log(error.request);
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+            });
+          return camera?.data.camera_obj;
+        })
+      );
 
-  //     setClosestCameras(fetchedClosestCameras);
-  //   };
+      setClosestCameras(fetchedClosestCameras);
+    };
 
-  //   if (locations.length > 0) fetchClosestCameras();
-  // }, [locations]);
+    if (locations.length > 0) fetchClosestCameras();
+  }, [locations]);
+
+  console.log(closestCameras);
 
   // gets the weather data from the nearest NWS location
   const getWeatherData: GetWeather = async (
@@ -107,22 +108,25 @@ const App = () => {
     }
   };
 
-  // create a <li> for each Trip in the locations array
-  // const renderTrips = () => {
-  //   return locations.map((location, i) => {
-  //     return (
-  //       <div className="trip-card" key={i}>
-  //         <TripGridItem
-  //           location={location}
-  //           date={location.trip_date}
-  //           camera={closestCameras[i]}
-  //           deleteButton={deleteTrip}
-  //           getWeather={getWeatherData}
-  //         />
-  //       </div>
-  //     );
-  //   });
-  // };
+  // create a <li> for each Trip in the trips array
+  const renderTrips = () => {
+    return trips.map((location, i) => {
+      const { id, trip_name, start_date, end_date } = location;
+
+      return (
+        <div className="trip-card" key={i}>
+          <TripGridItem
+            id={id}
+            tripName={trip_name}
+            startDate={start_date}
+            endDate={end_date}
+            deleteButton={deleteTrip}
+            getWeather={getWeatherData}
+          />
+        </div>
+      );
+    });
+  };
 
   const addTrip = (formData: TripFormData) => {
     const { tripName, startDate, endDate } = formData;
@@ -136,7 +140,7 @@ const App = () => {
         user: '1',
       })
       .then((response) => {
-        // Update the locations state with the newly added trip
+        // update the trips state array with the newly added trip
         setTrips((prevTrips) => [...prevTrips, response.data]);
       })
       .catch(function (error) {
@@ -199,7 +203,7 @@ const App = () => {
             ? "Welcome to your trip dashboard! Here's a list of your upcoming trips:"
             : "You don't have any trips planned. Create one below!"}
         </h1>
-        {/* <div className="trips-container">{renderTrips()}</div> */}
+        <div className="trips-container">{renderTrips()}</div>
         <TripForm onSubmit={addTrip} />
       </div>
       <Footer />

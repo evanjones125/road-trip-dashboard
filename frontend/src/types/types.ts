@@ -39,9 +39,10 @@ export type GetWeather = (
 ) => Promise<WeatherForecast>;
 
 export type TripGridItemProps = {
-  location: Location;
-  date: string;
-  camera: Camera;
+  id: number;
+  tripName: string;
+  startDate: string;
+  endDate: string;
   deleteButton: DeleteButton;
   getWeather: GetWeather;
 };
