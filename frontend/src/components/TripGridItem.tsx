@@ -35,10 +35,11 @@ const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
 };
 
 const TripGridItem: React.FC<TripGridItemProps> = ({
+  id,
   tripName,
   startDate,
   endDate,
-  deleteButton,
+  deleteTrip,
   getWeather,
 }) => {
   // const [weather, setWeather] = useState<WeatherForecast | null>(null);
@@ -93,7 +94,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
         <Button
           size="small"
           style={{ color: '#fc2b2b' }}
-          onClick={() => console.log('clicked')}
+          onClick={() => deleteTrip(id)}
         >
           Delete
         </Button>

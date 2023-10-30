@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import TripForm from './components/TripForm';
 import TripGridItem from './components/TripGridItem';
+import { BASE_URL } from './constants/constants';
 import type {
   Trip,
   Location,
@@ -22,7 +23,7 @@ const App = () => {
   useEffect(() => {
     axios
       // to-do: use authentication token that corresponds with a user ID in the database to fetch the trips associated with that ID
-      .get('http://localhost:8000/user/1/trips/')
+      .get(`${BASE_URL}/user/1/trips/`)
       .then((res) => {
         setTrips(res.data);
 
@@ -59,7 +60,7 @@ const App = () => {
         locations.map(async (location: Location) => {
           const camera = await axios
             .get(
-              `http://localhost:8000/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
+              `${BASE_URL}/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
             )
             .catch(function (error) {
               if (error.response) {
@@ -98,7 +99,7 @@ const App = () => {
   ): Promise<WeatherForecast> => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/weather/weatherForecast/${lat},${lon},${date}/`
+        `${BASE_URL}/api/weather/weatherForecast/${lat},${lon},${date}/`
       );
       // console.log(response.data);
       return response.data;
@@ -120,7 +121,7 @@ const App = () => {
             tripName={trip_name}
             startDate={start_date}
             endDate={end_date}
-            deleteButton={deleteTrip}
+            deleteTrip={deleteTrip}
             getWeather={getWeatherData}
           />
         </div>
@@ -133,7 +134,7 @@ const App = () => {
 
     // add a new location to the database
     axios
-      .post('http://localhost:8000/trips/', {
+      .post(`${BASE_URL}/trips/`, {
         trip_name: tripName,
         start_date: startDate,
         end_date: endDate,
@@ -164,12 +165,10 @@ const App = () => {
 
   const deleteTrip = (tripId: number) => {
     axios
-      .delete(`http://localhost:8000/trips/${tripId}/`)
+      .delete(`${BASE_URL}/trips/${tripId}/`)
       .then(() => {
         // Update the locations and closestCameras state after deletion
-        setLocations((prevTrips) =>
-          prevTrips.filter((trip) => trip.id !== tripId)
-        );
+        setTrips((prevTrips) => prevTrips.filter((trip) => trip.id !== tripId));
         // setClosestCameras((prevCameras) =>
         //   prevCameras.filter((_, index) => index !== tripId)
         // );

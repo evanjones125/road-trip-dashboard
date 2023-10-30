@@ -30,7 +30,7 @@ export type Location = {
   location_name: string;
 };
 
-export type DeleteButton = (tripId: number) => void;
+export type DeleteTrip = (tripId: number) => void;
 
 export type GetWeather = (
   lat: string,
@@ -43,7 +43,7 @@ export type TripGridItemProps = {
   tripName: string;
   startDate: string;
   endDate: string;
-  deleteButton: DeleteButton;
+  deleteTrip: DeleteTrip;
   getWeather: GetWeather;
 };
 
