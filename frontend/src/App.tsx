@@ -6,6 +6,7 @@ import TripForm from './components/TripForm';
 import TripGrid from './components/TripGrid';
 import TripGridItem from './components/TripGridItem';
 import { handleAxiosError } from './utils/errorHandling';
+import { fetchUserTrips } from './utils/tripFunctions';
 import { BASE_URL } from './constants/constants';
 import type {
   Trip,
@@ -20,24 +21,26 @@ const App = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
   const [closestCameras, setClosestCameras] = useState<Camera[]>([]);
+  // to-do: add a state structure to keep track of whether trip view or location view is enabled
 
   // get all the trips from the database associated with the user that's currently logged in and put them in a state array
   useEffect(() => {
-    axios
-      // to-do: use authentication token that corresponds with a user ID in the database to fetch the trips associated with that ID
-      .get(`${BASE_URL}/user/1/trips/`)
-      .then((res) => {
-        setTrips(res.data);
+    const fetchData = async () => {
+      try {
+        const trips = await fetchUserTrips(1);
+        setTrips(trips);
         let allLocations: Location[] = [];
-        res.data.forEach((trip: Trip) => {
+        trips.forEach((trip: Trip) => {
           allLocations = [...allLocations, ...trip.locations];
         });
         setLocations(allLocations);
-      })
-      .catch(handleAxiosError);
-  }, []);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  console.log(trips);
+    fetchData();
+  }, []);
 
   // put an array in state of the closest cameras that corresponds with the locations array
   useEffect(() => {
@@ -103,26 +106,6 @@ const App = () => {
       .catch(handleAxiosError);
   };
 
-  // create a <li> for each Trip in the trips array
-  const renderTrips = () => {
-    return trips.map((location, i) => {
-      const { id, trip_name, start_date, end_date } = location;
-
-      return (
-        <div className="trip-card" key={i}>
-          <TripGridItem
-            id={id}
-            tripName={trip_name}
-            startDate={start_date}
-            endDate={end_date}
-            deleteTrip={deleteTrip}
-            getWeather={getWeatherData}
-          />
-        </div>
-      );
-    });
-  };
-
   return (
     <>
       <Header />
@@ -132,8 +115,7 @@ const App = () => {
             ? "Welcome to your trip dashboard! Here's a list of your upcoming trips:"
             : "You don't have any trips planned. Create one below!"}
         </h1>
-        <TripGrid trips={trips} deleteTrip={deleteTrip} />
-        <TripForm onSubmit={addTrip} />
+        <TripGrid trips={trips} deleteTrip={deleteTrip} addTrip={addTrip} />
       </div>
       <Footer />
     </>

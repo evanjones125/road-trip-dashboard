@@ -32,6 +32,8 @@ export type Location = {
 
 export type DeleteTrip = (tripId: number) => void;
 
+export type AddTrip = (formData: TripFormData) => void;
+
 export type GetWeather = (
   lat: string,
   lon: string,
@@ -40,6 +42,7 @@ export type GetWeather = (
 
 export type TripGridProps = {
   trips: Trip[];
+  addTrip: AddTrip;
   deleteTrip: DeleteTrip;
 };
 
@@ -53,7 +56,7 @@ export type TripGridItemProps = {
 };
 
 export type TripFormProps = {
-  onSubmit: (arg0: TripFormData) => void;
+  onSubmit: AddTrip;
 };
 
 export type TripFormData = {
