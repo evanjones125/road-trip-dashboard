@@ -68,14 +68,16 @@ const TripGridItem: React.FC<LocationGridItemProps> = ({
     <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
       <CardMedia
         sx={{ height: 200 }}
-        image={'http://eldesierto.org/RpeakUT.jpg'}
-        title={`live feed of the nearest camera to`}
+        image={camera.Url}
+        title={`live feed of the nearest camera to ${location_name}`}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {location_name} from {start_date} to {end_date}
         </Typography>
-        <Typography variant="body2">The nearest camera is the</Typography>
+        <Typography variant="body2">
+          The nearest camera is the {camera.Name}
+        </Typography>
       </CardContent>
       <CardActions style={{ justifyContent: 'space-between' }}>
         <Tooltip title="weather" arrow placement="top">

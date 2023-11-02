@@ -117,6 +117,14 @@ const App = () => {
       .catch(handleAxiosError);
   };
 
+  const addLocation = () => {
+    return;
+  };
+
+  const deleteLocation = () => {
+    return;
+  };
+
   const fetchLocationsFromSelectedTrip = (
     tripId: number
   ): LocationWithCameras[] => {
@@ -161,6 +169,7 @@ const App = () => {
                 ? fetchLocationsFromSelectedTrip(selectedTrip.id)
                 : []
             }
+            addLocation={addLocation}
             onBackButtonClick={onBackButtonClick}
           />
         </div>
