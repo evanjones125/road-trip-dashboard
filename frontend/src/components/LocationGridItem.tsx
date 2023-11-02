@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { TripGridItemProps, WeatherForecast } from '../types/types';
+import type { LocationGridItemProps, WeatherForecast } from '../types/types';
 import {
   Card,
   CardActions,
@@ -33,11 +33,9 @@ import {
 //   );
 // };
 
-const TripGridItem: React.FC<TripGridItemProps> = ({
-  trip,
-  deleteTrip,
-  onLocationButtonClick,
-  getWeather,
+const TripGridItem: React.FC<LocationGridItemProps> = ({
+  location,
+  onBackButtonClick,
 }) => {
   // const [weather, setWeather] = useState<WeatherForecast | null>(null);
 
@@ -64,7 +62,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
   //   fetchWeather();
   // }, [location, date, getWeather]);
 
-  const { id, trip_name, start_date, end_date } = trip;
+  const { id, location_name, start_date, end_date, camera } = location;
 
   return (
     <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
@@ -75,7 +73,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {trip_name} from {start_date} to {end_date}
+          {location_name} from {start_date} to {end_date}
         </Typography>
         <Typography variant="body2">The nearest camera is the</Typography>
       </CardContent>
@@ -86,14 +84,14 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
         <Button
           size="small"
           style={{ color: '#69c983' }}
-          onClick={() => onLocationButtonClick(trip)}
+          onClick={() => onBackButtonClick()}
         >
-          More info
+          Back to trips
         </Button>
         <Button
           size="small"
           style={{ color: '#fc2b2b' }}
-          onClick={() => deleteTrip(id)}
+          onClick={() => console.log('delete')}
         >
           Delete
         </Button>

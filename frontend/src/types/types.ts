@@ -30,9 +30,24 @@ export type Location = {
   location_name: string;
 };
 
+export type LocationWithCameras = {
+  id: number;
+  trip: number;
+  latitude: number;
+  longitude: number;
+  start_date: string;
+  end_date: string;
+  location_name: string;
+  camera: Camera;
+};
+
 export type DeleteTrip = (tripId: number) => void;
 
 export type AddTrip = (formData: TripFormData) => void;
+
+export type OnLocationButtonClick = (trip: Trip) => void;
+
+export type OnBackButtonClick = () => void;
 
 export type GetWeather = (
   lat: string,
@@ -44,15 +59,14 @@ export type TripGridProps = {
   trips: Trip[];
   addTrip: AddTrip;
   deleteTrip: DeleteTrip;
+  onLocationButtonClick: OnLocationButtonClick;
 };
 
 export type TripGridItemProps = {
-  id: number;
-  tripName: string;
-  startDate: string;
-  endDate: string;
+  trip: Trip;
   deleteTrip: DeleteTrip;
   getWeather: GetWeather;
+  onLocationButtonClick: OnLocationButtonClick;
 };
 
 export type TripFormProps = {
@@ -64,6 +78,16 @@ export type TripFormData = {
   startDate: string;
   endDate: string;
   user: string;
+};
+
+export type LocationGridProps = {
+  locations: LocationWithCameras[] | null;
+  onBackButtonClick: OnBackButtonClick;
+};
+
+export type LocationGridItemProps = {
+  location: LocationWithCameras;
+  onBackButtonClick: OnBackButtonClick;
 };
 
 export type WeatherForecast = {

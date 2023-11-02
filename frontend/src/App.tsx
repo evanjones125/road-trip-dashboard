@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import TripForm from './components/TripForm';
 import TripGrid from './components/TripGrid';
-import TripGridItem from './components/TripGridItem';
+import LocationGrid from './components/LocationGrid';
 import { handleAxiosError } from './utils/errorHandling';
 import { fetchUserTrips } from './utils/tripFunctions';
 import { BASE_URL } from './constants/constants';
 import type {
   Trip,
   Location,
+  LocationWithCameras,
   TripFormData,
   Camera,
   GetWeather,
@@ -20,8 +20,12 @@ import type {
 const App = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
+  const [locationsWithCameras, setLocationsWithCameras] = useState<
+    LocationWithCameras[]
+  >([]);
+  const [view, setView] = useState<'trip' | 'location'>('trip');
+  const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [closestCameras, setClosestCameras] = useState<Camera[]>([]);
-  // to-do: add a state structure to keep track of whether trip view or location view is enabled
 
   // get all the trips from the database associated with the user that's currently logged in and put them in a state array
   useEffect(() => {
@@ -45,18 +49,25 @@ const App = () => {
   // put an array in state of the closest cameras that corresponds with the locations array
   useEffect(() => {
     const fetchClosestCameras = async () => {
-      const fetchedClosestCameras: Camera[] = await Promise.all(
-        locations.map(async (location: Location) => {
-          const camera = await axios
-            .get(
-              `${BASE_URL}/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
-            )
-            .catch(handleAxiosError);
-          return camera?.data.camera_obj;
-        })
-      );
+      const updatedLocationsWithCameras = [];
+      for (const location of locations) {
+        try {
+          const response = await axios.get(
+            `${BASE_URL}/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
+          );
 
-      setClosestCameras(fetchedClosestCameras);
+          const updatedLocation = {
+            ...location,
+            camera: response.data.camera_obj,
+          };
+
+          updatedLocationsWithCameras.push(updatedLocation);
+        } catch (error) {
+          handleAxiosError(error);
+        }
+      }
+
+      setLocationsWithCameras(updatedLocationsWithCameras);
     };
 
     if (locations.length > 0) fetchClosestCameras();
@@ -106,17 +117,54 @@ const App = () => {
       .catch(handleAxiosError);
   };
 
+  const fetchLocationsFromSelectedTrip = (
+    tripId: number
+  ): LocationWithCameras[] => {
+    return locationsWithCameras.filter((location) => location.trip === tripId);
+  };
+
+  const onLocationButtonClick = (trip: Trip) => {
+    setSelectedTrip(trip);
+    setView('location');
+  };
+
+  const onBackButtonClick = () => {
+    setView('trip');
+    setSelectedTrip(null);
+  };
+
   return (
     <>
       <Header />
-      <div id="main">
-        <h1 className="welcomeText">
-          {trips.length > 0
-            ? "Welcome to your trip dashboard! Here's a list of your upcoming trips:"
-            : "You don't have any trips planned. Create one below!"}
-        </h1>
-        <TripGrid trips={trips} deleteTrip={deleteTrip} addTrip={addTrip} />
-      </div>
+      {view === 'trip' ? (
+        <div id="main">
+          <h1 className="welcomeText">
+            {trips.length > 0
+              ? "Welcome to your trip dashboard! Here's a list of your upcoming trips:"
+              : "You don't have any trips planned. Create one below!"}
+          </h1>
+          <TripGrid
+            trips={trips}
+            deleteTrip={deleteTrip}
+            addTrip={addTrip}
+            onLocationButtonClick={onLocationButtonClick}
+          />
+        </div>
+      ) : (
+        <div id="main">
+          <h1 className="welcomeText">
+            {`Locations for ${selectedTrip?.trip_name}`}
+          </h1>
+          <LocationGrid
+            locations={
+              selectedTrip
+                ? fetchLocationsFromSelectedTrip(selectedTrip.id)
+                : []
+            }
+            onBackButtonClick={onBackButtonClick}
+          />
+        </div>
+      )}
       <Footer />
     </>
   );
