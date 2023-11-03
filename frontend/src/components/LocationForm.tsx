@@ -12,11 +12,12 @@ import 'react-calendar/dist/Calendar.css';
 
 const LocationForm = (props: LocationFormProps): JSX.Element => {
   const { onSubmit } = props;
-  const [dateRange, setDateRange] = useState<Value>([new Date(), new Date()]);
+  const [dateRange, setDateRange] = useState<[ValuePiece, ValuePiece]>([
+    new Date(),
+    new Date(),
+  ]);
   const [locationFormData, setLocationFormData] = useState<LocationFormData>({
     locationName: '',
-    startDate: '',
-    endDate: '',
     latitude: '',
     longitude: '',
     user: '',
@@ -24,21 +25,31 @@ const LocationForm = (props: LocationFormProps): JSX.Element => {
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    onSubmit(locationFormData);
+    const [startDate, endDate] = dateRange || [];
+    onSubmit({ ...locationFormData, startDate, endDate });
     setLocationFormData({
       locationName: '',
-      startDate: '',
-      endDate: '',
       latitude: '',
       longitude: '',
       user: '',
     });
+    setDateRange([new Date(), new Date()]);
   };
 
   // update state as the user types into the input boxes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setLocationFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleDateChange = (value: Value) => {
+    if (Array.isArray(value)) {
+      setDateRange(value);
+    } else {
+      // Handle case where value is a single ValuePiece, if necessary
+      // For now, we'll just set it as the start date and keep the end date the same
+      setDateRange([value, dateRange[1]]);
+    }
   };
 
   return (
@@ -66,7 +77,7 @@ const LocationForm = (props: LocationFormProps): JSX.Element => {
           />
         </Box>
 
-        <DateRangePicker onChange={setDateRange} value={dateRange} />
+        <DateRangePicker onChange={handleDateChange} value={dateRange} />
       </Box>
 
       <Box>

@@ -15,6 +15,7 @@ import type {
   Camera,
   GetWeather,
   WeatherForecast,
+  LocationFormData,
 } from './types/types';
 
 const App = () => {
@@ -117,7 +118,8 @@ const App = () => {
       .catch(handleAxiosError);
   };
 
-  const addLocation = () => {
+  const addLocation = (formData: LocationFormData) => {
+    console.log(formData);
     return;
   };
 

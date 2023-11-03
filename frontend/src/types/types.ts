@@ -101,11 +101,11 @@ export type LocationFormProps = {
 
 export type LocationFormData = {
   locationName: string;
-  startDate: string;
-  endDate: string;
   latitude: string;
   longitude: string;
   user: string;
+  startDate?: ValuePiece;
+  endDate?: ValuePiece;
 };
 
 export type ValuePiece = Date | null;
