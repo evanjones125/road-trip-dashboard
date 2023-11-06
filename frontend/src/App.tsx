@@ -119,24 +119,24 @@ const App = () => {
   };
 
   const addLocation = (formData: FormData) => {
-    console.log(formData);
-    return;
-    // if (!selectedTrip) return;
+    if (!selectedTrip) return;
 
-    // const { user, id } = selectedTrip;
-    // const { dateRange, latitude, longitude, locationName } = formData;
+    const { id } = selectedTrip;
+    const { dateRange, latitude, longitude, locationName } = formData;
 
-    // axios
-    //   .post(`${BASE_URL}/trips/`, {
-    //     trip_name: locationName,
-    //     start_date: dateRange[0],
-    //     end_date: dateRange[1],
-    //     user: '1',
-    //   })
-    //   .then((response) => {
-    //     setTrips((prevTrips) => [...prevTrips, response.data]);
-    //   })
-    //   .catch(handleAxiosError);
+    axios
+      .post(`${BASE_URL}/trips/${id}/add_location/`, {
+        location_name: locationName,
+        start_date: dateRange[0],
+        end_date: dateRange[1],
+        latitude: latitude,
+        longitude: longitude,
+        trip: id,
+      })
+      .then((response) => {
+        setLocations((prevLocations) => [...prevLocations, response.data]);
+      })
+      .catch(handleAxiosError);
   };
 
   const deleteLocation = () => {

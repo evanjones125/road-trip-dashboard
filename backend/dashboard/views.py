@@ -1,5 +1,6 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .serializers import UserSerializer, TripSerializer, LocationSerializer
 from .models import User, Trip, Location
 from apis.weather import fetch_weather_data
@@ -23,8 +24,20 @@ class LocationView(viewsets.ModelViewSet):
     queryset = Location.objects.all()
 
 
+@api_view(["POST"])
+def add_location(req, trip_id):
+    try:
+        serializer = LocationSerializer(data=req.data)
+        if serializer.is_valid():
+            serializer.save(trip_id=trip_id)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Trip.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 @api_view(["GET"])
-def get_user_trips(request, user_id):
+def get_user_trips(req, user_id):
     try:
         user = User.objects.get(id=user_id)
     except User.DoesNotExist:

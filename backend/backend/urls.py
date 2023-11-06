@@ -17,7 +17,11 @@ urlpatterns = [
         views.get_user_trips,
         name="get_user_trips",
     ),
-    # get trip locations
+    path(
+        "trips/<int:trip_id>/add_location/",
+        views.add_location,
+        name="add_location",
+    ),
     path("api/", include(router.urls)),
     path("api/weather/", include("dashboard.urls")),
     path("api/astronomy/", include("dashboard.urls")),
