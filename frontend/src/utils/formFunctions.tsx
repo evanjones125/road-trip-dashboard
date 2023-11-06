@@ -27,7 +27,7 @@ export const formatDate = (date: Date): string => {
 // checks either a trip or a location form submission for any bad inputs
 export const validateInput = (formData: FormData, typeOfForm: string) => {
   let isValid = true;
-  const errors: FormErrors = DEFAULT_FORM_ERRORS;
+  const errors: FormErrors = { ...DEFAULT_FORM_ERRORS };
 
   const location = typeOfForm === 'location';
 
