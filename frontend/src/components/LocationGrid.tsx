@@ -7,6 +7,7 @@ import type { LocationWithCameras, LocationGridProps } from '../types/types';
 const TripGrid: React.FC<LocationGridProps> = ({
   locations,
   addLocation,
+  deleteLocation,
   onBackButtonClick,
   tripId,
   userId,
@@ -23,6 +24,7 @@ const TripGrid: React.FC<LocationGridProps> = ({
             <LocationGridItem
               location={location}
               onBackButtonClick={onBackButtonClick}
+              deleteLocation={deleteLocation}
             />
           </div>
         );

@@ -35,6 +35,7 @@ import {
 
 const TripGridItem: React.FC<LocationGridItemProps> = ({
   location,
+  deleteLocation,
   onBackButtonClick,
 }) => {
   // const [weather, setWeather] = useState<WeatherForecast | null>(null);
@@ -93,7 +94,7 @@ const TripGridItem: React.FC<LocationGridItemProps> = ({
         <Button
           size="small"
           style={{ color: '#fc2b2b' }}
-          onClick={() => console.log('delete')}
+          onClick={() => deleteLocation(id)}
         >
           Delete
         </Button>

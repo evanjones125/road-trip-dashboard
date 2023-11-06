@@ -139,8 +139,15 @@ const App = () => {
       .catch(handleAxiosError);
   };
 
-  const deleteLocation = () => {
-    return;
+  const deleteLocation = (locationId: number) => {
+    axios
+      .delete(`${BASE_URL}/locations/${locationId}/`)
+      .then(() => {
+        setLocations((prevLocations) =>
+          prevLocations.filter((location) => location.id !== locationId)
+        );
+      })
+      .catch(handleAxiosError);
   };
 
   const fetchLocationsFromSelectedTrip = (
@@ -188,6 +195,7 @@ const App = () => {
                 : []
             }
             addLocation={addLocation}
+            deleteLocation={deleteLocation}
             onBackButtonClick={onBackButtonClick}
             tripId={selectedTrip ? selectedTrip.id : 0}
             userId={selectedTrip ? selectedTrip.user : 0}

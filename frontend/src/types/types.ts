@@ -87,6 +87,7 @@ export type TripFormData = {
 export type LocationGridProps = {
   locations: LocationWithCameras[] | null;
   addLocation: AddLocation;
+  deleteLocation: DeleteLocation;
   onBackButtonClick: OnBackButtonClick;
   tripId: number;
   userId: number;
@@ -95,6 +96,7 @@ export type LocationGridProps = {
 export type LocationGridItemProps = {
   location: LocationWithCameras;
   onBackButtonClick: OnBackButtonClick;
+  deleteLocation: DeleteLocation;
 };
 
 export type LocationFormProps = {
