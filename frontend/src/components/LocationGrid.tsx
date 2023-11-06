@@ -8,6 +8,8 @@ const TripGrid: React.FC<LocationGridProps> = ({
   locations,
   addLocation,
   onBackButtonClick,
+  tripId,
+  userId,
 }) => {
   if (locations === null) {
     return <div className="locations-container">error</div>;

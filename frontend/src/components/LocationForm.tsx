@@ -1,56 +1,65 @@
 import React, { useState } from 'react';
 import type {
   LocationFormProps,
-  LocationFormData,
+  FormErrors,
+  FormData,
   Value,
   ValuePiece,
 } from '../types/types';
+import {
+  formatDate,
+  validateInput,
+  DEFAULT_FORM_DATA,
+  DEFAULT_FORM_ERRORS,
+} from '../utils/formFunctions';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
 import 'react-calendar/dist/Calendar.css';
 
-const LocationForm = (props: LocationFormProps): JSX.Element => {
-  const { onSubmit } = props;
-  const [dateRange, setDateRange] = useState<[ValuePiece, ValuePiece]>([
-    new Date(),
-    new Date(),
-  ]);
-  const [locationFormData, setLocationFormData] = useState<LocationFormData>({
-    locationName: '',
-    latitude: '',
-    longitude: '',
-    user: '',
-  });
+const LocationForm = ({ onSubmit }: LocationFormProps): JSX.Element => {
+  const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
+  const [errors, setErrors] = useState<FormErrors>(DEFAULT_FORM_ERRORS);
+
+  const { locationName, latitude, longitude, dateRange } = formData;
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    const [startDate, endDate] = dateRange || [];
-    onSubmit({ ...locationFormData, startDate, endDate });
-    setLocationFormData({
-      locationName: '',
-      latitude: '',
-      longitude: '',
-      user: '',
-    });
-    setDateRange([new Date(), new Date()]);
-  };
+    const errors = validateInput(formData, 'location');
 
-  // update state as the user types into the input boxes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    setLocationFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleDateChange = (value: Value) => {
-    if (Array.isArray(value)) {
-      setDateRange(value);
+    if (Object.keys(errors).length > 0) {
+      setErrors((prevErrors) => ({ ...prevErrors, ...errors }));
     } else {
-      // Handle case where value is a single ValuePiece, if necessary
-      // For now, we'll just set it as the start date and keep the end date the same
-      setDateRange([value, dateRange[1]]);
+      onSubmit({ ...formData });
+      resetForm();
     }
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const resetForm = (): void => {
+    setFormData(DEFAULT_FORM_DATA);
+    setErrors(DEFAULT_FORM_ERRORS);
+  };
+
+  // needs custom logic for updating dateRange in state because the calendar component, by default, uses a different date format than what I want to use in this component
+  const handleDateChange = (date: Value): void => {
+    if (Array.isArray(date)) {
+      const [startDate, endDate] = date;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        dateRange: [
+          startDate ? formatDate(startDate) : null,
+          endDate ? formatDate(endDate) : null,
+        ].filter((date): date is string => date !== null),
+      }));
+    }
+  };
+
+  const dateRangePickerClass = errors.dateRange ? 'error-border' : '';
 
   return (
     <Box
@@ -71,13 +80,67 @@ const LocationForm = (props: LocationFormProps): JSX.Element => {
             type="text"
             id="locationName"
             name="locationName"
-            value={locationFormData.locationName}
+            value={locationName}
             onChange={handleChange}
             variant="outlined"
+            error={!!errors.locationName}
+            helperText={errors.locationName}
           />
         </Box>
 
-        <DateRangePicker onChange={handleDateChange} value={dateRange} />
+        <DateRangePicker
+          onChange={handleDateChange}
+          value={
+            dateRange && dateRange.length === 2
+              ? [
+                  new Date(
+                    new Date(dateRange[0]).setDate(
+                      new Date(dateRange[0]).getDate() + 1
+                    )
+                  ),
+                  new Date(
+                    new Date(dateRange[1]).setDate(
+                      new Date(dateRange[1]).getDate() + 1
+                    )
+                  ),
+                ]
+              : [new Date(), new Date()]
+          }
+          className={dateRangePickerClass}
+        />
+        {errors.dateRange && (
+          <p className="error-message">{errors.dateRange}</p>
+        )}
+
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            label="Latitude"
+            type="text"
+            id="latitude"
+            name="latitude"
+            value={latitude}
+            onChange={handleChange}
+            variant="outlined"
+            error={!!errors.latitude}
+            helperText={errors.latitude}
+          />
+        </Box>
+
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            label="Longitude"
+            type="text"
+            id="longitude"
+            name="longitude"
+            value={longitude}
+            onChange={handleChange}
+            variant="outlined"
+            error={!!errors.longitude}
+            helperText={errors.longitude}
+          />
+        </Box>
       </Box>
 
       <Box>

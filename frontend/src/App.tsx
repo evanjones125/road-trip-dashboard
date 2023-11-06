@@ -15,7 +15,7 @@ import type {
   Camera,
   GetWeather,
   WeatherForecast,
-  LocationFormData,
+  FormData,
 } from './types/types';
 
 const App = () => {
@@ -118,9 +118,25 @@ const App = () => {
       .catch(handleAxiosError);
   };
 
-  const addLocation = (formData: LocationFormData) => {
+  const addLocation = (formData: FormData) => {
     console.log(formData);
     return;
+    // if (!selectedTrip) return;
+
+    // const { user, id } = selectedTrip;
+    // const { dateRange, latitude, longitude, locationName } = formData;
+
+    // axios
+    //   .post(`${BASE_URL}/trips/`, {
+    //     trip_name: locationName,
+    //     start_date: dateRange[0],
+    //     end_date: dateRange[1],
+    //     user: '1',
+    //   })
+    //   .then((response) => {
+    //     setTrips((prevTrips) => [...prevTrips, response.data]);
+    //   })
+    //   .catch(handleAxiosError);
   };
 
   const deleteLocation = () => {
@@ -173,6 +189,8 @@ const App = () => {
             }
             addLocation={addLocation}
             onBackButtonClick={onBackButtonClick}
+            tripId={selectedTrip ? selectedTrip.id : 0}
+            userId={selectedTrip ? selectedTrip.user : 0}
           />
         </div>
       )}

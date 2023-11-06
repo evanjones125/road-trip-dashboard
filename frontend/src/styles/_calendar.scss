@@ -1,5 +1,6 @@
 .react-daterange-picker {
   width: 100%;
+  margin-bottom: 16px;
 
   svg {
     stroke: #949494;
@@ -83,4 +84,24 @@
   &:hover {
     border-color: rgba(255, 255, 255, 0.499);
   }
+}
+
+.error-border {
+  border-radius: 4px;
+  margin: 0;
+
+  .react-daterange-picker__wrapper {
+    border: 1px solid #d32f2f;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.499);
+    }
+  }
+}
+
+.error-message {
+  font-size: 0.75rem;
+  margin: 3px 14px 16px 14px;
+  line-height: 1.66;
+  color: #d32f2f;
 }

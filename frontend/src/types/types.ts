@@ -47,7 +47,7 @@ export type AddTrip = (formData: TripFormData) => void;
 
 export type DeleteLocation = (locationId: number) => void;
 
-export type AddLocation = (formData: LocationFormData) => void;
+export type AddLocation = (formData: FormData) => void;
 
 export type OnLocationButtonClick = (trip: Trip) => void;
 
@@ -88,6 +88,8 @@ export type LocationGridProps = {
   locations: LocationWithCameras[] | null;
   addLocation: AddLocation;
   onBackButtonClick: OnBackButtonClick;
+  tripId: number;
+  userId: number;
 };
 
 export type LocationGridItemProps = {
@@ -99,13 +101,21 @@ export type LocationFormProps = {
   onSubmit: AddLocation;
 };
 
-export type LocationFormData = {
+export type FormData = {
   locationName: string;
+  tripName: string;
   latitude: string;
   longitude: string;
   user: string;
-  startDate?: ValuePiece;
-  endDate?: ValuePiece;
+  dateRange: string[];
+};
+
+export type FormErrors = {
+  locationName: string;
+  tripName: string;
+  latitude: string;
+  longitude: string;
+  dateRange: string;
 };
 
 export type ValuePiece = Date | null;
