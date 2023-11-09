@@ -6,12 +6,14 @@ from rest_framework import routers
 from dashboard import views
 
 router = routers.DefaultRouter()
-router.register(r"users", views.UserView, "user")
-router.register(r"trips", views.TripView, "trip")
-router.register(r"locations", views.LocationView, "location")
+router.register(r"trips", views.TripViewSet, "trip")
+router.register(r"locations", views.LocationViewSet, "location")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/register/", views.register_user, name="register_user"),
+    path("api/login/", views.login_user, name="login_user"),
+    path("api/trips/", views.TripView.as_view(), name="trip-list-create"),
     path(
         "user/<int:user_id>/trips/",
         views.get_user_trips,

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import TripGrid from './components/TripGrid';
-import LocationGrid from './components/LocationGrid';
-import { handleAxiosError } from './utils/errorHandling';
-import { fetchUserTrips } from './utils/tripFunctions';
-import { BASE_URL } from './constants/constants';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import TripGrid from '../components/TripGrid';
+import LocationGrid from '../components/LocationGrid';
+import { handleAxiosError } from '../utils/errorHandling';
+import { fetchUserTrips } from '../utils/tripFunctions';
+import { BASE_URL } from '../constants/constants';
 import type {
   Trip,
   Location,
@@ -16,15 +16,15 @@ import type {
   GetWeather,
   WeatherForecast,
   FormData,
-} from './types/types';
+} from '../types/types';
 
 import { useDispatch, useStore, useSelector } from 'react-redux';
-import type { AppDispatch } from './store';
-import { addTrip } from './features/tripsSlice';
-import store from './store';
-import { fetchTrips } from './features/tripsSlice';
+import type { AppDispatch } from '../store';
+import { addTrip } from '../features/tripsSlice';
+import store from '../store';
+import { fetchTrips } from '../features/tripsSlice';
 
-const App = () => {
+const Dashboard = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
   const [locationsWithCameras, setLocationsWithCameras] = useState<
@@ -34,9 +34,9 @@ const App = () => {
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [closestCameras, setClosestCameras] = useState<Camera[]>([]);
 
-  const tripsRedux = useSelector((state) => state.trips);
+  // const tripsRedux = useSelector((state) => state.trips);
   // store.dispatch(fetchTrips());
-  console.log(tripsRedux.trips);
+  // console.log(tripsRedux.trips);
   console.log(trips);
 
   // dispatch(
@@ -240,7 +240,7 @@ const App = () => {
   );
 };
 
-export default App;
+export default Dashboard;
 
 // import React, { useState, useEffect, Dispatch } from 'react';
 // import { useDispatch, useSelector } from 'react-redux';

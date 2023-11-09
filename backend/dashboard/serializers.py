@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Trip, Location
+from .models import Trip, Location
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -24,9 +24,16 @@ class TripSerializer(serializers.ModelSerializer):
         fields = ("id", "start_date", "end_date", "trip_name", "user", "locations")
 
 
-class UserSerializer(serializers.ModelSerializer):
-    trips = TripSerializer(many=True, read_only=True)
+# class UserSerializer(serializers.ModelSerializer):
+#     trips = TripSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = User
-        fields = ("id", "name", "email", "trips")
+#     class Meta:
+#         model = User
+#         fields = ("id", "username", "password", "trips")
+
+
+# class UserLoginSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ("username", "password")
+#         extra_kwargs = {"password": {"write_only": True}}

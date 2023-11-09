@@ -37,13 +37,14 @@ export const validateInput = (formData: FormData, typeOfForm: string) => {
       isValid = false;
     }
 
-    const decimalPattern = /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}$/;
-    if (!decimalPattern.test(formData.latitude)) {
+    const latitudePattern = /^[0-8]?\d(\.\d{1,6})?$/;
+    if (!latitudePattern.test(formData.latitude)) {
       errors.latitude = 'Enter a valid latitude value.';
       isValid = false;
     }
 
-    if (!decimalPattern.test(formData.longitude)) {
+    const longitudePattern = /^-([1-9]\d?|1[0-7]\d)(\.\d{1,6})?$/;
+    if (!longitudePattern.test(formData.longitude)) {
       errors.longitude = 'Enter a valid longitude value.';
       isValid = false;
     }

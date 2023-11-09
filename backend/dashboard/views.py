@@ -1,30 +1,71 @@
-from rest_framework import viewsets, status
+from rest_framework import status, generics, viewsets
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UserSerializer, TripSerializer, LocationSerializer
-from .models import User, Trip, Location
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from .serializers import (
+    TripSerializer,
+    LocationSerializer,
+)
+from .models import Trip, Location
 from apis.weather import fetch_weather_data
 from apis.astronomy import fetch_astronomy_data
 from apis.closestCamera import find_closest_camera
 from django.http import JsonResponse
 
 
-class UserView(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-
-
-class TripView(viewsets.ModelViewSet):
+class TripView(generics.ListCreateAPIView):
     serializer_class = TripSerializer
     queryset = Trip.objects.all()
 
 
-class LocationView(viewsets.ModelViewSet):
+class LocationView(generics.ListCreateAPIView):
     serializer_class = LocationSerializer
     queryset = Location.objects.all()
 
 
+class TripViewSet(viewsets.ModelViewSet):
+    queryset = Trip.objects.all()
+    serializer_class = TripSerializer
+
+
+class LocationViewSet(viewsets.ModelViewSet):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+
+
 @api_view(["POST"])
+def register_user(request):
+    username = request.data["username"]
+    password = request.data["password"]
+    email = request.data["email"]
+    if not (username and password and email):
+        return Response(
+            {"error": "Missing information"}, status=status.HTTP_400_BAD_REQUEST
+        )
+    user = User.objects.create_user(username=username, password=password, email=email)
+    return Response(
+        {"message": "User created successfully"}, status=status.HTTP_201_CREATED
+    )
+
+
+@csrf_exempt
+@api_view(["POST"])
+def login_user(request):
+    username = request.data["username"]
+    password = request.data["password"]
+    user = authenticate(username=username, password=password)
+    if user:
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key})
+    else:
+        return Response(
+            {"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
 def add_location(req, trip_id):
     try:
         serializer = LocationSerializer(data=req.data)
@@ -43,13 +84,13 @@ def get_user_trips(req, user_id):
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
 
-    # Get trips for the user
+    # get trips for the user
     trips = Trip.objects.filter(user=user)
 
-    # Serialize the data (This is a simplified version; Django REST Framework can make this easier)
+    # serialize the data
     trips_data = []
     for trip in trips:
-        # Get locations for the trip
+        # get locations for the trip
         locations = Location.objects.filter(trip=trip)
         locations_data = [
             {

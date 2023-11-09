@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTrip } from '../features/tripsSlice';
 import type { TripFormProps } from '../types/types';
 import { TextField, Button, Box, Typography } from '@mui/material';
 
@@ -10,9 +12,22 @@ const TripForm = (props: TripFormProps): JSX.Element => {
     endDate: '',
     user: '',
   });
+  const { tripName, startDate, endDate } = tripFormData;
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
+    // dispatch(
+    //   addTrip({
+    //     id: 1,
+    //     user: 1,
+    //     trip_name: tripName,
+    //     start_date: startDate,
+    //     end_date: endDate,
+    //     locations: [],
+    //   })
+    // );
     onSubmit(tripFormData);
     setTripFormData({
       tripName: '',
