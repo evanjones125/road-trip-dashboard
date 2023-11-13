@@ -1,0 +1,28 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 350px;
+}
+
+.form {
+  .MuiInputBase-root {
+    color: #ffffffdb;
+  }
+
+  .MuiInputLabel-root {
+    color: #ffffff84;
+  }
+
+  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    border-color: #ffffff43;
+  }
+
+  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+    &:hover {
+      .MuiOutlinedInput-notchedOutline {
+        border-color: rgba(255, 255, 255, 0.499);
+      }
+    }
+  }
+}

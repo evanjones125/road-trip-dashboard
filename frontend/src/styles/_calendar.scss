@@ -1,0 +1,107 @@
+.react-daterange-picker {
+  width: 100%;
+  margin-bottom: 16px;
+
+  svg {
+    stroke: #949494;
+  }
+
+  .react-daterange-picker__range-divider {
+    position: relative;
+    left: -8px;
+  }
+
+  .react-calendar,
+  .react-calendar__navigation,
+  .react-calendar__month-view__days,
+  .react-calendar__month-view__days {
+    background-color: #222222;
+  }
+
+  .react-calendar__month-view__days__day--weekend,
+  .react-calendar__month-view__days__day--weekend {
+    color: inherit;
+  }
+
+  .react-calendar__month-view__days__day--neighboringMonth {
+    color: #757575;
+  }
+
+  abbr {
+    text-decoration: none;
+  }
+
+  .react-calendar__tile {
+    border-radius: 0;
+
+    &:hover {
+      background-color: #90caf9;
+    }
+  }
+
+  .react-calendar__tile--now {
+    background-color: inherit;
+    border: 0.8px solid #4178a4;
+  }
+
+  .react-calendar__tile--hover {
+    background-color: #2a2b2f;
+  }
+
+  .react-calendar__tile--active {
+    background-color: #90caf9;
+    color: #222222;
+
+    &:enabled {
+      &:hover,
+      &:focus {
+        background-color: #90caf9;
+      }
+    }
+  }
+
+  .react-calendar__tile--hoverStart,
+  .react-calendar__tile--hoverEnd {
+    color: #222222;
+  }
+
+  button:focus,
+  button:focus-visible {
+    outline: none;
+  }
+
+  .react-daterange-picker__inputGroup__input:invalid {
+    background: rgba(168, 168, 168, 0.1);
+  }
+}
+
+.react-daterange-picker__wrapper {
+  border-radius: 4px;
+  width: 100%;
+  padding: 16.5px 14px;
+  border-color: rgba(255, 255, 255, 0.262745098);
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.499);
+  }
+}
+
+.error-border {
+  border-radius: 4px;
+  margin: 0;
+
+  .react-daterange-picker__wrapper {
+    border: 1px solid #d32f2f;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.499);
+    }
+  }
+}
+
+.error-message {
+  font-size: 0.75rem;
+  margin: 3px 14px 16px 14px;
+  line-height: 1.66;
+  color: #d32f2f;
+}
