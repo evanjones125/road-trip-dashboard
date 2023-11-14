@@ -5,6 +5,7 @@ import type {
   Trip,
   Location,
   LocationWithCameras,
+  FormData,
   TripFormData,
 } from '../types/types';
 import { handleAxiosError } from '../utils/errorHandling';
@@ -14,13 +15,13 @@ import { RootState } from '../store';
 export type TripsState = {
   trips: Trip[];
   currentLocations: LocationWithCameras[];
-  // currentTrip?: number | null;
+  currentTrip?: number | null;
 };
 
 const initialState: TripsState = {
   trips: [],
   currentLocations: [],
-  // currentTrip: null,
+  currentTrip: null,
 };
 
 export const fetchTrips = createAsyncThunk<Trip[], number>(
@@ -56,6 +57,65 @@ export const addTrip = createAsyncThunk<Trip, TripFormData>(
           return response;
         });
       return response.data;
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+);
+
+export const deleteTrip = createAsyncThunk<any, any>(
+  'trips/deleteTrip',
+  async (tripId: number) => {
+    try {
+      await axios.delete(`${BASE_URL}/trips/${tripId}/`);
+      return tripId;
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+);
+
+export const addLocation = createAsyncThunk<LocationWithCameras, FormData>(
+  'trips/addLocation',
+  async (location: FormData, { getState }) => {
+    const currentTrip = (getState() as RootState).trips.currentTrip;
+    const { locationName, latitude, longitude, dateRange } = location;
+
+    try {
+      const response = await axios
+        .post(`${BASE_URL}/trips/${currentTrip}/add_location/`, {
+          location_name: locationName,
+          latitude: latitude,
+          longitude: longitude,
+          start_date: dateRange[0],
+          end_date: dateRange[1],
+          trip: currentTrip,
+        })
+        .then((response) => {
+          return response;
+        });
+
+      const cameraObject = await axios
+        .get(
+          `${BASE_URL}/api/getCamera/closestCamera/${latitude},${longitude}/`
+        )
+        .then((response) => {
+          return response;
+        });
+
+      return { ...response.data, camera: cameraObject.data.camera_obj };
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+);
+
+export const deleteLocation = createAsyncThunk<any, any>(
+  'trips/deleteLocation',
+  async (locationId: number) => {
+    try {
+      await axios.delete(`${BASE_URL}/locations/${locationId}/`);
+      return locationId;
     } catch (error) {
       handleAxiosError(error);
     }
@@ -99,9 +159,7 @@ export const setCurrentTrip = createAsyncThunk<LocationWithCameras[], number>(
 const tripsSlice = createSlice({
   name: 'trips',
   initialState,
-  reducers: {
-    removeTrip: (state) => state,
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchTrips.fulfilled, (state, action) => {
       state.trips = action.payload;
@@ -111,11 +169,31 @@ const tripsSlice = createSlice({
     });
     builder.addCase(setCurrentTrip.fulfilled, (state, action) => {
       state.currentLocations = action.payload;
+      state.currentTrip = state.currentLocations[0].trip;
     });
+    builder.addCase(
+      addLocation.fulfilled,
+      (state, action: PayloadAction<LocationWithCameras>) => {
+        state.currentLocations.push(action.payload);
+      }
+    );
+    builder.addCase(
+      deleteTrip.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.trips = state.trips.filter((trip) => trip.id !== action.payload);
+      }
+    );
+    builder.addCase(
+      deleteLocation.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.currentLocations = state.currentLocations.filter(
+          (location) => location.id !== action.payload
+        );
+      }
+    );
   },
 });
 
 export const tripsReducer = tripsSlice.reducer;
-export const { removeTrip } = tripsSlice.actions;
 
 export default tripsSlice;

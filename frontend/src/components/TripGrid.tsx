@@ -6,7 +6,7 @@ import type { Trip, TripGridProps } from '../types/types';
 // create a <li> for each Trip in the trips array
 const TripGrid: React.FC<TripGridProps> = ({
   trips,
-  deleteTrip,
+  // deleteTrip,
   onLocationButtonClick,
 }) => {
   return (
@@ -16,7 +16,7 @@ const TripGrid: React.FC<TripGridProps> = ({
           <div className="trip-card" key={i}>
             <TripGridItem
               trip={trip}
-              deleteTrip={deleteTrip}
+              // deleteTrip={deleteTrip}
               onLocationButtonClick={onLocationButtonClick}
               getWeather={() => 1}
             />

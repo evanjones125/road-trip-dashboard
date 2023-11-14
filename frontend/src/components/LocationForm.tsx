@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import type {
-  LocationFormProps,
-  FormErrors,
-  FormData,
-  Value,
-  ValuePiece,
-} from '../types/types';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../store';
+import { addLocation } from '../features/tripsSlice';
+import type { FormErrors, FormData, Value } from '../types/types';
 import {
   formatDate,
   validateInput,
@@ -17,10 +14,11 @@ import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
 import 'react-calendar/dist/Calendar.css';
 
-const LocationForm = ({ onSubmit }: LocationFormProps): JSX.Element => {
+const LocationForm = (): JSX.Element => {
   const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
   const [errors, setErrors] = useState<FormErrors>(DEFAULT_FORM_ERRORS);
 
+  const dispatch: AppDispatch = useDispatch();
   const { locationName, latitude, longitude, dateRange } = formData;
 
   const handleSubmit = (e: React.FormEvent): void => {
@@ -30,7 +28,7 @@ const LocationForm = ({ onSubmit }: LocationFormProps): JSX.Element => {
     if (Object.keys(errors).length > 0) {
       setErrors((prevErrors) => ({ ...prevErrors, ...errors }));
     } else {
-      onSubmit({ ...formData });
+      dispatch(addLocation(formData));
       resetForm();
     }
   };

@@ -68,6 +68,7 @@ def login_user(request):
         )
 
 
+@api_view(["POST"])
 def add_location(req, trip_id):
     try:
         serializer = LocationSerializer(data=req.data)

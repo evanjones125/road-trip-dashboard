@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteLocation } from '../features/tripsSlice';
+import type { AppDispatch } from '../store';
 import type { LocationGridItemProps, WeatherForecast } from '../types/types';
 import {
   Card,
@@ -33,9 +36,8 @@ import {
 //   );
 // };
 
-const TripGridItem: React.FC<LocationGridItemProps> = ({
+const LocationGridItem: React.FC<LocationGridItemProps> = ({
   location,
-  deleteLocation,
   onBackButtonClick,
 }) => {
   // const [weather, setWeather] = useState<WeatherForecast | null>(null);
@@ -63,6 +65,7 @@ const TripGridItem: React.FC<LocationGridItemProps> = ({
   //   fetchWeather();
   // }, [location, date, getWeather]);
 
+  const dispatch: AppDispatch = useDispatch();
   const { id, location_name, start_date, end_date, camera } = location;
 
   return (
@@ -94,7 +97,7 @@ const TripGridItem: React.FC<LocationGridItemProps> = ({
         <Button
           size="small"
           style={{ color: '#fc2b2b' }}
-          onClick={() => deleteLocation(id)}
+          onClick={() => dispatch(deleteLocation(id))}
         >
           Delete
         </Button>
@@ -103,4 +106,4 @@ const TripGridItem: React.FC<LocationGridItemProps> = ({
   );
 };
 
-export default TripGridItem;
+export default LocationGridItem;

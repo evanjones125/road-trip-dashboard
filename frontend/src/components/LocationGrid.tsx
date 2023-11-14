@@ -6,15 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store';
 
 // create a <li> for each Trip in the trips array
-const TripGrid: React.FC<LocationGridProps> = ({
+const LocationGrid: React.FC<LocationGridProps> = ({
   locations,
-  addLocation,
-  deleteLocation,
+  // deleteLocation,
   onBackButtonClick,
   tripId,
   userId,
 }) => {
-  const dispatch: AppDispatch = useDispatch();
   const { currentLocations } = useSelector((state: RootState) => state.trips);
 
   return (
@@ -25,14 +23,14 @@ const TripGrid: React.FC<LocationGridProps> = ({
             <LocationGridItem
               location={location}
               onBackButtonClick={onBackButtonClick}
-              deleteLocation={deleteLocation}
+              // deleteLocation={deleteLocation}
             />
           </div>
         );
       })}
-      <LocationForm onSubmit={addLocation} />
+      <LocationForm />
     </div>
   );
 };
 
-export default TripGrid;
+export default LocationGrid;

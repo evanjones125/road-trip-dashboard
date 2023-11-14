@@ -61,20 +61,13 @@ export type GetWeather = (
 
 export type TripGridProps = {
   trips: Trip[];
-  // addTrip: AddTrip;
-  deleteTrip: DeleteTrip;
   onLocationButtonClick: OnLocationButtonClick;
 };
 
 export type TripGridItemProps = {
   trip: Trip;
-  deleteTrip: DeleteTrip;
   getWeather: GetWeather;
   onLocationButtonClick: OnLocationButtonClick;
-};
-
-export type TripFormProps = {
-  // onSubmit: AddTrip;
 };
 
 export type TripFormData = {
@@ -86,8 +79,6 @@ export type TripFormData = {
 
 export type LocationGridProps = {
   locations: LocationWithCameras[] | null;
-  addLocation: AddLocation;
-  deleteLocation: DeleteLocation;
   onBackButtonClick: OnBackButtonClick;
   tripId: number;
   userId: number;
@@ -96,11 +87,10 @@ export type LocationGridProps = {
 export type LocationGridItemProps = {
   location: LocationWithCameras;
   onBackButtonClick: OnBackButtonClick;
-  deleteLocation: DeleteLocation;
 };
 
 export type LocationFormProps = {
-  onSubmit: AddLocation;
+  // onSubmit: AddLocation;
 };
 
 export type FormData = {

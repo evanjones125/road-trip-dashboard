@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import type { TripGridItemProps, WeatherForecast } from '../types/types';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../store';
-import { setCurrentTrip } from '../features/tripsSlice';
+import { setCurrentTrip, deleteTrip } from '../features/tripsSlice';
 import {
   Card,
   CardActions,
@@ -13,60 +13,11 @@ import {
   Tooltip,
 } from '@mui/material';
 
-// const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
-//   weather,
-// }) => {
-//   // check if date is in range for weather forecast and, if so, if there's precipitation in the forecast
-//   if (!weather?.dateInRange)
-//     return <span className="tooltip">No forecast for this date yet.</span>;
-//   if (!weather?.precipBeforeTrip[0])
-//     return <span className="tooltip">Weather forecast looks clear!</span>;
-
-//   // put the upcoming adverse weather forecast items in the tooltip
-//   return (
-//     <span className="tooltip">
-//       {weather.precipBeforeTrip.map((period, key) => (
-//         <p key={key}>{`${period[0]} there is a ${period[2].slice(
-//           -4,
-//           -1
-//         )} chance of precipitation;
-//           ${period[2].slice(0, period[2].indexOf('.'))}`}</p>
-//       ))}
-//     </span>
-//   );
-// };
-
 const TripGridItem: React.FC<TripGridItemProps> = ({
   trip,
-  deleteTrip,
   onLocationButtonClick,
   getWeather,
 }) => {
-  // const [weather, setWeather] = useState<WeatherForecast | null>(null);
-
-  // const navigation = useNavigation();
-
-  // const redirectToTripDetail = () => {
-  //   navigation.navigate(`/trip/${location.id}`);
-  // };
-
-  // useEffect(() => {
-  //   async function fetchWeather() {
-  //     try {
-  //       const result: WeatherForecast = await getWeather(
-  //         location.latitude,
-  //         location.longitude,
-  //         date
-  //       );
-  //       setWeather(result); // Assuming the getWeather returns some string or data for weather.
-  //     } catch (error) {
-  //       console.error('Failed to fetch weather', error);
-  //     }
-  //   }
-
-  //   fetchWeather();
-  // }, [location, date, getWeather]);
-
   const dispatch: AppDispatch = useDispatch();
   const { id, trip_name, start_date, end_date } = trip;
 
@@ -92,7 +43,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
           style={{ color: '#69c983' }}
           onClick={() => {
             onLocationButtonClick(trip);
-            dispatch(setCurrentTrip(trip.id));
+            dispatch(setCurrentTrip(id));
           }}
         >
           More info
@@ -100,7 +51,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
         <Button
           size="small"
           style={{ color: '#fc2b2b' }}
-          onClick={() => deleteTrip(id)}
+          onClick={() => dispatch(deleteTrip(id))}
         >
           Delete
         </Button>
@@ -110,3 +61,51 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
 };
 
 export default TripGridItem;
+
+// const TooltipContent: React.FC<{ weather: WeatherForecast | null }> = ({
+//   weather,
+// }) => {
+//   // check if date is in range for weather forecast and, if so, if there's precipitation in the forecast
+//   if (!weather?.dateInRange)
+//     return <span className="tooltip">No forecast for this date yet.</span>;
+//   if (!weather?.precipBeforeTrip[0])
+//     return <span className="tooltip">Weather forecast looks clear!</span>;
+
+//   // put the upcoming adverse weather forecast items in the tooltip
+//   return (
+//     <span className="tooltip">
+//       {weather.precipBeforeTrip.map((period, key) => (
+//         <p key={key}>{`${period[0]} there is a ${period[2].slice(
+//           -4,
+//           -1
+//         )} chance of precipitation;
+//           ${period[2].slice(0, period[2].indexOf('.'))}`}</p>
+//       ))}
+//     </span>
+//   );
+// };
+
+// const [weather, setWeather] = useState<WeatherForecast | null>(null);
+
+// const navigation = useNavigation();
+
+// const redirectToTripDetail = () => {
+//   navigation.navigate(`/trip/${location.id}`);
+// };
+
+// useEffect(() => {
+//   async function fetchWeather() {
+//     try {
+//       const result: WeatherForecast = await getWeather(
+//         location.latitude,
+//         location.longitude,
+//         date
+//       );
+//       setWeather(result); // Assuming the getWeather returns some string or data for weather.
+//     } catch (error) {
+//       console.error('Failed to fetch weather', error);
+//     }
+//   }
+
+//   fetchWeather();
+// }, [location, date, getWeather]);
