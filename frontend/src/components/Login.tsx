@@ -3,17 +3,19 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userLogin } from '../features/authSlice';
 import type { InputEvent } from '../types/types';
-import type { RootState } from '../store';
+import type { RootState, AppDispatch } from '../store';
+import type { User } from '../features/authSlice';
 
 const Login = () => {
   const { success } = useSelector((state: RootState) => state.auth);
-  const [credentials, setCredentials] = useState({
+  const [credentials, setCredentials] = useState<User>({
     username: '',
     password: '',
   });
   const { username, password } = credentials;
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   // wait until user is successfully logged in before navigating to dashboard
   useEffect(() => {

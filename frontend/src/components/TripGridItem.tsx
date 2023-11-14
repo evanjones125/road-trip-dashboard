@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import type { TripGridItemProps, WeatherForecast } from '../types/types';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../store';
+import { setCurrentTrip } from '../features/tripsSlice';
 import {
   Card,
   CardActions,
@@ -64,6 +67,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
   //   fetchWeather();
   // }, [location, date, getWeather]);
 
+  const dispatch: AppDispatch = useDispatch();
   const { id, trip_name, start_date, end_date } = trip;
 
   return (
@@ -86,7 +90,10 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
         <Button
           size="small"
           style={{ color: '#69c983' }}
-          onClick={() => onLocationButtonClick(trip)}
+          onClick={() => {
+            onLocationButtonClick(trip);
+            dispatch(setCurrentTrip(trip.id));
+          }}
         >
           More info
         </Button>

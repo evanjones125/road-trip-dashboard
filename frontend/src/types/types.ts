@@ -61,7 +61,7 @@ export type GetWeather = (
 
 export type TripGridProps = {
   trips: Trip[];
-  addTrip: AddTrip;
+  // addTrip: AddTrip;
   deleteTrip: DeleteTrip;
   onLocationButtonClick: OnLocationButtonClick;
 };
@@ -74,7 +74,7 @@ export type TripGridItemProps = {
 };
 
 export type TripFormProps = {
-  onSubmit: AddTrip;
+  // onSubmit: AddTrip;
 };
 
 export type TripFormData = {

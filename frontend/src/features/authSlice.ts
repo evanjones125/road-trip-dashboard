@@ -8,7 +8,7 @@ type AuthState = {
   id?: number | null;
 };
 
-type User = {
+export type User = {
   username: string;
   password: string;
 };

@@ -3,15 +3,18 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import type { InputEvent } from '../types/types';
 import { userSignup } from '../features/authSlice';
+import type { User } from '../features/authSlice';
+import type { AppDispatch } from '../store';
 
 const Signup = () => {
-  const [credentials, setCredentials] = useState({
+  const [credentials, setCredentials] = useState<User>({
     username: '',
     password: '',
   });
   const { username, password } = credentials;
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
