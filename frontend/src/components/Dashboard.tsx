@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import TripGrid from '../components/TripGrid';
 import LocationGrid from '../components/LocationGrid';
-
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store';
 import { refreshSession } from '../features/authSlice';
 import { fetchTrips } from '../features/tripsSlice';
-import { Routes, Route, useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { success, id } = useSelector((state: RootState) => state.auth);
   const { trips, currentLocations } = useSelector(
@@ -31,36 +29,15 @@ const Dashboard = () => {
     }
   }, [success, dispatch, id, currentLocations]);
 
-  const handleLocationButtonClick = (tripId: number) => {
-    navigate(`/dashboard/locations/${tripId}`);
-  };
-
-  const handleBackButtonClick = () => {
-    navigate('/dashboard/trips');
-  };
-
   return (
     <>
       <Header />
       <div id="main">
         <Routes>
-          <Route
-            path="/trips"
-            element={
-              <TripGrid
-                trips={trips}
-                onLocationButtonClick={handleLocationButtonClick}
-              />
-            }
-          ></Route>
+          <Route path="/trips" element={<TripGrid trips={trips} />}></Route>
           <Route
             path="/locations/:tripId"
-            element={
-              <LocationGrid
-                locations={currentLocations}
-                onBackButtonClick={handleBackButtonClick}
-              />
-            }
+            element={<LocationGrid locations={currentLocations} />}
           ></Route>
         </Routes>
       </div>
@@ -86,33 +63,3 @@ export default Dashboard;
 //     handleAxiosError(err);
 //   }
 // };
-
-// const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
-// const [view, setView] = useState<'trip' | 'location'>('trip');
-// {
-/* <Header />
-      {view === 'trip' ? (
-        <div id="main">
-          <h1 className="welcomeText">
-            {trips.length > 0
-              ? "Welcome to your trip dashboard! Here's a list of your upcoming trips:"
-              : "You don't have any trips planned. Create one below!"}
-          </h1>
-          <TripGrid
-            trips={trips}
-            onLocationButtonClick={onLocationButtonClick}
-          />
-        </div>
-      ) : (
-        <div id="main">
-          <h1 className="welcomeText">
-            {`Locations for ${selectedTrip?.trip_name}`}
-          </h1>
-          <LocationGrid
-            locations={currentLocations.length > 0 ? currentLocations : []}
-            onBackButtonClick={onBackButtonClick}
-          />
-        </div>
-      )}
-      <Footer /> */
-// }

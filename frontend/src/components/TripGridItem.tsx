@@ -14,11 +14,7 @@ import {
   Tooltip,
 } from '@mui/material';
 
-const TripGridItem: React.FC<TripGridItemProps> = ({
-  trip,
-  getWeather,
-  onLocationButtonClick,
-}) => {
+const TripGridItem: React.FC<TripGridItemProps> = ({ trip, getWeather }) => {
   const dispatch: AppDispatch = useDispatch();
   const { id, trip_name, start_date, end_date } = trip;
   const navigate = useNavigate();
@@ -44,8 +40,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
           size="small"
           style={{ color: '#69c983' }}
           onClick={() => {
-            // dispatch(setCurrentTrip(id));
-            onLocationButtonClick(id);
+            navigate(`/dashboard/locations/${id}`);
           }}
         >
           More info

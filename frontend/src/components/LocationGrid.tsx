@@ -10,10 +10,7 @@ import type { AppDispatch, RootState } from '../store';
 import { useParams } from 'react-router-dom';
 
 // create a <li> for each Trip in the trips array
-const LocationGrid: React.FC<LocationGridProps> = ({
-  locations,
-  onBackButtonClick,
-}) => {
+const LocationGrid: React.FC<LocationGridProps> = ({ locations }) => {
   const { tripId } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const { id } = useSelector((state: RootState) => state.auth);
@@ -35,10 +32,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({
       {locations.map((location: LocationWithCameras, i: number) => {
         return (
           <div className="trip-card" key={i}>
-            <LocationGridItem
-              location={location}
-              onBackButtonClick={onBackButtonClick}
-            />
+            <LocationGridItem location={location} />
           </div>
         );
       })}

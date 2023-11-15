@@ -37,10 +37,7 @@ import {
 //   );
 // };
 
-const LocationGridItem: React.FC<LocationGridItemProps> = ({
-  location,
-  onBackButtonClick,
-}) => {
+const LocationGridItem: React.FC<LocationGridItemProps> = ({ location }) => {
   // const [weather, setWeather] = useState<WeatherForecast | null>(null);
 
   // const navigation = useNavigation();
@@ -93,7 +90,7 @@ const LocationGridItem: React.FC<LocationGridItemProps> = ({
           size="small"
           style={{ color: '#69c983' }}
           onClick={() => {
-            onBackButtonClick();
+            navigate(`/dashboard/trips`);
           }}
         >
           Back to trips
