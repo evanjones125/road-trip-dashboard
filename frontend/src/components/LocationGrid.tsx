@@ -30,7 +30,11 @@ const LocationGrid: React.FC<LocationGridProps> = ({ locations }) => {
 
   return (
     <>
-      <h1 className="welcome-text">{`Location list for ${currentTripName}`}</h1>
+      <h1 className="welcome-text">
+        {currentTripName
+          ? `Location list for ${currentTripName}`
+          : "You don't have any locations entered for this trip. Add one below!"}
+      </h1>
       <div className="trips-container">
         {locations.map((location: LocationWithCameras, i: number) => {
           return (

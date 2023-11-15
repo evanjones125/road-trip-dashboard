@@ -4,6 +4,7 @@ import type { TripGridItemProps, WeatherForecast } from '../types/types';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../store';
 import { setCurrentTrip, deleteTrip } from '../features/tripsSlice';
+import { refreshSession } from '../features/authSlice';
 import {
   Card,
   CardActions,
@@ -18,6 +19,7 @@ const TripGridItem: React.FC<TripGridItemProps> = ({ trip, getWeather }) => {
   const dispatch: AppDispatch = useDispatch();
   const { id, trip_name, start_date, end_date } = trip;
   const navigate = useNavigate();
+  const token: string | null = localStorage.getItem('token');
 
   return (
     <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
@@ -40,6 +42,10 @@ const TripGridItem: React.FC<TripGridItemProps> = ({ trip, getWeather }) => {
           size="small"
           style={{ color: '#69c983' }}
           onClick={() => {
+            // dispatch(setCurrentTrip(id));
+            // if (token) {
+            //   dispatch(refreshSession(token));
+            // }
             navigate(`/dashboard/locations/${id}`);
           }}
         >

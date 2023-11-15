@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteLocation } from '../features/tripsSlice';
+import { clearLocations } from '../features/tripsSlice';
 import type { AppDispatch } from '../store';
 import type { LocationGridItemProps, WeatherForecast } from '../types/types';
 import {
@@ -98,6 +99,7 @@ const LocationGridItem: React.FC<LocationGridItemProps> = ({ location }) => {
           size="small"
           style={{ color: '#69c983' }}
           onClick={() => {
+            dispatch(clearLocations());
             navigate('/dashboard/trips');
           }}
         >

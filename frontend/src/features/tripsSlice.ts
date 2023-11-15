@@ -161,7 +161,11 @@ export const setCurrentTrip = createAsyncThunk<LocationWithCameras[], number>(
 const tripsSlice = createSlice({
   name: 'trips',
   initialState,
-  reducers: {},
+  reducers: {
+    clearLocations: (state) => {
+      state.currentLocations = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchTrips.fulfilled, (state, action) => {
       state.trips = action.payload;
@@ -202,5 +206,5 @@ const tripsSlice = createSlice({
 });
 
 export const tripsReducer = tripsSlice.reducer;
-
+export const { clearLocations } = tripsSlice.actions;
 export default tripsSlice;
