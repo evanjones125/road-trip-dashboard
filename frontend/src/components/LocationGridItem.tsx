@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteLocation } from '../features/tripsSlice';
 import type { AppDispatch } from '../store';
@@ -67,6 +68,7 @@ const LocationGridItem: React.FC<LocationGridItemProps> = ({
 
   const dispatch: AppDispatch = useDispatch();
   const { id, location_name, start_date, end_date, camera } = location;
+  const navigate = useNavigate();
 
   return (
     <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
@@ -85,12 +87,14 @@ const LocationGridItem: React.FC<LocationGridItemProps> = ({
       </CardContent>
       <CardActions style={{ justifyContent: 'space-between' }}>
         <Tooltip title="weather" arrow placement="top">
-          <Button size="small">weather</Button>
+          <Button size="small">Detailed view</Button>
         </Tooltip>
         <Button
           size="small"
           style={{ color: '#69c983' }}
-          onClick={() => onBackButtonClick()}
+          onClick={() => {
+            onBackButtonClick();
+          }}
         >
           Back to trips
         </Button>

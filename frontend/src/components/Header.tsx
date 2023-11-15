@@ -42,7 +42,7 @@ export default function Header() {
                 justifyContent: 'center',
                 gap: '10px',
               }}
-              href="/dashboard"
+              href="/dashboard/trips"
             >
               <p>Trip Dashboard</p>
               <svg

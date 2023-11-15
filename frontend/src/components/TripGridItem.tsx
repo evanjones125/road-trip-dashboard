@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { TripGridItemProps, WeatherForecast } from '../types/types';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../store';
@@ -15,11 +16,12 @@ import {
 
 const TripGridItem: React.FC<TripGridItemProps> = ({
   trip,
-  onLocationButtonClick,
   getWeather,
+  onLocationButtonClick,
 }) => {
   const dispatch: AppDispatch = useDispatch();
   const { id, trip_name, start_date, end_date } = trip;
+  const navigate = useNavigate();
 
   return (
     <Card sx={{ maxWidth: 345 }} className="mui-tree-card">
@@ -42,8 +44,8 @@ const TripGridItem: React.FC<TripGridItemProps> = ({
           size="small"
           style={{ color: '#69c983' }}
           onClick={() => {
-            onLocationButtonClick(trip);
-            dispatch(setCurrentTrip(id));
+            // dispatch(setCurrentTrip(id));
+            onLocationButtonClick(id);
           }}
         >
           More info

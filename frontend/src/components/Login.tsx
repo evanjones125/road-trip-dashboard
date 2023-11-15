@@ -20,7 +20,7 @@ const Login = () => {
   // wait until user is successfully logged in before navigating to dashboard
   useEffect(() => {
     if (success) {
-      navigate('/dashboard');
+      navigate('/dashboard/trips');
     }
   }, [navigate, success]);
 

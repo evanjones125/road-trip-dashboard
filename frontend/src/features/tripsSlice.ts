@@ -168,8 +168,10 @@ const tripsSlice = createSlice({
       state.trips.push(action.payload);
     });
     builder.addCase(setCurrentTrip.fulfilled, (state, action) => {
-      state.currentLocations = action.payload;
-      state.currentTrip = state.currentLocations[0].trip;
+      if (action.payload.length > 0) {
+        state.currentLocations = action.payload;
+        state.currentTrip = state.currentLocations[0].trip;
+      }
     });
     builder.addCase(
       addLocation.fulfilled,
