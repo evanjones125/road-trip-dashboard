@@ -14,6 +14,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ locations }) => {
   const { tripId } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const { id } = useSelector((state: RootState) => state.auth);
+  const { currentTripName } = useSelector((state: RootState) => state.trips);
   const token: string | null = localStorage.getItem('token');
 
   useEffect(() => {
@@ -28,16 +29,19 @@ const LocationGrid: React.FC<LocationGridProps> = ({ locations }) => {
   }, [dispatch, tripId, id, token]);
 
   return (
-    <div className="trips-container">
-      {locations.map((location: LocationWithCameras, i: number) => {
-        return (
-          <div className="trip-card" key={i}>
-            <LocationGridItem location={location} />
-          </div>
-        );
-      })}
-      <LocationForm />
-    </div>
+    <>
+      <h1 className="welcome-text">{`Location list for ${currentTripName}`}</h1>
+      <div className="trips-container">
+        {locations.map((location: LocationWithCameras, i: number) => {
+          return (
+            <div className="trip-card" key={i}>
+              <LocationGridItem location={location} />
+            </div>
+          );
+        })}
+        <LocationForm />
+      </div>
+    </>
   );
 };
 

@@ -16,12 +16,14 @@ export type TripsState = {
   trips: Trip[];
   currentLocations: LocationWithCameras[];
   currentTrip?: number | null;
+  currentTripName?: string | null;
 };
 
 const initialState: TripsState = {
   trips: [],
   currentLocations: [],
   currentTrip: null,
+  currentTripName: null,
 };
 
 export const fetchTrips = createAsyncThunk<Trip[], number>(
@@ -171,6 +173,9 @@ const tripsSlice = createSlice({
       if (action.payload.length > 0) {
         state.currentLocations = action.payload;
         state.currentTrip = state.currentLocations[0].trip;
+        state.currentTripName = state.trips.find(
+          (trip) => trip.id === state.currentTrip
+        )?.trip_name;
       }
     });
     builder.addCase(
