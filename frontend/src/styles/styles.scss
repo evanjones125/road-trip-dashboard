@@ -88,6 +88,19 @@ button {
   padding-bottom: 3rem;
 }
 
+.location-detail-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+
+  .location-detail-view-back-button {
+    font-size: 2rem;
+  }
+}
+
 .form {
   background-color: #222222;
   padding: 16px;

@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import TripGrid from '../components/TripGrid';
 import LocationGrid from '../components/LocationGrid';
-import LocationDetailView from './LocationDetailView';
+import LocationDetailView from '../components/LocationDetailView';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store';
 import { refreshSession } from '../features/authSlice';

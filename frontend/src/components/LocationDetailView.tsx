@@ -15,6 +15,7 @@ const LocationDetailView = () => {
   const { id } = useSelector((state: RootState) => state.auth);
   const { selectedLocation } = useSelector((state: RootState) => state.trips);
   const token: string | null = localStorage.getItem('token');
+  const mapsAPIKey = import.meta.env.VITE_GOOGLEMAPS_API_KEY;
 
   useEffect(() => {
     if (token && id) {
@@ -29,21 +30,24 @@ const LocationDetailView = () => {
   }, [dispatch, tripId, id, token, locationId]);
 
   return (
-    <div>
+    <>
       <h1 className="welcome-text">LocationDetailView</h1>
-      <iframe
-        title="map"
-        width="600"
-        height="450"
-        // style="border:0"
-        loading="lazy"
-        // allowfullscreen
-        src={`https://www.google.com/maps/embed/v1/place?key=${null}&q=${
-          selectedLocation?.latitude
-        },${selectedLocation?.longitude}`}
-      ></iframe>
-      <a href={`/dashboard/locations/${tripId}`}>Back to LocationGrid</a>
-    </div>
+      <div className="location-detail-view-container">
+        <iframe
+          title="map"
+          width="600"
+          height="450"
+          loading="lazy"
+          src={`https://www.google.com/maps/embed/v1/place?key=${mapsAPIKey}&q=${selectedLocation?.latitude},${selectedLocation?.longitude}`}
+        ></iframe>
+        <a
+          className="location-detail-view-back-button"
+          href={`/dashboard/locations/${tripId}`}
+        >
+          Back to LocationGrid
+        </a>
+      </div>
+    </>
   );
 };
 
