@@ -14,15 +14,17 @@ import { RootState } from '../store';
 
 export type TripsState = {
   trips: Trip[];
-  currentLocations: LocationWithCameras[];
-  currentTrip?: number | null;
+  locationsOfCurrentTrip: LocationWithCameras[];
+  selectedLocation: LocationWithCameras | null;
+  currentTripId?: number | null;
   currentTripName?: string | null;
 };
 
 const initialState: TripsState = {
   trips: [],
-  currentLocations: [],
-  currentTrip: null,
+  locationsOfCurrentTrip: [],
+  selectedLocation: null,
+  currentTripId: null,
   currentTripName: null,
 };
 
@@ -80,18 +82,18 @@ export const deleteTrip = createAsyncThunk<any, any>(
 export const addLocation = createAsyncThunk<LocationWithCameras, FormData>(
   'trips/addLocation',
   async (location: FormData, { getState }) => {
-    const currentTrip = (getState() as RootState).trips.currentTrip;
+    const currentTripId = (getState() as RootState).trips.currentTripId;
     const { locationName, latitude, longitude, dateRange } = location;
 
     try {
       const response = await axios
-        .post(`${BASE_URL}/trips/${currentTrip}/add_location/`, {
+        .post(`${BASE_URL}/trips/${currentTripId}/add_location/`, {
           location_name: locationName,
           latitude: latitude,
           longitude: longitude,
           start_date: dateRange[0],
           end_date: dateRange[1],
-          trip: currentTrip,
+          trip: currentTripId,
         })
         .then((response) => {
           return response;
@@ -163,7 +165,16 @@ const tripsSlice = createSlice({
   initialState,
   reducers: {
     clearLocations: (state) => {
-      state.currentLocations = [];
+      state.locationsOfCurrentTrip = [];
+    },
+    setCurrentLocation: (state, action: PayloadAction<number>) => {
+      const locationId = action.payload;
+
+      const location = state.locationsOfCurrentTrip.find(
+        (location) => location.id === locationId
+      );
+
+      state.selectedLocation = location ? location : null;
     },
   },
   extraReducers: (builder) => {
@@ -175,17 +186,17 @@ const tripsSlice = createSlice({
     });
     builder.addCase(setCurrentTrip.fulfilled, (state, action) => {
       if (action.payload.length > 0) {
-        state.currentLocations = action.payload;
-        state.currentTrip = state.currentLocations[0].trip;
+        state.locationsOfCurrentTrip = action.payload;
+        state.currentTripId = state.locationsOfCurrentTrip[0].trip;
         state.currentTripName = state.trips.find(
-          (trip) => trip.id === state.currentTrip
+          (trip) => trip.id === state.currentTripId
         )?.trip_name;
       }
     });
     builder.addCase(
       addLocation.fulfilled,
       (state, action: PayloadAction<LocationWithCameras>) => {
-        state.currentLocations.push(action.payload);
+        state.locationsOfCurrentTrip.push(action.payload);
       }
     );
     builder.addCase(
@@ -197,7 +208,7 @@ const tripsSlice = createSlice({
     builder.addCase(
       deleteLocation.fulfilled,
       (state, action: PayloadAction<any>) => {
-        state.currentLocations = state.currentLocations.filter(
+        state.locationsOfCurrentTrip = state.locationsOfCurrentTrip.filter(
           (location) => location.id !== action.payload
         );
       }
@@ -206,5 +217,5 @@ const tripsSlice = createSlice({
 });
 
 export const tripsReducer = tripsSlice.reducer;
-export const { clearLocations } = tripsSlice.actions;
+export const { setCurrentLocation, clearLocations } = tripsSlice.actions;
 export default tripsSlice;

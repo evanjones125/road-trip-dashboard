@@ -13,7 +13,7 @@ import { fetchTrips } from '../features/tripsSlice';
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
   const { success, id } = useSelector((state: RootState) => state.auth);
-  const { trips, currentLocations } = useSelector(
+  const { trips, locationsOfCurrentTrip } = useSelector(
     (state: RootState) => state.trips
   );
 
@@ -28,7 +28,7 @@ const Dashboard = () => {
     if (id) {
       dispatch(fetchTrips(id));
     }
-  }, [success, dispatch, id, currentLocations]);
+  }, [success, dispatch, id, locationsOfCurrentTrip]);
 
   return (
     <>
@@ -38,10 +38,10 @@ const Dashboard = () => {
           <Route path="/trips" element={<TripGrid trips={trips} />}></Route>
           <Route
             path="/locations/:tripId"
-            element={<LocationGrid locations={currentLocations} />}
+            element={<LocationGrid locations={locationsOfCurrentTrip} />}
           ></Route>
           <Route
-            path="/locations/:tripId/detailedView"
+            path="/locations/:tripId/detailedView/:locationId"
             element={<LocationDetailView />}
           ></Route>
         </Routes>

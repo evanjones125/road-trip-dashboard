@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteLocation } from '../features/tripsSlice';
-import { clearLocations } from '../features/tripsSlice';
+import { setCurrentLocation, clearLocations } from '../features/tripsSlice';
 import type { AppDispatch } from '../store';
 import type { LocationGridItemProps, WeatherForecast } from '../types/types';
 import {
@@ -88,9 +88,10 @@ const LocationGridItem: React.FC<LocationGridItemProps> = ({ location }) => {
         <Tooltip title="weather" arrow placement="top">
           <Button
             size="small"
-            onClick={() =>
-              navigate(`/dashboard/locations/${tripId}/detailedView`)
-            }
+            onClick={() => {
+              dispatch(setCurrentLocation(id));
+              navigate(`/dashboard/locations/${tripId}/detailedView/${id}`);
+            }}
           >
             Detailed view
           </Button>
