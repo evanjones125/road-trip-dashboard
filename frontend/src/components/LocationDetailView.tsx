@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import WeatherDisplay from './WeatherDisplay';
+import AstronomyDisplay from './AstronomyDisplay';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store';
@@ -31,7 +33,9 @@ const LocationDetailView = () => {
 
   return (
     <>
-      <h1 className="welcome-text">LocationDetailView</h1>
+      <h1 className="welcome-text">
+        Detailed view for {selectedLocation?.location_name}
+      </h1>
       <div className="location-detail-view-container">
         <iframe
           title="map"
@@ -40,6 +44,8 @@ const LocationDetailView = () => {
           loading="lazy"
           src={`https://www.google.com/maps/embed/v1/place?key=${mapsAPIKey}&q=${selectedLocation?.latitude},${selectedLocation?.longitude}`}
         ></iframe>
+        <WeatherDisplay />
+        <AstronomyDisplay />
         <a
           className="location-detail-view-back-button"
           href={`/dashboard/locations/${tripId}`}

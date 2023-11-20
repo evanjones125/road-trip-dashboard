@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { deleteLocation } from '../features/tripsSlice';
 import { setCurrentLocation, clearLocations } from '../features/tripsSlice';
 import type { AppDispatch } from '../store';
-import type { LocationGridItemProps, WeatherForecast } from '../types/types';
+import type { LocationGridItemProps } from '../types/types';
 import {
   Card,
   CardActions,

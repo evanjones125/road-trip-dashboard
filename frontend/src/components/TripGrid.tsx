@@ -16,7 +16,7 @@ const TripGrid: React.FC<TripGridProps> = ({ trips }) => {
         {trips.map((trip: Trip, i: number) => {
           return (
             <div className="trip-card" key={i}>
-              <TripGridItem trip={trip} getWeather={() => 1} />
+              <TripGridItem trip={trip} />
             </div>
           );
         })}

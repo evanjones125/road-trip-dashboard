@@ -52,19 +52,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-// // gets the weather data from the nearest NWS location
-// const getWeatherData: GetWeather = async (
-//   lat: string,
-//   lon: string,
-//   date: string
-// ): Promise<WeatherForecast> => {
-//   try {
-//     const response = await axios.get(
-//       `${BASE_URL}/api/weather/weatherForecast/${lat},${lon},${date}/`
-//     );
-//     return response.data;
-//   } catch (err) {
-//     handleAxiosError(err);
-//   }
-// };

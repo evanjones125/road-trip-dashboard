@@ -63,7 +63,6 @@ export type TripGridProps = {
 
 export type TripGridItemProps = {
   trip: Trip;
-  getWeather: GetWeather;
 };
 
 export type TripFormData = {
