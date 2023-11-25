@@ -5,6 +5,15 @@ import { userLogin } from '../features/authSlice';
 import type { InputEvent } from '../types/types';
 import type { RootState, AppDispatch } from '../store';
 import type { User } from '../features/authSlice';
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+  ThemeProvider,
+} from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 
 const Login = () => {
   const { success } = useSelector((state: RootState) => state.auth);
@@ -36,33 +45,56 @@ const Login = () => {
 
   return (
     <>
-      <div className="login-container">
-        <form onSubmit={handleLogin}>
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            value={username}
-            onChange={handleChange}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={handleChange}
-          />
-          <button type="submit">Login</button>
-        </form>
-      </div>
-
-      <div className="signup-link">
-        <p>
-          Don&apos;t have an account? <Link to="/signup">Sign up here</Link>
-        </p>
-      </div>
+      <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
+        <Container component="main" maxWidth="xs">
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h2" component="h2">
+              Login
+            </Typography>
+            <Box component="form" onSubmit={handleLogin}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                name="username"
+                label="Username"
+                variant="outlined"
+                value={username}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="password"
+                name="password"
+                label="Password"
+                variant="outlined"
+                type="password"
+                value={password}
+                onChange={handleChange}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Link to="/signup">Don&apos;t have an account? Sign up here</Link>
+            </Box>
+          </Box>
+        </Container>
+      </ThemeProvider>
     </>
   );
 };
