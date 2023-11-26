@@ -18,7 +18,7 @@ import {
 
 const TripGridItem: React.FC<TripGridItemProps> = ({ trip }) => {
   const [imageUrl, setImageUrl] = useState<string>(
-    'http://eldesierto.org/Isky.jpg'
+    'https://www.nps.gov/webcams-glca/po1.jpg?1698334459793'
   );
   const { id, trip_name, start_date, end_date, locations } = trip;
   const dispatch: AppDispatch = useDispatch();

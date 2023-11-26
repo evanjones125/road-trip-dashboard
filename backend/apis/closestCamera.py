@@ -21054,47 +21054,127 @@ def find_closest_camera(lat: str, lon: str) -> dict:
             "Status": "Enabled",
             "Description": "N/A",
         },
+        {
+            "Id": "x1--1",
+            "Organization": "Eldesierto",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 38.5261,
+            "Longitude": -109.31234,
+            "Name": "Bald Mesa",
+            "Url": "http://eldesierto.org/BaldMesa.jpg",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x2--1",
+            "Organization": "Eldesierto",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 38.45996,
+            "Longitude": -109.82058,
+            "Name": "Canyonlands Island in the Sky",
+            "Url": "http://eldesierto.org/Isky.jpg",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x3--1",
+            "Organization": "Eldesierto",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 38.623187,
+            "Longitude": -109.340467,
+            "Name": "Monticello Six Shooter Peak",
+            "Url": "http://eldesierto.org/RpeakUT.jpg",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x4--1",
+            "Organization": "Eldesierto",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 37.839561,
+            "Longitude": -109.4623723,
+            "Name": "Monticello Abajo Peak",
+            "Url": "http://eldesierto.org/AbajoPeak.jpg",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x5--1",
+            "Organization": "NPS",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 37.211684,
+            "Longitude": -112.985415,
+            "Name": "Zion Canyon",
+            "Url": "https://www.nps.gov/webcams-zion/camera2000.jpg?1698330593466",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x6--1",
+            "Organization": "NPS",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 38.616517,
+            "Longitude": -109.616172,
+            "Name": "Arches entrance gate",
+            "Url": "https://home.nps.gov/webcams-arch/arch_traffic.jpg?1698332469836",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x7--1",
+            "Organization": "NPS",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 36.879009,
+            "Longitude": -111.584474,
+            "Name": "Page, AZ Paria Plateau",
+            "Url": "https://www.nps.gov/webcams-glca/po1.jpg?1698334459793",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x8--1",
+            "Organization": "NPS",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 37.872822,
+            "Longitude": -110.395231,
+            "Name": "Hite Glen Canyon Ranger Station",
+            "Url": "https://www.nps.gov/webcams-glca/hi1.jpg?1698334727991",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x9--1",
+            "Organization": "NPS",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 37.003365,
+            "Longitude": -111.499352,
+            "Name": "UT/AZ border Glen Canyon boat ramp",
+            "Url": "https://www.nps.gov/webcams-glca/ww3.jpg?1698334629325",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
+        {
+            "Id": "x10--1",
+            "Organization": "Perpetual Images",
+            "RoadwayName": "N/A",
+            "DirectionOfTravel": "N/A",
+            "Latitude": 38.623187,
+            "Longitude": -109.340467,
+            "Name": "UT/AZ border Glen Canyon boat ramp",
+            "Url": "http://www.perpetual-images.com/weather/netcam.jpg",
+            "Status": "Enabled",
+            "Description": "N/A",
+        },
     ]
-
-    # zion duck creek village
-    # https://www.earthcam.com/usa/utah/duckcreekvillage/?cam=zionsummit
-    # 37.452265, -112.717332
-
-    # canyonlands island in the sky
-    # http://eldesierto.org/Isky.jpg
-    # 38.459967, -109.820584
-
-    # zion canyon
-    # https://www.nps.gov/webcams-zion/camera2000.jpg?1698330593466
-    # 37.211684, -112.985415
-
-    # arches entrance gate
-    # https://home.nps.gov/webcams-arch/arch_traffic.jpg?1698332469836
-    # 38.616517, -109.616172
-
-    # moab castleton tower
-    # http://www.perpetual-images.com/weather/netcam.jpg
-    # 38.623187, -109.340467
-
-    # monticello six shooter peak
-    # http://eldesierto.org/RpeakUT.jpg
-    # 38.623187, -109.340467
-
-    # monticello abajo peak
-    # http://eldesierto.org/AbajoPeak.jpg
-    # 37.839561, -109.4623723
-
-    # page, az paria plateau
-    # https://www.nps.gov/webcams-glca/po1.jpg?1698334459793
-    # 36.879009, -111.584474
-
-    # ut/az border glen canyon boat ramp
-    # https://www.nps.gov/webcams-glca/ww3.jpg?1698334629325
-    # 37.003365, -111.499352
-
-    # hite glen canyon ranger station
-    # https://www.nps.gov/webcams-glca/hi1.jpg?1698334727991
-    # 37.872822, -110.395231
 
     closest_camera: dict = {}
     closest_distance = float("inf")
