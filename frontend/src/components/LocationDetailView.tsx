@@ -34,24 +34,29 @@ const LocationDetailView = () => {
   return (
     <>
       <h1 className="welcome-text">
-        Detailed view for {selectedLocation?.location_name}
+        Detailed view for {selectedLocation?.location_name}{' '}
+        {selectedLocation?.start_date} - {selectedLocation?.end_date}
       </h1>
+      <a
+        className="location-detail-view-back-button"
+        href={`/dashboard/locations/${tripId}`}
+      >
+        Back to LocationGrid
+      </a>
+
       <div className="location-detail-view-container">
-        <iframe
-          title="map"
-          width="600"
-          height="450"
-          loading="lazy"
-          src={`https://www.google.com/maps/embed/v1/place?key=${mapsAPIKey}&q=${selectedLocation?.latitude},${selectedLocation?.longitude}`}
-        ></iframe>
+        <div className="location-detail-view-map">
+          <h1>Map</h1>
+          {/* <iframe
+            title="map"
+            width="350"
+            height="350"
+            loading="lazy"
+            src={`https://www.google.com/maps/embed/v1/place?key=${mapsAPIKey}&q=${selectedLocation?.latitude},${selectedLocation?.longitude}`}
+          ></iframe> */}
+        </div>
         <WeatherDisplay />
         <AstronomyDisplay />
-        <a
-          className="location-detail-view-back-button"
-          href={`/dashboard/locations/${tripId}`}
-        >
-          Back to LocationGrid
-        </a>
       </div>
     </>
   );

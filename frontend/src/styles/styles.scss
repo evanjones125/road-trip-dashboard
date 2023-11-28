@@ -3,6 +3,7 @@
 @import 'input';
 @import 'trips';
 @import 'calendar';
+@import 'locationDetailedView';
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -79,25 +80,6 @@ button {
   &:focus,
   &:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
-  }
-}
-
-.welcome-text {
-  margin: auto;
-  max-width: 860px;
-  padding-bottom: 3rem;
-}
-
-.location-detail-view-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 0;
-
-  .location-detail-view-back-button {
-    font-size: 2rem;
   }
 }
 

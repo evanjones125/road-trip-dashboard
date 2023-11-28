@@ -2,8 +2,8 @@ import React from 'react';
 
 const AstronomyDisplay = () => {
   return (
-    <div>
-      <h1>Astronomy Display</h1>
+    <div className="astronomy-display">
+      <h1>Astronomy Forecast</h1>
     </div>
   );
 };

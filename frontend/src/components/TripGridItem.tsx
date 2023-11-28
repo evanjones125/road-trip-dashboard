@@ -19,7 +19,7 @@ import {
   Typography,
   Tooltip,
 } from '@mui/material';
-import { handleAxiosError } from '../utils/errorHandling';
+import { getWeatherDataForTrip } from '../utils/tripFunctions';
 
 const TripGridItem: React.FC<TripGridItemProps> = ({ trip }) => {
   const [weather, setWeather] = useState<WeatherForecast[]>([]);
@@ -29,38 +29,6 @@ const TripGridItem: React.FC<TripGridItemProps> = ({ trip }) => {
   const { id, trip_name, start_date, end_date, locations } = trip;
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-
-  // checks the date ranges for all the locations in the locations array and returns an array of any weather alerts for any location in the entire trip
-  const getWeatherData = async (
-    locations: Location[]
-  ): Promise<WeatherForecast[]> => {
-    const weatherAlerts: WeatherForecast[] = [];
-
-    for (const location of locations) {
-      const { latitude, longitude, start_date, end_date } = location;
-      const currentDate = new Date(start_date);
-      const endDate = new Date(end_date);
-
-      while (currentDate <= endDate) {
-        const dateString = currentDate.toISOString().slice(0, 10);
-
-        try {
-          const response = await axios.get(
-            `${BASE_URL}/api/weather/weatherForecast/${latitude},${longitude},${dateString}/`
-          );
-          const weatherData = response.data;
-          if (weatherData.precipBeforeTrip) {
-            weatherAlerts.push(weatherData.precipBeforeTrip);
-          }
-        } catch (err) {
-          handleAxiosError(err);
-        }
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-    }
-
-    return weatherAlerts;
-  };
 
   useEffect(() => {
     const fetchUrl = async () => {
@@ -84,7 +52,9 @@ const TripGridItem: React.FC<TripGridItemProps> = ({ trip }) => {
 
     const fetchWeather = async () => {
       try {
-        const result: WeatherForecast[] = await getWeatherData(locations);
+        const result: WeatherForecast[] = await getWeatherDataForTrip(
+          locations
+        );
         setWeather(result);
       } catch (error) {
         console.error('Failed to fetch weather', error);
@@ -113,8 +83,8 @@ const TripGridItem: React.FC<TripGridItemProps> = ({ trip }) => {
         <Tooltip
           title={
             weather.length
-              ? 'The forecast for this trip includes rain'
-              : 'No rain forecasted for this trip'
+              ? 'The forecast for this trip includes precipitation'
+              : 'No precipitation forecasted for this trip'
           }
           arrow
           placement="top"
