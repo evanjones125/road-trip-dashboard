@@ -175,7 +175,11 @@ def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
 # finds all the windows of time during which the sun and moon are not visibly in the sky (these are the best times to view the stars)
 def find_dark_windows(*time_strings: str) -> List[Tuple[str, str]]:
     # convert all time strings into datetime objects
-    times = [datetime.strptime(time, "%H:%M") for time in time_strings]
+    times = [
+        datetime.strptime(time, "%H:%M") if time != "-:-" else "-:-"
+        for time in time_strings
+    ]
+
     (
         sunset_time,
         moonrise_day1_time,
@@ -184,6 +188,28 @@ def find_dark_windows(*time_strings: str) -> List[Tuple[str, str]]:
         moonrise_day2_time,
         moonset_day2_time,
     ) = times
+
+    # assign times to the moonrise and moonset if they're not given as inputs
+    if moonrise_day1_time == "-:-":
+        # moonrise day 1 becomes 00:00 of the same day
+        moonrise_day1_time = datetime.strptime("00:00", "%H:%M")
+
+    if moonrise_day2_time == "-:-":
+        # moonrise day 2 becomes 00:00 of the next day
+        moonrise_day2_time = datetime.strptime("00:00", "%H:%M")
+
+    if moonset_day1_time == "-:-":
+        # moonset day 1 becomes 00:00 of the same day
+        moonset_day1_time = datetime.strptime("00:00", "%H:%M")
+
+    if moonset_day2_time == "-:-":
+        # moonset day 2 becomes 11:59 of the next day
+        moonset_day2_time = datetime.strptime("11:59", "%H:%M")
+
+    # adjust dates for next day events by 1 day
+    sunrise_time = sunrise_time + timedelta(days=1)
+    moonrise_day2_time = moonrise_day2_time + timedelta(days=1)
+    moonset_day2_time = moonset_day2_time + timedelta(days=1)
 
     dark_windows: List[Tuple[str, str]] = []
 
