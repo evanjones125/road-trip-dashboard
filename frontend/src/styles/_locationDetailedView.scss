@@ -40,7 +40,7 @@
     padding-bottom: 1rem;
   }
 
-  .weather-alert-header {
+  .forecast-h3 {
     font-size: 1.5rem;
     padding-bottom: 1rem;
   }
@@ -49,18 +49,20 @@
     font-size: 1rem;
     line-height: 1.5rem;
     text-align: left;
+    padding-bottom: 1rem;
+    margin-top: -10px;
 
     .weather-alert-text-bold {
       font-weight: bold;
     }
   }
 
-  .weather-forecast-table-wrapper {
-    overflow: auto;
+  .forecast-table-wrapper {
+    overflow: scroll;
     max-width: 100%;
   }
 
-  .weather-forecast-table {
+  .forecast-table {
     border: 1px solid #7b7b7b;
     line-height: 1.5rem;
     text-align: left;
@@ -68,11 +70,15 @@
     table-layout: fixed;
     width: 100%;
 
-    .weather-forecast-table-cell {
+    .forecast-table-cell {
       border: 1px solid #7b7b7b;
       padding: 6px;
       width: 200px;
       overflow: hidden;
+
+      .forecast-detail-p {
+        padding-bottom: 8px;
+      }
 
       .forecast-table-bold {
         font-weight: bold;

@@ -84,7 +84,7 @@ const WeatherDisplay = () => {
   return (
     <div className="weather-display">
       <h1>Weather</h1>
-      <h3 className="weather-alert-header">Alerts:</h3>
+      <h3 className="forecast-h3">Alerts:</h3>
       {weatherAlerts.length > 0 ? (
         weatherAlerts.map((alert: any, key: number) => (
           <p className="weather-alert-text" key={key}>
@@ -97,14 +97,13 @@ const WeatherDisplay = () => {
         <p className="weather-alert-text">No weather alerts</p>
       )}
 
-      <h3 className="weather-alert-header">Full forecast:</h3>
-
-      <div className="weather-forecast-table-wrapper">
-        <table className="weather-forecast-table">
+      <h3 className="forecast-h3">Full forecast:</h3>
+      <div className="forecast-table-wrapper">
+        <table className="forecast-table">
           <thead>
-            <tr className="weather-forecast-table-header">
+            <tr>
               {tripDates.map((date: any, key: number) => (
-                <th key={key} className="weather-forecast-table-cell">
+                <th key={key} className="forecast-table-cell">
                   {date}
                 </th>
               ))}
@@ -112,13 +111,13 @@ const WeatherDisplay = () => {
           </thead>
 
           <tbody>
-            <tr className="weather-forecast-table-row">
+            <tr className="forecast-table-row">
               {weatherForecast.length > 0
                 ? weatherForecast.map((forecast: any, key: number) => (
-                    <td key={key} className="weather-forecast-table-cell">
+                    <td key={key} className="forecast-table-cell">
                       {forecast['day'] ? (
                         <>
-                          <p style={{ paddingBottom: '8px' }}>
+                          <p className="forecast-detail-p">
                             <span className="forecast-table-bold">
                               {forecast['dayOfWeek']}:{' '}
                             </span>
