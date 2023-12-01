@@ -1,12 +1,22 @@
 .welcome-text {
   margin: auto;
   max-width: 660px;
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
   font-size: 2.5rem;
 }
 
 .location-detail-view-back-button {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  border-radius: 0;
+  background-color: #373850;
+  box-shadow: 5px 5px 0px 0px #191a25;
+
+  &:hover {
+    box-shadow: 10px 10px 0px 0px #191a25;
+    border-color: #7b7b7b;
+  }
+
+  transition: all 0.15s ease-in-out;
 }
 
 .location-detail-view-container {
@@ -23,33 +33,43 @@
 .location-detail-view-map,
 .weather-display,
 .astronomy-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: flex-start;
+  // gap: 10px;
   border: 0.5px solid #7b7b7b;
-  border-radius: 0.5rem;
+  background-color: #28282b;
   width: 100%;
-  // height: 400px;
-  padding: 2rem;
-  max-width: 400px;
+  padding: 50px;
+  width: 460px;
+  height: 460px;
+  overflow-y: scroll;
+
+  box-shadow: 10px 10px 0px 0px #191a25;
+
+  &:hover {
+    box-shadow: 13px 13px 0px 0px #191a25;
+    background-color: #242428;
+  }
+
+  transition: all 0.2s ease-in-out;
 
   h1 {
-    font-size: 2rem;
-    padding-bottom: 1rem;
+    font-size: 2.6rem;
+    padding-bottom: 2rem;
   }
 
   .forecast-h3 {
     font-size: 1.5rem;
-    padding-bottom: 1rem;
+    padding-bottom: 1.8rem;
   }
 
   .weather-alert-text {
     font-size: 1rem;
+    color: #ffbbbb;
     line-height: 1.5rem;
     text-align: left;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
     margin-top: -10px;
 
     .weather-alert-text-bold {
@@ -58,12 +78,13 @@
   }
 
   .forecast-table-wrapper {
-    overflow: scroll;
+    overflow-x: scroll;
     max-width: 100%;
   }
 
   .forecast-table {
     border: 1px solid #7b7b7b;
+    background-color: #373850;
     line-height: 1.5rem;
     text-align: left;
     align-self: flex-start;
@@ -84,5 +105,18 @@
         font-weight: bold;
       }
     }
+  }
+}
+
+.map-frame {
+  width: 100%;
+  height: 82%;
+}
+
+@media screen and (max-width: 650px) {
+  .location-detail-view-map,
+  .weather-display,
+  .astronomy-display {
+    padding: 30px;
   }
 }

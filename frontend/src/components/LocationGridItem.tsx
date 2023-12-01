@@ -78,7 +78,10 @@ const LocationGridItem: React.FC<LocationGridItemProps> = ({ location }) => {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {location_name} from {start_date} to {end_date}
+          {location_name}{' '}
+          {start_date === end_date
+            ? `on ${start_date}`
+            : `from ${start_date} to ${end_date}`}
         </Typography>
         <Typography variant="body2">
           The nearest camera is the {camera.Name}

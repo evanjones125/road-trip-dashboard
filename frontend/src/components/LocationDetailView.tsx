@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import WeatherDisplay from './WeatherDisplay';
 import AstronomyDisplay from './AstronomyDisplay';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store';
 import { refreshSession } from '../features/authSlice';
@@ -14,6 +14,7 @@ import {
 const LocationDetailView = () => {
   const { tripId, locationId } = useParams();
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useSelector((state: RootState) => state.auth);
   const { selectedLocation } = useSelector((state: RootState) => state.trips);
   const token: string | null = localStorage.getItem('token');
@@ -34,23 +35,26 @@ const LocationDetailView = () => {
   return (
     <>
       <h1 className="welcome-text">
-        Detailed view for {selectedLocation?.location_name}{' '}
-        {selectedLocation?.start_date} - {selectedLocation?.end_date}
+        Details for {selectedLocation?.location_name}{' '}
+        {selectedLocation?.start_date === selectedLocation?.end_date
+          ? `on ${selectedLocation?.start_date}`
+          : `from ${selectedLocation?.start_date} to ${selectedLocation?.end_date}`}
       </h1>
-      <a
+      <button
         className="location-detail-view-back-button"
-        href={`/dashboard/locations/${tripId}`}
+        onClick={() => navigate(`/dashboard/locations/${tripId}`)}
       >
-        Back to LocationGrid
-      </a>
+        Back to Locations
+      </button>
 
       <div className="location-detail-view-container">
         <div className="location-detail-view-map">
-          <h1>Map</h1>
+          <h1>Map 🗺️</h1>
           <iframe
             title="map"
-            width="350"
-            height="350"
+            className="map-frame"
+            // width="380"
+            // height="380"
             loading="lazy"
             src={`https://www.google.com/maps/embed/v1/place?key=${mapsAPIKey}&q=${selectedLocation?.latitude},${selectedLocation?.longitude}`}
           ></iframe>

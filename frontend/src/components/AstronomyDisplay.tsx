@@ -58,7 +58,7 @@ const AstronomyDisplay = () => {
 
   return (
     <div className="astronomy-display">
-      <h1>Astronomy Forecast</h1>
+      <h1>Astronomy 🌌</h1>
 
       <div className="forecast-table-wrapper">
         <table className="forecast-table">

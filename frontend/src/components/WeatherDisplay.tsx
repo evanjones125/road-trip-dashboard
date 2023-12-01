@@ -83,8 +83,8 @@ const WeatherDisplay = () => {
 
   return (
     <div className="weather-display">
-      <h1>Weather</h1>
-      <h3 className="forecast-h3">Alerts:</h3>
+      <h1>Weather 🌨️</h1>
+      <h3 className="forecast-h3">🚨Alerts🚨</h3>
       {weatherAlerts.length > 0 ? (
         weatherAlerts.map((alert: any, key: number) => (
           <p className="weather-alert-text" key={key}>
