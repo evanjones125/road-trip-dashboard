@@ -47,13 +47,13 @@ const LocationDetailView = () => {
       <div className="location-detail-view-container">
         <div className="location-detail-view-map">
           <h1>Map</h1>
-          {/* <iframe
+          <iframe
             title="map"
             width="350"
             height="350"
             loading="lazy"
             src={`https://www.google.com/maps/embed/v1/place?key=${mapsAPIKey}&q=${selectedLocation?.latitude},${selectedLocation?.longitude}`}
-          ></iframe> */}
+          ></iframe>
         </div>
         <WeatherDisplay />
         <AstronomyDisplay />

@@ -6,6 +6,10 @@ from typing import List, Tuple
 API_BASE_URL = "https://api.ipgeolocation.io/astronomy"
 API_KEY = os.environ.get("IPGEOLOCATION_API_KEY")
 
+# cache the geolocation api response data for 1 day to avoid making too many requests
+sun_and_moon_data_cache = {}
+api_requests = 0
+
 # milky way viewing data for the American Southwest from Capture the Atlas (I couldn't find a milky way API)
 milky_way_dates = {
     "2023-10-07": {
@@ -139,6 +143,39 @@ def get_milky_way_data(date: str) -> str:
 
 # grab sun and moon data from the ipgeolocation API
 def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
+    global api_requests
+
+    # check cache for corresponding input data and return it
+    if sun_and_moon_data_cache.get((lat, lon, date)):
+        # check if the data is older than 1 day
+        if datetime.strptime(
+            sun_and_moon_data_cache[(lat, lon, date)]["retrieveTime"],
+            "%Y-%m-%d %H:%M:%S",
+        ) < datetime.now() - timedelta(days=1):
+            del sun_and_moon_data_cache[(lat, lon, date)]
+            return get_sun_and_moon_data(lat, lon, date)
+
+        return {
+            "sunrise": format_time(
+                datetime.strptime(
+                    sun_and_moon_data_cache[(lat, lon, date)]["sunrise"], "%H:%M"
+                )
+            ),
+            "sunset": format_time(
+                datetime.strptime(
+                    sun_and_moon_data_cache[(lat, lon, date)]["sunset"], "%H:%M"
+                )
+            ),
+            "darkWindows": find_dark_windows(
+                sun_and_moon_data_cache[(lat, lon, date)]["sunset"],
+                sun_and_moon_data_cache[(lat, lon, date)]["moonrise"],
+                sun_and_moon_data_cache[(lat, lon, date)]["moonset"],
+                sun_and_moon_data_cache[(lat, lon, date)]["nextDaySunrise"],
+                sun_and_moon_data_cache[(lat, lon, date)]["nextDayMoonrise"],
+                sun_and_moon_data_cache[(lat, lon, date)]["nextDayMoonset"],
+            ),
+        }
+
     params = {
         "apiKey": API_KEY,
         "lat": lat,
@@ -153,8 +190,21 @@ def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
             datetime.strptime(date, "%Y-%m-%d") + timedelta(days=1)
         ).strftime("%Y-%m-%d")
         next_day_data = requests.get(API_BASE_URL, params=params).json()
+        api_requests += 1
     except requests.RequestException as e:
         return {"error": f"Failed to fetch data: {e}"}
+
+    # cache the data
+    sun_and_moon_data_cache[(lat, lon, date)] = {
+        "sunrise": sun_and_moon_data["sunrise"],
+        "sunset": sun_and_moon_data["sunset"],
+        "moonrise": sun_and_moon_data["moonrise"],
+        "moonset": sun_and_moon_data["moonset"],
+        "nextDaySunrise": next_day_data["sunrise"],
+        "nextDayMoonrise": next_day_data["moonrise"],
+        "nextDayMoonset": next_day_data["moonset"],
+        "retrieveTime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    }
 
     return {
         "sunrise": format_time(
@@ -257,6 +307,9 @@ def find_dark_windows(*time_strings: str) -> List[Tuple[str, str]]:
 
 # for a single date, return the milky way, sun, and moon forecasts
 def fetch_astronomy_data(lat: str, lon: str, date: str) -> dict:
+    # print(sun_and_moon_data_cache)
+    print(api_requests)
+
     return {
         "milkyWay": get_milky_way_data(date),
         "sunAndMoon": get_sun_and_moon_data(lat, lon, date),
