@@ -99,46 +99,70 @@ const WeatherDisplay = () => {
 
       <h3 className="forecast-h3">Full forecast:</h3>
       <div className="forecast-table-wrapper">
-        <table className="forecast-table">
-          <thead>
-            <tr>
-              {tripDates.map((date: any, key: number) => (
-                <th key={key} className="forecast-table-cell">
-                  {date}
-                </th>
-              ))}
-            </tr>
-          </thead>
+        {weatherForecast.length > 0 ? (
+          <table className="forecast-table">
+            <thead>
+              <tr>
+                {tripDates.map((date: any, key: number) => (
+                  <th key={key} className="forecast-table-cell">
+                    {date}
+                  </th>
+                ))}
+              </tr>
+            </thead>
 
-          <tbody>
-            <tr className="forecast-table-row">
-              {weatherForecast.length > 0
-                ? weatherForecast.map((forecast: any, key: number) => (
-                    <td key={key} className="forecast-table-cell">
-                      {forecast['day'] ? (
-                        <>
-                          <p className="forecast-detail-p">
-                            <span className="forecast-table-bold">
-                              {forecast['dayOfWeek']}:{' '}
-                            </span>
-                            {forecast['day']['detailedForecast']}
-                          </p>
-                          <p>
-                            <span className="forecast-table-bold">
-                              {forecast['dayOfWeek']} Night:{' '}
-                            </span>
-                            {forecast['night']['detailedForecast']}
-                          </p>
-                        </>
-                      ) : (
-                        'Date out of range for NWS forecast'
-                      )}
-                    </td>
-                  ))
-                : null}
-            </tr>
-          </tbody>
-        </table>
+            <tbody>
+              <tr className="forecast-table-row">
+                {weatherForecast.length > 0
+                  ? weatherForecast.map((forecast: any, key: number) => (
+                      <td key={key} className="forecast-table-cell">
+                        {forecast['day'] ? (
+                          <>
+                            <p className="forecast-detail-p">
+                              <span className="forecast-table-bold">
+                                {forecast['dayOfWeek']}:{' '}
+                              </span>
+                              {forecast['day']['detailedForecast']}
+                            </p>
+                            <p>
+                              <span className="forecast-table-bold">
+                                {forecast['dayOfWeek']} Night:{' '}
+                              </span>
+                              {forecast['night']['detailedForecast']}
+                            </p>
+                          </>
+                        ) : (
+                          'Date out of range for NWS forecast'
+                        )}
+                      </td>
+                    ))
+                  : null}
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          <div className="loader-wrapper">
+            <div className="loader">
+              <div className="loader-inner">
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
