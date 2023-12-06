@@ -8,7 +8,7 @@ def is_date_in_range(date: str, forecast: List[str]) -> bool:
 
 
 # find instances of forecasted rain or snow prior to the trip date
-def check_for_precip(date: str, forecast: List[str]) -> list | None:
+def check_for_precip(date: str, forecast: List[str]):
     if not is_date_in_range(date, forecast):
         return None
 
