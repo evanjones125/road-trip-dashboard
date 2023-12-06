@@ -314,7 +314,7 @@ def find_dark_windows(*time_strings: str) -> List[Tuple[str, str]]:
 # for a single date, return the milky way, sun, and moon forecasts
 def fetch_astronomy_data(lat: str, lon: str, date: str) -> dict:
     # print(sun_and_moon_data_cache)
-    print(api_requests)
+    # print(api_requests)
 
     return {
         "milkyWay": get_milky_way_data(date),
