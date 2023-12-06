@@ -7,3 +7,4 @@ requests==2.31.0
 sqlparse==0.4.4
 virtualenv==20.21.0
 virtualenv-clone==0.5.7
+django-environ==0.4.5
