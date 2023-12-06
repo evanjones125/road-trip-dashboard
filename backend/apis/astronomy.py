@@ -1,4 +1,4 @@
-import requests
+# import requests
 from datetime import datetime, timedelta
 from typing import List, Tuple
 
@@ -176,49 +176,55 @@ def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
             ),
         }
 
-    params = {
-        "apiKey": API_KEY,
-        "lat": lat,
-        "long": lon,
-        "date": date,
-    }
+    # params = {
+    #     "apiKey": API_KEY,
+    #     "lat": lat,
+    #     "long": lon,
+    #     "date": date,
+    # }
 
     # make our requests to the geolocation API
-    try:
-        sun_and_moon_data = requests.get(API_BASE_URL, params=params).json()
-        params["date"] = (
-            datetime.strptime(date, "%Y-%m-%d") + timedelta(days=1)
-        ).strftime("%Y-%m-%d")
-        next_day_data = requests.get(API_BASE_URL, params=params).json()
-        api_requests += 1
-    except requests.RequestException as e:
-        return {"error": f"Failed to fetch data: {e}"}
+    # try:
+    #     sun_and_moon_data = requests.get(API_BASE_URL, params=params).json()
+    #     params["date"] = (
+    #         datetime.strptime(date, "%Y-%m-%d") + timedelta(days=1)
+    #     ).strftime("%Y-%m-%d")
+    #     next_day_data = requests.get(API_BASE_URL, params=params).json()
+    #     api_requests += 1
+    # except requests.RequestException as e:
+    #     return {"error": f"Failed to fetch data: {e}"}
 
     # cache the data
-    sun_and_moon_data_cache[(lat, lon, date)] = {
-        "sunrise": sun_and_moon_data["sunrise"],
-        "sunset": sun_and_moon_data["sunset"],
-        "moonrise": sun_and_moon_data["moonrise"],
-        "moonset": sun_and_moon_data["moonset"],
-        "nextDaySunrise": next_day_data["sunrise"],
-        "nextDayMoonrise": next_day_data["moonrise"],
-        "nextDayMoonset": next_day_data["moonset"],
-        "retrieveTime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    }
+    # sun_and_moon_data_cache[(lat, lon, date)] = {
+    #     "sunrise": sun_and_moon_data["sunrise"],
+    #     "sunset": sun_and_moon_data["sunset"],
+    #     "moonrise": sun_and_moon_data["moonrise"],
+    #     "moonset": sun_and_moon_data["moonset"],
+    #     "nextDaySunrise": next_day_data["sunrise"],
+    #     "nextDayMoonrise": next_day_data["moonrise"],
+    #     "nextDayMoonset": next_day_data["moonset"],
+    #     "retrieveTime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    # }
+
+    # return {
+    #     "sunrise": format_time(
+    #         datetime.strptime(sun_and_moon_data["sunrise"], "%H:%M")
+    #     ),
+    #     "sunset": format_time(datetime.strptime(sun_and_moon_data["sunset"], "%H:%M")),
+    #     "darkWindows": find_dark_windows(
+    #         sun_and_moon_data["sunset"],
+    #         sun_and_moon_data["moonrise"],
+    #         sun_and_moon_data["moonset"],
+    #         next_day_data["sunrise"],
+    #         next_day_data["moonrise"],
+    #         next_day_data["moonset"],
+    #     ),
+    # }
 
     return {
-        "sunrise": format_time(
-            datetime.strptime(sun_and_moon_data["sunrise"], "%H:%M")
-        ),
-        "sunset": format_time(datetime.strptime(sun_and_moon_data["sunset"], "%H:%M")),
-        "darkWindows": find_dark_windows(
-            sun_and_moon_data["sunset"],
-            sun_and_moon_data["moonrise"],
-            sun_and_moon_data["moonset"],
-            next_day_data["sunrise"],
-            next_day_data["moonrise"],
-            next_day_data["moonset"],
-        ),
+        "sunrise": "6:00am",
+        "sunset": "6:00pm",
+        "darkWindows": [("6:00pm", "6:00am")],
     }
 
 
