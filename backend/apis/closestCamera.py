@@ -1,7 +1,6 @@
-import os
 import math
 
-API_KEY = os.environ.get("UDOT_API_KEY")
+# API_KEY = os.environ.get("UDOT_API_KEY")
 
 
 # use the haversine formula to calculate the distance between two points
