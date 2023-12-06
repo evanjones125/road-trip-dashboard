@@ -33,6 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com",
     "localhost",
+    ".vercel.app",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
