@@ -4,8 +4,7 @@
       "src": "backend/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "pythonVersion": "3.9",
-        "buildCommand": "pip install httpx -t ./python"
+        "pythonVersion": "3.9"
       }
     }
   ],

@@ -1,4 +1,4 @@
-import httpx
+import requests
 from typing import List
 
 
@@ -33,10 +33,6 @@ def check_for_precip(date: str, forecast: List[str]):
 
 # gets weather data from the NWS and parses it to get a more useful object of only data we need
 def fetch_weather_data(lat: str, lon: str, date: str) -> dict:
-    # round lat and lon to 4 decimal places
-    lat = round(float(lat), 4)
-    lon = round(float(lon), 4)
-
     # find the url of the closest NWS station
     req = f"https://api.weather.gov/points/{lat},{lon}"
     headers = {
@@ -45,17 +41,12 @@ def fetch_weather_data(lat: str, lon: str, date: str) -> dict:
     }
 
     # get the forecast using the url we generated
-    # try:
-    #     url = requests.get(req, headers=headers).json()["properties"]["forecast"]
-    #     response = requests.get(url)
-    #     response.raise_for_status()
-    # except requests.RequestException:
-    #     return {"error": "Failed to fetch weather data"}
-
-    with httpx.Client() as client:
-        url = client.get(req, headers=headers).json()["properties"]["forecast"]
-        response = client.get(url)
+    try:
+        url = requests.get(req, headers=headers).json()["properties"]["forecast"]
+        response = requests.get(url)
         response.raise_for_status()
+    except requests.RequestException:
+        return {"error": "Failed to fetch weather data"}
 
     # specifically grab the weather forecast portion of the NWS response
     forecast: List[str] = response.json()["properties"]["periods"]
