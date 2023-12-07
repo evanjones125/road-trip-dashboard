@@ -1,4 +1,7 @@
-import requests
+# import requests
+import urllib.request
+import urllib.parse
+import json
 from datetime import datetime, timedelta
 from typing import List, Tuple
 
@@ -183,15 +186,32 @@ def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
         "date": date,
     }
 
+    # # make our requests to the geolocation API
+    # try:
+    #     sun_and_moon_data = requests.get(API_BASE_URL, params=params).json()
+    #     params["date"] = (
+    #         datetime.strptime(date, "%Y-%m-%d") + timedelta(days=1)
+    #     ).strftime("%Y-%m-%d")
+    #     next_day_data = requests.get(API_BASE_URL, params=params).json()
+    #     api_requests += 1
+    # except requests.RequestException as e:
+    #     return {"error": f"Failed to fetch data: {e}"}
+
     # make our requests to the geolocation API
     try:
-        sun_and_moon_data = requests.get(API_BASE_URL, params=params).json()
+        url = f"{API_BASE_URL}?{urllib.parse.urlencode(params)}"
+        with urllib.request.urlopen(url) as response:
+            sun_and_moon_data = json.loads(response.read())
+
         params["date"] = (
             datetime.strptime(date, "%Y-%m-%d") + timedelta(days=1)
         ).strftime("%Y-%m-%d")
-        next_day_data = requests.get(API_BASE_URL, params=params).json()
+        url = f"{API_BASE_URL}?{urllib.parse.urlencode(params)}"
+        with urllib.request.urlopen(url) as response:
+            next_day_data = json.loads(response.read())
+
         api_requests += 1
-    except requests.RequestException as e:
+    except urllib.error.URLError as e:
         return {"error": f"Failed to fetch data: {e}"}
 
     # cache the data
