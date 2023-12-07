@@ -1,5 +1,139 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 .form {
-  margin: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -15,9 +149,7 @@
 .form .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
   border-color: rgba(255, 255, 255, 0.262745098);
 }
-.form
-  .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root:hover
-  .MuiOutlinedInput-notchedOutline {
+.form .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(255, 255, 255, 0.499);
 }
 
@@ -30,10 +162,10 @@
 
 .trip-card .MuiCard-root {
   background-color: #222222;
-  height: 391.2px;
 }
 
-.MuiTypography-h5 {
+.MuiTypography-h5,
+.MuiTypography-h6 {
   color: #ffffff;
 }
 
@@ -47,6 +179,327 @@
   max-height: 100px;
 }
 
+.react-daterange-picker {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.react-daterange-picker svg {
+  stroke: #949494;
+}
+.react-daterange-picker .react-daterange-picker__range-divider {
+  position: relative;
+  left: -8px;
+}
+.react-daterange-picker .react-calendar,
+.react-daterange-picker .react-calendar__navigation,
+.react-daterange-picker .react-calendar__month-view__days,
+.react-daterange-picker .react-calendar__month-view__days {
+  background-color: #222222;
+}
+.react-daterange-picker .react-calendar__month-view__days__day--weekend,
+.react-daterange-picker .react-calendar__month-view__days__day--weekend {
+  color: inherit;
+}
+.react-daterange-picker .react-calendar__month-view__days__day--neighboringMonth {
+  color: #757575;
+}
+.react-daterange-picker abbr {
+  text-decoration: none;
+}
+.react-daterange-picker .react-calendar__tile {
+  border-radius: 0;
+}
+.react-daterange-picker .react-calendar__tile:hover {
+  background-color: #90caf9;
+}
+.react-daterange-picker .react-calendar__tile--now {
+  background-color: inherit;
+  border: 0.8px solid #4178a4;
+}
+.react-daterange-picker .react-calendar__tile--hover {
+  background-color: #2a2b2f;
+}
+.react-daterange-picker .react-calendar__tile--active {
+  background-color: #90caf9;
+  color: #222222;
+}
+.react-daterange-picker .react-calendar__tile--active:enabled:hover, .react-daterange-picker .react-calendar__tile--active:enabled:focus {
+  background-color: #90caf9;
+}
+.react-daterange-picker .react-calendar__tile--hoverStart,
+.react-daterange-picker .react-calendar__tile--hoverEnd {
+  color: #222222;
+}
+.react-daterange-picker button:focus,
+.react-daterange-picker button:focus-visible {
+  outline: none;
+}
+.react-daterange-picker .react-daterange-picker__inputGroup__input:invalid {
+  background: rgba(168, 168, 168, 0.1);
+}
+
+.react-daterange-picker__wrapper {
+  border-radius: 4px;
+  width: 100%;
+  padding: 16.5px 14px;
+  border-color: rgba(255, 255, 255, 0.262745098);
+}
+.react-daterange-picker__wrapper:hover {
+  border-color: rgba(255, 255, 255, 0.499);
+}
+
+.error-border {
+  border-radius: 4px;
+  margin: 0;
+}
+.error-border .react-daterange-picker__wrapper {
+  border: 1px solid #d32f2f;
+}
+.error-border .react-daterange-picker__wrapper:hover {
+  border-color: rgba(255, 255, 255, 0.499);
+}
+
+.error-message {
+  font-size: 0.75rem;
+  margin: 3px 14px 16px 14px;
+  line-height: 1.66;
+  color: #d32f2f;
+}
+
+.welcome-text {
+  margin: auto;
+  max-width: 660px;
+  padding-bottom: 2rem;
+  font-size: 2.5rem;
+}
+
+.location-detail-view-back-button {
+  font-size: 1.5rem;
+  border-radius: 0;
+  background-color: #373850;
+  box-shadow: 5px 5px 0px 0px #191a25;
+  transition: all 0.15s ease-in-out;
+}
+.location-detail-view-back-button:hover {
+  box-shadow: 10px 10px 0px 0px #191a25;
+  border-color: #7b7b7b;
+}
+
+.location-detail-view-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  max-width: 1350px;
+  padding-top: 3rem;
+}
+
+.location-detail-view-map,
+.weather-display,
+.astronomy-display {
+  border: 0.5px solid #7b7b7b;
+  background-color: #28282b;
+  width: 100%;
+  padding: 50px;
+  width: 460px;
+  height: 460px;
+  overflow-y: scroll;
+  box-shadow: 10px 10px 0px 0px #191a25;
+  transition: all 0.2s ease-in-out;
+}
+.location-detail-view-map:hover,
+.weather-display:hover,
+.astronomy-display:hover {
+  box-shadow: 13px 13px 0px 0px #191a25;
+  background-color: #242428;
+}
+.location-detail-view-map h1,
+.weather-display h1,
+.astronomy-display h1 {
+  font-size: 2.6rem;
+  padding-bottom: 2rem;
+}
+.location-detail-view-map .forecast-h3,
+.weather-display .forecast-h3,
+.astronomy-display .forecast-h3 {
+  font-size: 1.5rem;
+  padding-bottom: 1.8rem;
+}
+.location-detail-view-map .weather-alert-text,
+.weather-display .weather-alert-text,
+.astronomy-display .weather-alert-text {
+  font-size: 1rem;
+  color: #ffbbbb;
+  line-height: 1.5rem;
+  text-align: left;
+  padding-bottom: 2rem;
+  margin-top: -10px;
+}
+.location-detail-view-map .weather-alert-text .weather-alert-text-bold,
+.weather-display .weather-alert-text .weather-alert-text-bold,
+.astronomy-display .weather-alert-text .weather-alert-text-bold {
+  font-weight: bold;
+}
+.location-detail-view-map .forecast-table-wrapper,
+.weather-display .forecast-table-wrapper,
+.astronomy-display .forecast-table-wrapper {
+  overflow-x: scroll;
+  max-width: 100%;
+}
+.location-detail-view-map .forecast-table,
+.weather-display .forecast-table,
+.astronomy-display .forecast-table {
+  border: 1px solid #7b7b7b;
+  background-color: #373850;
+  line-height: 1.5rem;
+  text-align: left;
+  align-self: flex-start;
+  table-layout: fixed;
+  width: 100%;
+}
+.location-detail-view-map .forecast-table .forecast-table-cell,
+.weather-display .forecast-table .forecast-table-cell,
+.astronomy-display .forecast-table .forecast-table-cell {
+  border: 1px solid #7b7b7b;
+  padding: 6px;
+  width: 200px;
+  overflow: hidden;
+}
+.location-detail-view-map .forecast-table .forecast-table-cell .forecast-detail-p,
+.weather-display .forecast-table .forecast-table-cell .forecast-detail-p,
+.astronomy-display .forecast-table .forecast-table-cell .forecast-detail-p {
+  padding-bottom: 8px;
+}
+.location-detail-view-map .forecast-table .forecast-table-cell .forecast-table-bold,
+.weather-display .forecast-table .forecast-table-cell .forecast-table-bold,
+.astronomy-display .forecast-table .forecast-table-cell .forecast-table-bold {
+  font-weight: bold;
+}
+
+.map-frame {
+  width: 100%;
+  height: 82%;
+}
+
+@media screen and (max-width: 650px) {
+  .location-detail-view-map,
+  .weather-display,
+  .astronomy-display {
+    padding: 30px;
+  }
+}
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.loader {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+}
+
+.loader-inner {
+  bottom: 0;
+  height: 60px;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100px;
+}
+
+.loader-line-wrap {
+  animation: spin 1000ms cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+  box-sizing: border-box;
+  height: 50px;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  transform-origin: 50% 100%;
+  width: 100px;
+}
+
+.loader-line {
+  border: 4px solid transparent;
+  border-radius: 100%;
+  box-sizing: border-box;
+  height: 100px;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100px;
+}
+
+.loader-line-wrap:nth-child(1) {
+  animation-delay: -50ms;
+}
+
+.loader-line-wrap:nth-child(2) {
+  animation-delay: -100ms;
+}
+
+.loader-line-wrap:nth-child(3) {
+  animation-delay: -150ms;
+}
+
+.loader-line-wrap:nth-child(4) {
+  animation-delay: -200ms;
+}
+
+.loader-line-wrap:nth-child(5) {
+  animation-delay: -250ms;
+}
+
+.loader-line-wrap:nth-child(1) .loader-line {
+  border-color: hsl(0, 80%, 60%);
+  height: 90px;
+  width: 90px;
+  top: 7px;
+}
+
+.loader-line-wrap:nth-child(2) .loader-line {
+  border-color: hsl(60, 80%, 60%);
+  height: 76px;
+  width: 76px;
+  top: 14px;
+}
+
+.loader-line-wrap:nth-child(3) .loader-line {
+  border-color: hsl(120, 80%, 60%);
+  height: 62px;
+  width: 62px;
+  top: 21px;
+}
+
+.loader-line-wrap:nth-child(4) .loader-line {
+  border-color: hsl(180, 80%, 60%);
+  height: 48px;
+  width: 48px;
+  top: 28px;
+}
+
+.loader-line-wrap:nth-child(5) .loader-line {
+  border-color: hsl(240, 80%, 60%);
+  height: 34px;
+  width: 34px;
+  top: 35px;
+}
+
+@keyframes spin {
+  0%, 15% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -61,6 +514,41 @@
   -webkit-text-size-adjust: 100%;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#main {
+  flex: 1;
+  margin: 0 auto;
+  max-width: 1280px;
+  text-align: center;
+  padding: 3.5rem 5rem;
+}
+
+@media (max-width: 650px) {
+  #main {
+    padding: 2rem 1rem;
+  }
+}
+.css-1juivf6-MuiTypography-root a {
+  color: inherit;
+}
+.css-1juivf6-MuiTypography-root a:hover {
+  color: inherit;
+}
+
+.header .css-hip9hq-MuiPaper-root-MuiAppBar-root {
+  background-color: #424954;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -69,19 +557,6 @@ a {
 
 a:hover {
   color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
@@ -95,14 +570,19 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-
 button:hover {
   border-color: #646cff;
 }
-
-button:focus,
-button:focus-visible {
+button:focus, button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.form {
+  background-color: #222222;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  max-width: 313px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -117,24 +597,15 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
-
 .logo:hover {
   filter: drop-shadow(0 0 2em rgba(100, 108, 255, 0.6666666667));
 }
-
 .logo.react:hover {
   filter: drop-shadow(0 0 2em rgba(97, 218, 251, 0.6666666667));
 }
@@ -154,9 +625,4 @@ button:focus-visible {
 }
 .card {
   padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-/*# sourceMappingURL=styles.css.map */
+}/*# sourceMappingURL=styles.css.map */
