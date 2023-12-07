@@ -1,6 +1,9 @@
-# import requests
 import urllib.request
+import json
+import ssl
 from typing import List
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 
 # check if our date is within the National Weather Service forecast range
@@ -41,9 +44,7 @@ def fetch_weather_data(lat: str, lon: str, date: str) -> dict:
         "Accept": "application/json",
     }
 
-    url = urllib.request.urlopen(req).read()
-
-    # get the forecast using the url we generated
+    # # get the forecast using the url we generated
     # try:
     #     url = requests.get(req, headers=headers).json()["properties"]["forecast"]
     #     response = requests.get(url)
@@ -51,13 +52,25 @@ def fetch_weather_data(lat: str, lon: str, date: str) -> dict:
     # except requests.RequestException:
     #     return {"error": "Failed to fetch weather data"}
 
-    # specifically grab the weather forecast portion of the NWS response
+    # # specifically grab the weather forecast portion of the NWS response
     # forecast: List[str] = response.json()["properties"]["periods"]
 
-    # return {
-    #     "dateInRange": is_date_in_range(date, forecast),
-    #     "precipBeforeTrip": check_for_precip(date, forecast),
-    #     "forecast": forecast,
-    # }
+    # get the forecast using the url we generated
+    try:
+        request = urllib.request.Request(req, headers=headers)
+        with urllib.request.urlopen(request) as response:
+            data = json.loads(response.read())
+            url = data["properties"]["forecast"]
 
-    return {}
+        request = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(request) as response:
+            forecast: List[str] = json.loads(response.read())["properties"]["periods"]
+
+    except urllib.error.URLError:
+        return {"error": "Failed to fetch weather data"}
+
+    return {
+        "dateInRange": is_date_in_range(date, forecast),
+        "precipBeforeTrip": check_for_precip(date, forecast),
+        "forecast": forecast,
+    }
