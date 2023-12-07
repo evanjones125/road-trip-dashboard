@@ -1,13 +1,14 @@
 # import requests
 import urllib.request
+import os
 import urllib.parse
 import json
 from datetime import datetime, timedelta
 from typing import List, Tuple
 
 API_BASE_URL = "https://api.ipgeolocation.io/astronomy"
-# API_KEY = os.environ.get("IPGEOLOCATION_API_KEY")
-API_KEY = "483c6d15f0924e219b334c84ea6269c5"
+API_KEY = os.environ.get("IPGEOLOCATION_API_KEY")
+# API_KEY = "483c6d15f0924e219b334c84ea6269c5"
 
 # cache the geolocation api response data for 1 day to avoid making too many requests
 sun_and_moon_data_cache = {}
