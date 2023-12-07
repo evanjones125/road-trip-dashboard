@@ -1,4 +1,5 @@
-import requests
+# import requests
+import urllib.request
 from typing import List
 
 
@@ -40,19 +41,23 @@ def fetch_weather_data(lat: str, lon: str, date: str) -> dict:
         "Accept": "application/json",
     }
 
+    url = urllib.request.urlopen(req).read()
+
     # get the forecast using the url we generated
-    try:
-        url = requests.get(req, headers=headers).json()["properties"]["forecast"]
-        response = requests.get(url)
-        response.raise_for_status()
-    except requests.RequestException:
-        return {"error": "Failed to fetch weather data"}
+    # try:
+    #     url = requests.get(req, headers=headers).json()["properties"]["forecast"]
+    #     response = requests.get(url)
+    #     response.raise_for_status()
+    # except requests.RequestException:
+    #     return {"error": "Failed to fetch weather data"}
 
     # specifically grab the weather forecast portion of the NWS response
-    forecast: List[str] = response.json()["properties"]["periods"]
+    # forecast: List[str] = response.json()["properties"]["periods"]
 
-    return {
-        "dateInRange": is_date_in_range(date, forecast),
-        "precipBeforeTrip": check_for_precip(date, forecast),
-        "forecast": forecast,
-    }
+    # return {
+    #     "dateInRange": is_date_in_range(date, forecast),
+    #     "precipBeforeTrip": check_for_precip(date, forecast),
+    #     "forecast": forecast,
+    # }
+
+    return {}
