@@ -1,7 +1,5 @@
 import math
 
-# API_KEY = os.environ.get("UDOT_API_KEY")
-
 
 # use the haversine formula to calculate the distance between two points
 def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -11588,4 +11586,5 @@ def find_closest_camera(lat: str, lon: str) -> dict:
         if distance < closest_distance:
             closest_distance = distance
             closest_camera = camera
+            
     return closest_camera
