@@ -127,38 +127,42 @@ export const deleteLocation = createAsyncThunk<any, any>(
 );
 
 // takes in a trip id and sets it as the current trip and sets the current locations array to the locations of that trip
-export const setCurrentTrip = createAsyncThunk<LocationWithCameras[], number>(
-  'trips/setCurrentTrip',
-  async (tripId: number, { getState }) => {
-    const trips: Trip[] = (getState() as RootState).trips.trips;
+export const setCurrentTrip = createAsyncThunk<
+  LocationWithCameras[] | number,
+  number
+>('trips/setCurrentTrip', async (tripId: number, { getState }) => {
+  const trips: Trip[] = (getState() as RootState).trips.trips;
 
-    const locations: Location[] = trips
-      .map((trip: Trip) => trip.locations)
-      .flat()
-      .filter((location: Location) => location.trip === tripId);
+  const locations: Location[] = trips
+    .map((trip: Trip) => trip.locations)
+    .flat()
+    .filter((location: Location) => location.trip === tripId);
 
-    const updatedLocations = [];
-
-    for (const location of locations) {
-      try {
-        const response = await axios.get(
-          `${BASE_URL}/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
-        );
-
-        const updatedLocation = {
-          ...location,
-          camera: response.data.camera_obj,
-        };
-
-        updatedLocations.push(updatedLocation);
-      } catch (error) {
-        handleAxiosError(error);
-      }
-    }
-
-    return updatedLocations;
+  if (locations.length === 0) {
+    return tripId;
   }
-);
+
+  const updatedLocations = [];
+
+  for (const location of locations) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/getCamera/closestCamera/${location.latitude},${location.longitude}/`
+      );
+
+      const updatedLocation = {
+        ...location,
+        camera: response.data.camera_obj,
+      };
+
+      updatedLocations.push(updatedLocation);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
+  return updatedLocations;
+});
 
 const tripsSlice = createSlice({
   name: 'trips',
@@ -185,9 +189,14 @@ const tripsSlice = createSlice({
       state.trips.push(action.payload);
     });
     builder.addCase(setCurrentTrip.fulfilled, (state, action) => {
-      if (action.payload.length > 0) {
+      if (Array.isArray(action.payload)) {
         state.locationsOfCurrentTrip = action.payload;
         state.currentTripId = state.locationsOfCurrentTrip[0].trip;
+        state.currentTripName = state.trips.find(
+          (trip) => trip.id === state.currentTripId
+        )?.trip_name;
+      } else {
+        state.currentTripId = action.payload;
         state.currentTripName = state.trips.find(
           (trip) => trip.id === state.currentTripId
         )?.trip_name;
