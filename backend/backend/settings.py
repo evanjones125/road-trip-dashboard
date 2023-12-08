@@ -11,13 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import os
 
-# import environ
-
-# initialize environment variables
-# env = environ.Env()
-# environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +26,7 @@ SECRET_KEY = "django-insecure-2r4j)ekw5x6rao9wewd2+$($#6q1g#$2jb)-b*tawe@r#%j+00
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", ".vercel.app", "now.sh", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", ".vercel.app", ".now.sh", "127.0.0.1"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -105,7 +99,7 @@ DATABASES = {
     #     "HOST": os.environ.get("POSTGRES_HOST"),
     # }
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "railway",
         "USER": "postgres",
         "PASSWORD": "1dC-*CADEdDCE6eGD6G3gEcg6GCAgdf6",
@@ -150,8 +144,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
 
 
 # Default primary key field type
