@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-2r4j)ekw5x6rao9wewd2+$($#6q1g#$2jb)-b*tawe@r#%j+00"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com",
@@ -96,18 +96,25 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
     # "default": {
     #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": "tripdashboard",
+    #     "NAME": "verceldb",
     #     "USER": os.environ.get("POSTGRES_USER"),
     #     "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
     #     "HOST": os.environ.get("POSTGRES_HOST"),
-    #     "PORT": "5432",
     # }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "railway",
+        "USER": "postgres",
+        "PASSWORD": "1dC-*CADEdDCE6eGD6G3gEcg6GCAgdf6",
+        "HOST": "roundhouse.proxy.rlwy.net",
+        "PORT": "23145",
+    }
 }
 
 
@@ -145,7 +152,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -154,4 +162,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:5173",
+    "http://127.0.0.1",
 ]

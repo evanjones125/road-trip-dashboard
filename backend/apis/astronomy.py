@@ -1,17 +1,15 @@
-# import requests
 import urllib.request
-import os
 import urllib.parse
 import json
 from datetime import datetime, timedelta
 from typing import List, Tuple
 
 API_BASE_URL = "https://api.ipgeolocation.io/astronomy"
-API_KEY = os.environ.get("IPGEOLOCATION_API_KEY")
+# API_KEY = os.environ.get("IPGEOLOCATION_API_KEY")
+API_KEY = "483c6d15f0924e219b334c84ea6269c5"
 
 # cache the geolocation api response data for 1 day to avoid making too many requests
 sun_and_moon_data_cache = {}
-api_requests = 0
 
 # milky way viewing data for the American Southwest from Capture the Atlas (I couldn't find a milky way API)
 milky_way_dates = {
@@ -210,7 +208,6 @@ def get_sun_and_moon_data(lat: str, lon: str, date: str) -> dict:
         with urllib.request.urlopen(url) as response:
             next_day_data = json.loads(response.read())
 
-        api_requests += 1
     except urllib.error.URLError as e:
         return {"error": f"Failed to fetch data: {e}"}
 
