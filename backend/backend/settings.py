@@ -27,7 +27,13 @@ SECRET_KEY = "django-insecure-2r4j)ekw5x6rao9wewd2+$($#6q1g#$2jb)-b*tawe@r#%j+00
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", ".vercel.app", ".now.sh", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "localhost",
+    ".vercel.app",
+    ".now.sh",
+    "127.0.0.1",
+    "trip-dashboard.onrender.com",
+]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
