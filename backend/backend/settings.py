@@ -108,7 +108,7 @@ DATABASES = {
     #     "HOST": os.environ.get("POSTGRES_HOST"),
     # }
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "railway",
         "USER": "postgres",
         "PASSWORD": "1dC-*CADEdDCE6eGD6G3gEcg6GCAgdf6",
