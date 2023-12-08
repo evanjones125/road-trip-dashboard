@@ -1,11 +1,9 @@
 {
+  "version": 2,
   "builds": [
     {
       "src": "backend/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "pythonVersion": "3.9"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
