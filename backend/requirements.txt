@@ -15,7 +15,7 @@ httpx==0.25.2
 idna==3.6
 pipenv==2023.3.20
 platformdirs==3.11.0
-psycopg2==2.9.9
+# psycopg2==2.9.9
 psycopg2-binary==2.9.9
 pytz==2023.3.post1
 requests==2.31.0
