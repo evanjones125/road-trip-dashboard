@@ -29,13 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-2r4j)ekw5x6rao9wewd2+$($#6q1g#$2jb)-b*tawe@r#%j+00"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = [
-    "tripdashboard-env.eba-gc2wq5ff.us-east-1.elasticbeanstalk.com",
-    "localhost",
-    ".vercel.app",
-]
+ALLOWED_HOSTS = ["localhost", ".vercel.app", "now.sh", "127.0.0.1"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
