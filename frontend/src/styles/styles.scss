@@ -49,8 +49,14 @@
   }
 }
 
+header,
 .header .css-hip9hq-MuiPaper-root-MuiAppBar-root {
   background-color: #424954;
+}
+
+header p,
+header svg {
+  color: #fff;
 }
 
 h1 {
