@@ -43,7 +43,7 @@ const LocationGrid: React.FC<LocationGridProps> = ({ locations }) => {
         Back to trips
       </button>
 
-      <div className="trips-container">
+      <div className="locations-container">
         {locations.map((location: LocationWithCameras, i: number) => {
           return (
             <div className="trip-card" key={i}>

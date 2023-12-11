@@ -3,12 +3,13 @@ import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
 import { handleAxiosError } from '../utils/errorHandling';
 import { useSelector } from 'react-redux';
+import type { MilkyWayData, SunAndMoonData } from '../types/types';
 import type { RootState } from '../store';
 
 const AstronomyDisplay = () => {
-  const [milkyWayData, setMilkyWayData] = useState<any>([]);
-  const [sunAndMoonData, setSunAndMoonData] = useState<any>([]);
-  const [tripDates, setTripDates] = useState<any>([]);
+  const [milkyWayData, setMilkyWayData] = useState<MilkyWayData[]>([]);
+  const [sunAndMoonData, setSunAndMoonData] = useState<SunAndMoonData[]>([]);
+  const [tripDates, setTripDates] = useState<string[]>([]);
   const { selectedLocation } = useSelector((state: RootState) => state.trips);
 
   useEffect(() => {
@@ -18,8 +19,8 @@ const AstronomyDisplay = () => {
         const currentDate = new Date(start_date);
         const endDate = new Date(end_date);
 
-        const milkyWayArray = [];
-        const sunAndMoonArray = [];
+        const milkyWayArray: MilkyWayData[] = [];
+        const sunAndMoonArray: SunAndMoonData[] = [];
         const dates = [];
 
         while (currentDate <= endDate) {
@@ -51,65 +52,86 @@ const AstronomyDisplay = () => {
       getAstronomyDataForLocation();
     }
   }, [selectedLocation]);
-
-  // console.log(milkyWayData);
-  // console.log(sunAndMoonData);
-  // console.log(tripDates);
+  console.log(tripDates);
 
   return (
     <div className="astronomy-display">
       <h1>Astronomy 🌌</h1>
 
       <div className="forecast-table-wrapper">
-        <table className="forecast-table">
-          <thead>
-            <tr>
-              {tripDates.map((date: string, index: number) => (
-                <th key={index} className="forecast-table-cell">
-                  {date}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {milkyWayData.map((day: any, index: number) => {
-                return (
-                  <td key={index} className="forecast-table-cell">
-                    <span className="forecast-table-bold">
-                      Milky Way forecast:{' '}
-                    </span>
-                    <p>{day.report}</p>
-                  </td>
-                );
-              })}
-            </tr>
+        {sunAndMoonData.length > 0 ? (
+          <table className="forecast-table">
+            <thead>
+              <tr>
+                {tripDates.map((date: string, index: number) => (
+                  <th key={index} className="forecast-table-cell">
+                    {date}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {milkyWayData.map((day: MilkyWayData, index: number) => {
+                  return (
+                    <td key={index} className="forecast-table-cell">
+                      <span className="forecast-table-bold">
+                        Milky Way forecast:{' '}
+                      </span>
+                      <p>{day.report}</p>
+                    </td>
+                  );
+                })}
+              </tr>
 
-            <tr>
-              {sunAndMoonData.map((day: any, index: number) => {
-                return (
-                  <td key={index} className="forecast-table-cell">
-                    <span className="forecast-table-bold">Sunrise: </span>
-                    <p className="forecast-detail-p">{day.sunrise}</p>
-                    <span className="forecast-table-bold">Sunset: </span>
-                    <p className="forecast-detail-p">{day.sunset}</p>
-                    <span className="forecast-table-bold">
-                      Best star viewing times:{' '}
-                    </span>
-                    {day.darkWindows.map((time: string, index: number) => {
-                      return (
-                        <p key={index}>
-                          The sun and moon will both be set from {time[0]} to{' '}
-                          {time[1]}
-                        </p>
-                      );
-                    })}
-                  </td>
-                );
-              })}
-            </tr>
-          </tbody>
-        </table>
+              <tr>
+                {sunAndMoonData.map((day: SunAndMoonData, index: number) => {
+                  return (
+                    <td key={index} className="forecast-table-cell">
+                      <span className="forecast-table-bold">Sunrise: </span>
+                      <p className="forecast-detail-p">{day.sunrise}</p>
+                      <span className="forecast-table-bold">Sunset: </span>
+                      <p className="forecast-detail-p">{day.sunset}</p>
+                      <span className="forecast-table-bold">
+                        Best star viewing times:{' '}
+                      </span>
+                      {day.darkWindows.map((time: string[], index: number) => {
+                        return (
+                          <p key={index}>
+                            The sun and moon will both be set from {time[0]} to{' '}
+                            {time[1]}
+                          </p>
+                        );
+                      })}
+                    </td>
+                  );
+                })}
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          <div className="loader-wrapper">
+            <div className="loader">
+              <div className="loader-inner">
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+                <div className="loader-line-wrap">
+                  <div className="loader-line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

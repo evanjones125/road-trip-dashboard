@@ -3,11 +3,11 @@ import {
   AppBar,
   Box,
   Button,
-  IconButton,
+  // IconButton,
   Toolbar,
   Typography,
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/authSlice';

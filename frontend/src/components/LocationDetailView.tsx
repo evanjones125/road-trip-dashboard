@@ -53,8 +53,6 @@ const LocationDetailView = () => {
           <iframe
             title="map"
             className="map-frame"
-            // width="380"
-            // height="380"
             loading="lazy"
             src={`https://www.google.com/maps/embed/v1/place?key=${mapsAPIKey}&q=${selectedLocation?.latitude},${selectedLocation?.longitude}`}
           ></iframe>

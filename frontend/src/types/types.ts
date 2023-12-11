@@ -112,3 +112,18 @@ export type WeatherForecast = {
 } | void;
 
 export type InputEvent = React.ChangeEvent<HTMLInputElement>;
+
+export type SunAndMoonData = {
+  sunrise: string;
+  sunset: string;
+  darkWindows: Array<[string, string]>;
+};
+
+export type MilkyWayData = {
+  position: string;
+  report: string;
+  visibility: {
+    start: string;
+    end: string;
+  };
+};
