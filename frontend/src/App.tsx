@@ -7,7 +7,7 @@ import ProtectedRoute from './containers/ProtectedRoute';
 
 function App() {
   return (
-    <div>
+    <>
       <Router>
         <Routes>
           <Route element={<ProtectedRoute />}>
@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>
-    </div>
+    </>
   );
 }
 
