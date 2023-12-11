@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentTrip, fetchTrips } from '../features/tripsSlice';
 import { refreshSession } from '../features/authSlice';
 import type { AppDispatch, RootState } from '../store';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // create a <li> for each Trip in the trips array
 const LocationGrid: React.FC<LocationGridProps> = ({ locations }) => {
   const { tripId } = useParams();
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { id } = useSelector((state: RootState) => state.auth);
   const { currentTripName } = useSelector((state: RootState) => state.trips);
@@ -35,6 +36,13 @@ const LocationGrid: React.FC<LocationGridProps> = ({ locations }) => {
           ? `Location list for ${currentTripName}`
           : "You don't have any locations entered for this trip. Add one below!"}
       </h1>
+      <button
+        className="location-detail-view-back-button"
+        onClick={() => navigate('/dashboard/trips')}
+      >
+        Back to trips
+      </button>
+
       <div className="trips-container">
         {locations.map((location: LocationWithCameras, i: number) => {
           return (

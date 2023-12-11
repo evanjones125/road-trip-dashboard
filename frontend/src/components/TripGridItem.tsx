@@ -34,6 +34,10 @@ const TripGridItem: React.FC<TripGridItemProps> = ({ trip }) => {
     const fetchUrl = async () => {
       const locationsArray = locations as Location[];
       if (locationsArray && locationsArray.length > 0) {
+        setImageUrl(
+          'https://media1.giphy.com/media/Ii3seJlOgcXqdkU5dY/giphy.gif?cid=ecf05e47rit1ohxcocmyzipq66i790qhx18uflta2elz8gc6&ep=v1_gifs_search&rid=giphy.gif&ct=g'
+        );
+
         const firstLocation = locationsArray[0];
         const url = await axios
           .get(
