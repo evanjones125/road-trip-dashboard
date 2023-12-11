@@ -52,7 +52,6 @@ const AstronomyDisplay = () => {
       getAstronomyDataForLocation();
     }
   }, [selectedLocation]);
-  console.log(tripDates);
 
   return (
     <div className="astronomy-display">
