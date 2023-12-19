@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+import environ
+from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -100,17 +104,21 @@ DATABASES = {
     # }
     # "default": {
     #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": "verceldb",
+    #     "NAME": os.environ.get("POSTGRES_DATABASE"),
     #     "USER": os.environ.get("POSTGRES_USER"),
     #     "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
     #     "HOST": os.environ.get("POSTGRES_HOST"),
     # }
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "railway",
-        "USER": "postgres",
-        "PASSWORD": "Eb11GgEAc2gc2AAce4ecGdDCEaFbCb2c",
-        "HOST": "roundhouse.proxy.rlwy.net",
+        # "NAME": "railway",
+        "NAME": os.environ.get("POSTGRES_DATABASE"),
+        # "USER": "postgres",
+        "USER": os.environ.get("POSTGRES_USER"),
+        # "PASSWORD": "Eb11GgEAc2gc2AAce4ecGdDCEaFbCb2c",
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+        "HOST": os.environ.get("POSTGRES_HOST"),
+        # "HOST": "roundhouse.proxy.rlwy.net",
         "PORT": "28008",
     }
 }

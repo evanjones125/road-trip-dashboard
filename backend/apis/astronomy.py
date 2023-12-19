@@ -1,3 +1,4 @@
+import os
 import urllib.request
 import urllib.parse
 import json
@@ -5,8 +6,8 @@ from datetime import datetime, timedelta
 from typing import List, Tuple
 
 API_BASE_URL = "https://api.ipgeolocation.io/astronomy"
-# API_KEY = os.environ.get("IPGEOLOCATION_API_KEY")
-API_KEY = "483c6d15f0924e219b334c84ea6269c5"
+API_KEY = os.environ.get("IPGEOLOCATION_API_KEY")
+# API_KEY = "483c6d15f0924e219b334c84ea6269c5"
 
 # cache the geolocation api response data for 1 day to avoid making too many requests
 sun_and_moon_data_cache = {}
@@ -35,7 +36,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
     "2023-10-28": {
         "visibility": {
@@ -43,7 +44,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
     "2023-11-04": {
         "visibility": {
@@ -67,7 +68,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
     "2023-11-25": {
         "visibility": {
@@ -75,7 +76,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
     "2023-12-02": {
         "visibility": {
@@ -83,7 +84,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
     "2023-12-09": {
         "visibility": {
@@ -91,7 +92,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
     "2023-12-16": {
         "visibility": {
@@ -99,7 +100,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
     "2023-12-23": {
         "visibility": {
@@ -107,7 +108,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
     "2023-12-30": {
         "visibility": {
@@ -115,7 +116,7 @@ milky_way_dates = {
             "end": "",
         },
         "position": "",
-        "report": "The milky way won't be visible on this date :(",
+        "report": "The milky way won't be visible on this date",
     },
 }
 
