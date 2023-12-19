@@ -196,6 +196,7 @@ const tripsSlice = createSlice({
           (trip) => trip.id === state.currentTripId
         )?.trip_name;
       } else {
+        state.locationsOfCurrentTrip = [];
         state.currentTripId = action.payload;
         state.currentTripName = state.trips.find(
           (trip) => trip.id === state.currentTripId
