@@ -21,6 +21,7 @@ const Login = () => {
     username: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
   const { username, password } = credentials;
 
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     dispatch(userLogin(credentials));
   };
 
@@ -42,6 +44,17 @@ const Login = () => {
     const { name, value } = e.target;
     setCredentials((prevState) => ({ ...prevState, [name]: value }));
   };
+
+  if (isLoading)
+    return (
+      <div className="logging-in-message">
+        <h1>Logging in...</h1>
+        <h2>
+          I&#39;m using the free tier of my backend hosting service sometimes it
+          takes 10-15 seconds to warm up
+        </h2>
+      </div>
+    );
 
   return (
     <>

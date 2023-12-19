@@ -104,6 +104,14 @@ button {
   max-width: 313px;
 }
 
+.logging-in-message {
+  margin: 3rem auto;
+
+  h1 {
+    padding-bottom: 2rem;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

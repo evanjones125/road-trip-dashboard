@@ -27,7 +27,7 @@ export default function Footer() {
             <Typography>
               Questions? Need to report a bug? Open an issue in the{' '}
               <a href="https://github.com/evanjones125/road-trip-dashboard">
-                Repo
+                GitHub repo
               </a>{' '}
             </Typography>
             <Typography paddingBottom="10px">
