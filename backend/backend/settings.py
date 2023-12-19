@@ -26,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-2r4j)ekw5x6rao9wewd2+$($#6q1g#$2jb)-b*tawe@r#%j+00"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -98,28 +98,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    # "default": {
-    #     "ENGINE": "django.db.backends.sqlite3",
-    #     "NAME": BASE_DIR / "db.sqlite3",
-    # }
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": os.environ.get("POSTGRES_DATABASE"),
-    #     "USER": os.environ.get("POSTGRES_USER"),
-    #     "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-    #     "HOST": os.environ.get("POSTGRES_HOST"),
-    # }
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        # "NAME": "railway",
         "NAME": os.environ.get("POSTGRES_DATABASE"),
-        # "USER": "postgres",
         "USER": os.environ.get("POSTGRES_USER"),
-        # "PASSWORD": "Eb11GgEAc2gc2AAce4ecGdDCEaFbCb2c",
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
         "HOST": os.environ.get("POSTGRES_HOST"),
-        # "HOST": "roundhouse.proxy.rlwy.net",
-        "PORT": "28008",
     }
 }
 
