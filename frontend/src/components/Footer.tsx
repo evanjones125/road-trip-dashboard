@@ -14,10 +14,27 @@ export default function Footer() {
       className="footer"
     >
       <Container maxWidth="lg">
-        <Grid container direction="column" alignItems="center">
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          textAlign="center"
+        >
           <Grid item xs={12}>
-            <Typography variant="h5">Evan Jones</Typography>
+            <Typography variant="h5" paddingBottom="10px">
+              Created by <a href="https://www.evanjones.space">Evan Jones</a>
+            </Typography>
+            <Typography>
+              Questions? Need to report a bug? Open an issue in the{' '}
+              <a href="https://github.com/evanjones125/road-trip-dashboard">
+                Repo
+              </a>{' '}
+            </Typography>
+            <Typography paddingBottom="10px">
+              or <a href="mailto:me@evanjones.space">send me an email</a>
+            </Typography>
           </Grid>
+
           <Grid item xs={12}>
             <Typography variant="subtitle1">
               {`${new Date().getFullYear()} | React | Material UI | Sass | Django`}
