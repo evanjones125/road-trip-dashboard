@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import LocationGridItem from './LocationGridItem';
 import LocationForm from './LocationForm';
 import type { LocationWithCameras, LocationGridProps } from '../types/types';
@@ -18,16 +18,22 @@ const LocationGrid: React.FC<LocationGridProps> = ({ locations }) => {
   const { currentTripName } = useSelector((state: RootState) => state.trips);
   const token: string | null = localStorage.getItem('token');
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (token && id) {
       const initialize = async () => {
+        setIsLoading(true);
         await dispatch(refreshSession(token));
         await dispatch(fetchTrips(id));
         dispatch(setCurrentTrip(Number(tripId)));
+        setIsLoading(false);
       };
       initialize();
     }
   }, [dispatch, tripId, id, token]);
+
+  if (isLoading) return <h1>Fetching locations...</h1>;
 
   return (
     <>
