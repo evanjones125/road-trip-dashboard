@@ -50,8 +50,8 @@ const Login = () => {
       <div className="logging-in-message">
         <h1>Logging in...</h1>
         <h2>
-          I&#39;m using the free tier of my backend hosting service sometimes it
-          takes 10-15 seconds to warm up
+          I&#39;m using the free tier of my backend hosting service so sometimes
+          it takes 10-15 seconds to warm up
         </h2>
       </div>
     );
