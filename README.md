@@ -12,15 +12,18 @@ This app aims to make your trips more predictable by displaying an entire dashbo
 
 ## Trip View
 At the top level of the app, you'll see a grid with all your upcoming trips; from here, you can hover over the "WEATHER" button and get a quick report on whether any locations for this trip have rain or snow forecasted prior to the date you'll be visiting.
-<img src="frontend/src/assets/screenshot_trips.png">
+
+<img src="frontend/src/assets/screenshot_trips.png" height="250px">
 
 ## Location View
 Clicking the "MORE INFO" button brings you to a view of all the locations you have saved for a trip. Each location requires a set of coordinates, which are used to find the closest camera in UDOT's database and to fetch the weather and astronomy data.
-<img src="frontend/src/assets/screenshot_locations.png">
+
+<img src="frontend/src/assets/screenshot_locations.png" height="320px">
 
 ## Detailed Location View
 For each location, you can view a detailed weather and astronomy forecast that'll alert you of any inclement weather and let you know what the best star-viewing windows will be for each night you'll be spending at the location.
-<img src="frontend/src/assets/screenshot_detailed.png">
+
+<img src="frontend/src/assets/screenshot_detailed.png" height="300px">
 
 ## Future Features:
 - [ ] let user choose a location on a map when submitting the new trip form (as an alternative to entering an exact latitude and longitude)
