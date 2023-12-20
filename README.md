@@ -10,16 +10,18 @@ Road trips are a lot of fun, but they can be unpredictable. In Utah, you never k
 
 This app aims to make your trips more predictable by displaying an entire dashboard with live data about the weather on your upcoming trip as well as live video from some of the hundreds of [road cameras operated by the Utah Department of Transportation](https://udottraffic.utah.gov/map).
 
-[*screenshot of app*]
+## Trip View
+At the top level of the app, you'll see a grid with all your upcoming trips; from here, you can hover over the "WEATHER" button and get a quick report on whether any locations for this trip have rain or snow forecasted prior to the date you'll be visiting.
+<img src="frontend/src/assets/screenshot_trips.png">
 
-Enter the starting point of and the stops along your road trip and the dashboard will display the nearest traffic road cameras and the weather info for each stop.
+## Location View
+Clicking the "MORE INFO" button brings you to a view of all the locations you have saved for a trip. Each location requires a set of coordinates, which are used to find the closest camera in UDOT's database and to fetch the weather and astronomy data.
+<img src="frontend/src/assets/screenshot_locations.png">
 
-This app is containerized using docker and deployed using AWS Elastic Beansprout, with the frontend hosted in an AWS S3 bucket.
+## Detailed Location View
+For each location, you can view a detailed weather and astronomy forecast that'll alert you of any inclement weather and let you know what the best star-viewing windows will be for each night you'll be spending at the location.
+<img src="frontend/src/assets/screenshot_detailed.png">
 
 ## Future Features:
-- [x] show weather data from the NWS API
-- [x] show sunrise/sunset times
-- [x] show moonrise/moonset times
-  - [x] tell the user what time window they'll have to view the sky after sunset when there's no moon in the sky
-- [x] show milky way information
 - [ ] let user choose a location on a map when submitting the new trip form (as an alternative to entering an exact latitude and longitude)
+- [ ] display weather alerts related to the routes between trip locations
