@@ -88,27 +88,16 @@ const LocationGridItem: React.FC<LocationGridItemProps> = ({ location }) => {
         </Typography>
       </CardContent>
       <CardActions style={{ justifyContent: 'space-between' }}>
-        <Tooltip title="weather" arrow placement="top">
-          <Button
-            size="small"
-            onClick={() => {
-              dispatch(setCurrentLocation(id));
-              navigate(`/dashboard/locations/${tripId}/detailedView/${id}`);
-            }}
-          >
-            Detailed view
-          </Button>
-        </Tooltip>
         <Button
           size="small"
-          style={{ color: '#69c983' }}
           onClick={() => {
-            dispatch(clearLocations());
-            navigate('/dashboard/trips');
+            dispatch(setCurrentLocation(id));
+            navigate(`/dashboard/locations/${tripId}/detailedView/${id}`);
           }}
         >
-          Back to trips
+          Detailed view
         </Button>
+
         <Button
           size="small"
           style={{ color: '#fc2b2b' }}
