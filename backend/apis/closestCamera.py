@@ -11586,5 +11586,5 @@ def find_closest_camera(lat: str, lon: str) -> dict:
         if distance < closest_distance:
             closest_distance = distance
             closest_camera = camera
-            
+
     return closest_camera
